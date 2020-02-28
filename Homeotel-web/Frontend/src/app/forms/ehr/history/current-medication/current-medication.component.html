@@ -1,0 +1,68 @@
+<form  *ngIf="curStaff.allowDataSave()" fxLayout="row wrap" fxLayoutAlign="center start" [fxLayoutGap]="curStaff.gapBetweenControls" [formGroup]="currentMedicationForm" autocomplete="off">
+
+  <div fxFlex="100%" fxLayout="row wrap" [fxLayoutGap]="curStaff.gapBetweenControls">    
+    <mat-form-field [fxFlex]="curStaff.compactness">
+      <input matInput placeholder="{{'medicine' | translate }}" name="medicine" [formControl]="medicine">
+      <mat-error *ngIf="medicine.invalid">{{ utilities.getErrorMessage(medicine) | translate }}</mat-error>
+    </mat-form-field>
+
+    <mat-form-field [fxFlex]="curStaff.compactness">
+      <input matInput placeholder="{{'dosage' | translate }}" name="dosage" [formControl]="dosage">
+      <mat-error *ngIf="dosage.invalid">{{ utilities.getErrorMessage(dosage) | translate }}</mat-error>
+    </mat-form-field>
+
+    <mat-form-field [fxFlex]="curStaff.compactness">
+      <input matInput placeholder="{{'frequency' | translate }}" name="frequency" [formControl]="frequency">
+      <mat-error *ngIf="frequency.invalid">{{ utilities.getErrorMessage(frequency) | translate }}</mat-error>
+    </mat-form-field>
+
+    <mat-form-field [fxFlex]="curStaff.compactness">
+      <input matInput placeholder="{{'since_when' | translate }}" name="since" [formControl]="since">
+      <mat-error *ngIf="since.invalid">{{ utilities.getErrorMessage(since) | translate }}</mat-error>
+    </mat-form-field>
+  </div>
+
+  <button [fxFlex]="curStaff.compactness" id="add-btn" mat-button (click)="addMedication()">{{ 'Add' | translate }}</button>
+</form>
+
+<mat-card class="mat-table-container" *ngIf="medicationsAdded.length > 0">
+  <mat-card-content>
+    <mat-table [dataSource]="dataSource">
+
+      <ng-container matColumnDef="medicine">
+        <mat-header-cell mat-header-cell *matHeaderCellDef> Medicine </mat-header-cell>
+        <mat-cell mat-cell *matCellDef="let element"> {{element.medicine}} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="dosage">
+        <mat-header-cell mat-header-cell *matHeaderCellDef> Dosage </mat-header-cell>
+        <mat-cell mat-cell *matCellDef="let element"> {{element.dosage}} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="frequency">
+        <mat-header-cell mat-header-cell *matHeaderCellDef> frequency </mat-header-cell>
+        <mat-cell mat-cell *matCellDef="let element"> {{element.frequency}} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="since">
+        <mat-header-cell mat-header-cell *matHeaderCellDef> since </mat-header-cell>
+        <mat-cell mat-cell *matCellDef="let element"> {{element.since}} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="deleteOption">
+        <mat-header-cell mat-header-cell *matHeaderCellDef>  </mat-header-cell>
+        <mat-cell mat-cell *matCellDef="let element" class="delete-btn">
+          <mat-icon *ngIf="curStaff.allowDataSave()" (click)="deleteCurrentMedication(element.medicine)">delete</mat-icon>
+        </mat-cell>
+      </ng-container>
+
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns;">
+      </mat-row>
+    </mat-table>
+
+  </mat-card-content>
+  <mat-card-actions align="center">
+    <button id="save-btn" *ngIf="curStaff.allowDataSave()" mat-button (click)="saveCurrentMedication()">{{ 'save' | translate }}</button>
+  </mat-card-actions>
+</mat-card>

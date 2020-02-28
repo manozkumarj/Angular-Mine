@@ -1,0 +1,91 @@
+<div fxLayout="row" fxLayoutAlign="start start">
+  <div fxFlex="20px"></div>
+  <div fxFlex="75%">
+    <mat-card style="margin-top: 15px;">
+      <mat-card-content>
+        <div style="width: 100%">
+          <mat-table [dataSource]="dataSource" *ngIf="prescribedDrugs.length > 0">
+            <ng-container matColumnDef="name">
+              <mat-header-cell mat-header-cell fxFlex="200px" *matHeaderCellDef> Drug </mat-header-cell>
+              <mat-cell mat-cell fxFlex="200px" *matCellDef="let element">
+                {{element.name}}
+              </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="prescribedQty">
+              <mat-header-cell mat-header-cell fxFlex="100px" *matHeaderCellDef> Presc. Qty. </mat-header-cell>
+              <mat-cell mat-cell fxFlex="100px" *matCellDef="let element">
+                {{element.prescribedQty}}
+              </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="batchNo">
+              <mat-header-cell mat-header-cell fxFlex="150px" *matHeaderCellDef> Batch </mat-header-cell>
+              <mat-cell mat-cell fxFlex="150px" *matCellDef="let element">
+                <mat-form-field class="prescription-drugs" floatLabel="never" fxFlex="120px">
+                  <mat-select placeholder="{{ 'batch' | translate }}" name="batchNo" [(ngModel)]="element.batchNo">
+                    <mat-option *ngFor="let batch of batches | drugFilter:{key: 'drugId', id: element.id}" [value]="batch.batchNo">
+                      {{batch.batchNo}}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="issuedQty">
+              <mat-header-cell mat-header-cell fxFlex="100px" *matHeaderCellDef> Issued Qty. </mat-header-cell>
+              <mat-cell mat-cell fxFlex="100px" *matCellDef="let element">
+                <mat-form-field class="prescription-drugs" floatLabel="never">
+                  <input matInput [(ngModel)]="element.issuedQty" [disabled]="!element.batchNo" (blur)="saveThisDrugIssuedData(element)">
+                </mat-form-field>
+              </mat-cell>
+            </ng-container>
+
+
+            <ng-container matColumnDef="remarks">
+              <mat-header-cell mat-header-cell fxFlex="150px" *matHeaderCellDef> Remarks </mat-header-cell>
+              <mat-cell mat-cell fxFlex="150px" *matCellDef="let element">
+                <mat-form-field class="prescription-drugs" floatLabel="never">
+                  <input matInput [(ngModel)]="element.remarks" [disabled]="!element.batchNo" (blur)="saveThisDrugIssuedData(element)">
+                </mat-form-field>
+              </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="saved">
+              <mat-header-cell mat-header-cell *matHeaderCellDef> </mat-header-cell>
+              <mat-cell mat-cell *matCellDef="let element">
+                <button class="save-btn" *ngIf="!element.saved" mat-button (click)="saveThisDrugIssuedData(element)">{{
+                  'save' | translate }}</button>
+                <button *ngIf="element.saved" mat-button>{{ 'result_saved' | translate }} </button>
+              </mat-cell>
+            </ng-container>
+
+            <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+            <mat-row *matRowDef="let row; columns: displayedColumns;">
+            </mat-row>
+          </mat-table>
+        </div>
+
+
+      </mat-card-content>
+      <mat-card-subtitle *ngIf="prescribedDrugs.length > 0">Note - Remarks are mandatory if issued quantity is not
+        equal to prescribed quantity</mat-card-subtitle>
+      <mat-card-actions align="center">
+        <p *ngIf="prescribedDrugs.length == 0">No Drugs Prescribed</p>
+      </mat-card-actions>
+    </mat-card>
+
+
+
+
+
+
+
+
+  </div>
+
+  <div fxFlex="20px"></div>
+
+  <app-ben-details fxFlex="20%"></app-ben-details>
+
+</div>

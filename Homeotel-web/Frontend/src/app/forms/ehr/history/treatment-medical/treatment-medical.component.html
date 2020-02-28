@@ -1,0 +1,89 @@
+<form [formGroup]="personalHistoryForm" fxLayout="row wrap" fxLayoutAlign="center start" [fxLayoutGap]="curStaff.gapBetweenControls" autocomplete="off">
+  <div fxFlex="100%" fxLayout="row wrap" [fxLayoutGap]="curStaff.gapBetweenControls">
+
+
+
+    <mat-form-field [fxFlex]="curStaff.compactness">
+      <mat-select placeholder="{{ 'Medical History' | translate }}" name="medical" [formControl]="medical"
+        (change)="medicalChanged()" >
+        <mat-option *ngFor="let medical of medicals" [value]="medical">
+          {{medical.name}}
+        </mat-option>
+      </mat-select>
+      <mat-error *ngIf="medical.invalid">{{ utilities.getErrorMessage(medical) | translate }}</mat-error>
+    </mat-form-field>
+
+    <mat-form-field *ngIf="isOtherMedical" style="line-height: 20px;" [fxFlex]="curStaff.compactness">
+      <input matInput placeholder="{{'Other Medical History' | translate }}" name="otherMedical" [formControl]="otherMedical">
+      <mat-error *ngIf="otherMedical.invalid">{{ utilities.getErrorMessage(otherMedical) | translate }}
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field [fxFlex]="curStaff.compactness">
+      <input matInput placeholder="{{'Medicines Used' | translate }}" name="medicinesUsed" [formControl]="medicinesUsed">
+    </mat-form-field>
+
+    <mat-form-field [fxFlex]="curStaff.compactness">
+      <input matInput placeholder="{{'Outcome' | translate }}" name="outcome"  [formControl]="outcome">
+    </mat-form-field>
+
+  </div>
+
+
+
+
+
+    <button [fxFlex]="curStaff.compactness" id="add-btn" mat-button (click)="addPersonalHistory()">{{ 'Add' | translate }}</button>
+
+</form>
+
+<br><br>
+
+<!-- ['medicalHistory', 'otherMedicalHistory','medicinesUsed', 'outcome',  'deleteOption']; -->
+<mat-card class="mat-table-container" *ngIf="addedPersonalHistory.length > 0">
+  <mat-card-content>
+    <mat-table [dataSource]="dataSource">
+
+      <ng-container matColumnDef="medicalHistory">
+        <mat-header-cell mat-header-cell *matHeaderCellDef> Medical History </mat-header-cell>
+        <mat-cell mat-cell *matCellDef="let element"> {{element.medicalNames}} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="otherMedicalHistory">
+        <mat-header-cell mat-header-cell *matHeaderCellDef> Other MedicalHistory </mat-header-cell>
+        <mat-cell mat-cell *matCellDef="let element"> {{element.otherMedical}} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="medicinesUsed">
+        <mat-header-cell mat-header-cell *matHeaderCellDef> Medicines Used </mat-header-cell>
+        <mat-cell mat-cell *matCellDef="let element"> {{element.medicinesUsed}} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="outcome">
+        <mat-header-cell mat-header-cell *matHeaderCellDef> Outcome </mat-header-cell>
+        <mat-cell mat-cell *matCellDef="let element"> {{element.outcome}} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="deleteOption">
+        <mat-header-cell mat-header-cell *matHeaderCellDef>  </mat-header-cell>
+        <mat-cell mat-cell *matCellDef="let element; let i= index" class="delete-btn">
+          <mat-icon *ngIf="curStaff.allowDataSave()"
+          [swal]="{ title: 'Are you sure?' | translate, type: 'question', showConfirmButton: true, confirmButtonText: 'Yes, delete it!' | translate, confirmButtonColor :'#d33' ,showCancelButton: true, cancelButtonText: 'cancel' | translate }"
+           (confirm)="deleteCurrentMedication(i)">delete</mat-icon>
+        </mat-cell>
+      </ng-container>
+
+      <!-- <button id="save-btn" *ngIf="allowLabTestsOrder()" mat-button
+      [swal]="{ title: 'confirm_save' | translate, type: 'question', showConfirmButton: true, confirmButtonText: 'ok' | translate, showCancelButton: true, cancelButtonText: 'cancel' | translate }"
+      (confirm)="saveLabTestsOrdered()">{{'save' | translate }}</button> -->
+
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns;">
+      </mat-row>
+    </mat-table>
+
+  </mat-card-content>
+  <mat-card-actions align="center">
+    <button id="save-btn" mat-button (click)="saveCurrentMedication()">{{ 'save' | translate }}</button>
+  </mat-card-actions>
+</mat-card>

@@ -1,0 +1,99 @@
+<div fxLayout="row" fxLayoutAlign="start start">
+  <div fxFlex="20px"></div>
+  <div fxFlex="95%">
+    <mat-card style="margin-top: 15px;">
+      <mat-card-content>
+        <form fxLayout="row wrap" [fxLayoutGap]="curStaff.gapBetweenControls" [formGroup]="inventoryForm" autocomplete="off">
+
+          <mat-form-field [fxFlex]="curStaff.compactness">
+            <mat-select placeholder="{{ 'inventory_type' | translate }}" name="inventoryType" [formControl]="inventoryType"
+              (change)="inventoryTypeChanged()">
+              <mat-option *ngFor="let inventoryType of inventoryTypes" [value]="inventoryType.id">
+                {{inventoryType.name}}
+              </mat-option>
+            </mat-select>
+            <mat-error *ngIf="inventoryType.invalid">{{ utilities.getErrorMessage(inventoryType) | translate }}</mat-error>
+          </mat-form-field>
+
+          <mat-form-field [fxFlex]="curStaff.compactness">
+            <mat-select placeholder="{{ 'inventory_item' | translate }}" name="inventory" [formControl]="inventory"
+              (change)="inventoryChanged()">
+              <mat-option *ngFor="let inventory of inventories" [value]="inventory">
+                {{inventory.name}}
+              </mat-option>
+            </mat-select>
+            <mat-error *ngIf="inventory.invalid">{{ utilities.getErrorMessage(inventory) | translate }}</mat-error>
+          </mat-form-field>
+
+          <mat-form-field [fxFlex]="curStaff.compactness">
+            <input matInput placeholder="{{'batch_no' | translate }}" name="batchNo" [formControl]="batchNo">
+            <mat-error *ngIf="batchNo.invalid">{{ utilities.getErrorMessage(batchNo) | translate }}</mat-error>
+          </mat-form-field>
+
+
+          <mat-form-field [fxFlex]="curStaff.compactness">
+            <input matInput [matDatepicker]="templateVariableExpiryDate" placeholder="{{ 'expiry_date' | translate }}"
+              name="expiryDate" [formControl]="expiryDate">
+            <mat-datepicker-toggle matSuffix [for]="templateVariableExpiryDate"></mat-datepicker-toggle>
+            <mat-datepicker #templateVariableExpiryDate></mat-datepicker>
+            <!-- TODO - Allow user to directly enter the expiry date like so - 24-04-1987 etc -->
+            <mat-error *ngIf="expiryDate.invalid">{{ utilities.getErrorMessage(expiryDate) | translate }}</mat-error>
+          </mat-form-field>
+
+          <mat-form-field [fxFlex]="curStaff.compactness">
+            <input matInput type="number" placeholder="{{('qty' | translate) + strCurItemUnits}}" name="qty"
+              [formControl]="qty">
+            <mat-error *ngIf="qty.invalid">{{ utilities.getErrorMessage(qty) | translate }}</mat-error>
+          </mat-form-field>
+
+        </form>
+      </mat-card-content>
+      <mat-card-actions align="center">
+        <button id="add-btn" mat-button [disabled]="inventoryForm.invalid" (click)="addInventory()">{{ 'add' |
+          translate }}</button>
+      </mat-card-actions>
+    </mat-card>
+
+
+
+    <br>
+    <span *ngIf="inventoryType.value && currentInventory.length == 0" style="margin:15px;">Inventory is Empty</span>
+    <mat-card class="mat-table-container" *ngIf="currentInventory.length > 0">
+      <mat-card-content>
+        <mat-table [dataSource]="dataSource">
+
+          <ng-container matColumnDef="invName">
+            <mat-header-cell mat-header-cell *matHeaderCellDef> Name </mat-header-cell>
+            <mat-cell mat-cell *matCellDef="let element"> {{element.invName}} </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="batchNo">
+            <mat-header-cell mat-header-cell *matHeaderCellDef> Batch No. </mat-header-cell>
+            <mat-cell mat-cell *matCellDef="let element"> {{element.batchNo}} 
+              <span *ngIf="element.invTypeId == 2 && element.isOpened == 1"> (open)</span>
+            </mat-cell>
+          </ng-container>          
+
+          <ng-container matColumnDef="expiryDate">
+            <mat-header-cell mat-header-cell *matHeaderCellDef> Expiry Date </mat-header-cell>
+            <mat-cell mat-cell *matCellDef="let element"> {{element.expiryDate}} </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="currentQty">
+            <mat-header-cell mat-header-cell *matHeaderCellDef> Current Quantity </mat-header-cell>
+            <mat-cell mat-cell *matCellDef="let element"> {{element.currentQty}} </mat-cell>
+          </ng-container>
+
+
+          <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+          <mat-row *matRowDef="let row; columns: displayedColumns;">
+          </mat-row>
+        </mat-table>
+
+      </mat-card-content>
+    </mat-card>
+
+
+
+  </div>
+</div>

@@ -1,0 +1,50 @@
+{
+	"digwal_telemedicine_application" : "Digwal Telemedicine Application",
+
+	"welcome" : "Welcome back!",	
+	"username" : "Username",
+	"password" : "Password",
+	"login" : "Login",
+	"powered_by" : "Powered by",
+	"zolt_info_solutions" : "Zolt Info Solutions",
+
+	"required_error_msg" : "You must enter a value",
+	"invalid_error_msg" : "Invalid Value",
+	"ok" : "OK",
+	"cancel" : "Cancel",
+
+	"logout" : "Logout",	
+	"search_ben" : "Search beneficiaries with name, surname, id",	
+
+	"registration" : "Registration",
+	"register" : "Register",	
+	"confirm_registration" : "Confirm Registration",
+	"first_name" : "First Name",
+	"last_name" : "Last Name",
+	"gender" : "Gender",
+	"age" : "Age",
+	"date_of_birth" : "Date of Birth",
+	"marital_status" : "Marital Status",
+	"father_name" : "Father Name",
+	"husband_name" : "Husband Name",
+	"phone_number" : "Phone Number",
+	"encounter_type" : "Encounter Type",
+	"id_proof_type" : "ID Proof Type",
+	"id_proof_number" : "ID Proof Number",
+	"is_piramal_staff" : "Is Piramal Staff",
+	"social_status" : "Social Status",
+	"economic_status" : "Economic Status",
+	"literacy_type" : "Literacy Type",
+	"district" : "District",
+	"mandal" : "Mandal",
+	"village" : "Village",
+	"location" : "Location",
+
+	"complaints" : "Complaints",
+
+	"history" : "Medical History",
+
+	"immunization" : "Immunization",
+
+	"clinical_examinations" : "Clinical Examinations"
+}

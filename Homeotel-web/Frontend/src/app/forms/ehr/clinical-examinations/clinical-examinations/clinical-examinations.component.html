@@ -1,0 +1,96 @@
+<div fxLayout="row" fxLayoutAlign="start start">
+
+  <div fxFlex="20px"></div>
+
+  <div fxFlex="75%">
+    <mat-card style="margin-top: 15px; padding: 0;">
+      <!-- <mat-card-title>{{ 'history' | translate }}</mat-card-title> -->
+      <mat-card-content>
+
+        <mat-accordion class="headers-align">
+          <mat-expansion-panel [expanded]="step === 0" (opened)="setStep(0)" hideToggle>
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                Measurements
+              </mat-panel-title>
+              <mat-panel-description>
+                <mat-icon>accessibility_new</mat-icon>
+                <mat-icon *ngIf="bmiHasData">done</mat-icon>
+                <!-- TODO - show completed (check/ tick mark) dynamically based on user input -->
+              </mat-panel-description>
+            </mat-expansion-panel-header>
+
+            <app-bmi (hasData)="hasData('bmi')"></app-bmi>
+
+            <mat-action-row>
+              <button mat-button color="primary" (click)="nextStep()">Next</button>
+            </mat-action-row>
+          </mat-expansion-panel>
+
+          <mat-expansion-panel [expanded]="step === 1" (opened)="setStep(1)" hideToggle>
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                Vitals
+              </mat-panel-title>
+              <mat-panel-description>
+                <mat-icon>favorite_border</mat-icon>
+                <mat-icon *ngIf="vitalsHasData">done</mat-icon>
+              </mat-panel-description>
+            </mat-expansion-panel-header>
+
+            <app-vitals (hasData)="hasData('vitals')"></app-vitals>
+
+            <mat-action-row>
+              <button mat-button color="warn" (click)="prevStep()">Previous</button>
+              <button mat-button color="primary" (click)="nextStep()">Next</button>
+            </mat-action-row>
+          </mat-expansion-panel>
+
+          <mat-expansion-panel [expanded]="step === 2" (opened)="setStep(2)" hideToggle>
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                Systemic Examination
+              </mat-panel-title>
+              <mat-panel-description>
+                <mat-icon>details</mat-icon>
+                <mat-icon *ngIf="seHasData">done</mat-icon>
+              </mat-panel-description>
+            </mat-expansion-panel-header>
+
+            <app-systemic-examination (hasData)="hasData('se')"></app-systemic-examination>
+
+            <mat-action-row>
+              <button mat-button color="warn" (click)="prevStep()">Previous</button>
+              <button mat-button color="primary" (click)="nextStep()">Next</button>
+            </mat-action-row>
+          </mat-expansion-panel>
+
+          <mat-expansion-panel [expanded]="step === 3" (opened)="setStep(3)" hideToggle>
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                General Examination
+              </mat-panel-title>
+              <mat-panel-description>
+                <mat-icon>more_horiz</mat-icon>
+                <mat-icon *ngIf="geHasData">done</mat-icon>
+              </mat-panel-description>
+            </mat-expansion-panel-header>
+
+            <app-general-examination (hasData)="hasData('ge')"></app-general-examination>
+
+            <mat-action-row>
+              <button mat-button color="warn" (click)="prevStep()">Previous</button>              
+            </mat-action-row>
+          </mat-expansion-panel>
+
+        </mat-accordion>
+
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+  <div fxFlex="20px"></div>
+
+  <app-ben-details fxFlex="20%"></app-ben-details>
+
+</div>

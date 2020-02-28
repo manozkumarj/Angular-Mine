@@ -1,0 +1,41 @@
+<form fxLayout="row wrap" fxLayoutAlign="center start" [formGroup]="surgicalHistoryForm" autocomplete="off">
+
+  <!-- <div fxFlex="100%" fxLayout="row wrap" [fxLayoutGap]="curStaff.gapBetweenControls">
+    <mat-form-field [fxFlex]="curStaff.compactness">
+      <mat-select placeholder="{{ 'medical_history' | translate }}" name="medical" [formControl]="medical" (change)="medicalChanged()"
+        multiple>
+        <mat-option *ngFor="let medical of medicals" [value]="medical">
+          {{medical.name}}
+        </mat-option>
+      </mat-select>
+      <mat-error *ngIf="medical.invalid">{{ utilities.getErrorMessage(medical) | translate }}</mat-error>
+    </mat-form-field>
+
+    <mat-form-field [fxFlex]="curStaff.compactness">
+      <input matInput placeholder="{{'other_medical_history' | translate }}" name="otherMedical" [formControl]="otherMedical">
+      <mat-error *ngIf="otherMedical.invalid">{{ utilities.getErrorMessage(otherMedical) | translate }}</mat-error>
+    </mat-form-field>
+
+  </div> -->
+
+  <div fxFlex="100%" fxLayout="row wrap" [fxLayoutGap]="curStaff.gapBetweenControls">
+    <!-- Second Row -->
+    <mat-form-field [fxFlex]="curStaff.compactness">
+      <mat-select placeholder="{{ 'surgical_history' | translate }}" name="surgical" [formControl]="surgical" (change)="surgicalChanged()"
+        multiple>
+        <mat-option *ngFor="let surgical of surgicals" [value]="surgical.id">
+          {{surgical.name}}
+        </mat-option>
+      </mat-select>
+      <mat-error *ngIf="surgical.invalid">{{ utilities.getErrorMessage(surgical) | translate }}</mat-error>
+    </mat-form-field>
+
+    <mat-form-field [fxFlex]="curStaff.compactness">
+      <input matInput placeholder="{{'other_surgical_history' | translate }}" name="otherSurgical" [formControl]="otherSurgical">
+      <mat-error *ngIf="otherSurgical.invalid">{{ utilities.getErrorMessage(otherSurgical) | translate }}</mat-error>
+    </mat-form-field>
+  </div>
+
+   <button id="save-btn"  mat-button [disabled]="surgicalHistoryForm.invalid" (click)="savesurgicalHistory()">{{ 'save' | translate }}</button>
+
+</form>

@@ -1,0 +1,12 @@
+<form fxLayout="row wrap" fxLayoutAlign="center start" [fxLayoutGap]="curStaff.gapBetweenControls"
+  autocomplete="off">
+  <div fxFlex="100%" fxLayout="row wrap" [fxLayoutGap]="curStaff.gapBetweenControls">
+
+    <mat-form-field fxFlex="80%">
+      <input matInput placeholder="{{'Vaccination Mishap' | translate }}" name="vaccinationMishap" [(ngModel)]="vaccinationMishap">
+    </mat-form-field>
+
+  </div>
+
+  <button id="save-btn"  mat-button (click)="saveVaccination()">{{ 'save' | translate }}</button>
+</form>

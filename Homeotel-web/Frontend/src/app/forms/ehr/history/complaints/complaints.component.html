@@ -1,0 +1,126 @@
+
+<form fxLayout="row wrap" fxLayoutAlign="center start" [fxLayoutGap]="curStaff.gapBetweenControls" [formGroup]="complaintsForm"
+autocomplete="off">
+<div fxFlex="100%" fxLayout="row wrap" [fxLayoutGap]="curStaff.gapBetweenControls">
+
+  <mat-form-field [fxFlex]="curStaff.compactness">
+    <mat-select placeholder="{{ 'Complaint' | translate }}" name="complaint" [formControl]="complaint"
+      (change)="complaintChanged()">
+      <mat-option *ngFor="let complaint of complaints" [value]="complaint">
+        {{complaint.name}}
+      </mat-option>
+    </mat-select>
+    <mat-error *ngIf="complaint.invalid">{{ utilities.getErrorMessage(complaint) | translate }}</mat-error>
+  </mat-form-field>
+
+  <mat-form-field [fxFlex]="curStaff.compactness" [hidden]="!isOtherComplaint">
+    <input matInput placeholder="{{'Other Complaint' | translate }}" name="otherComplaint"
+      [formControl]="otherComplaint">
+    <mat-error *ngIf="otherComplaint.invalid">{{ utilities.getErrorMessage(otherComplaint) | translate }}
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field [fxFlex]="curStaff.compactness">
+    <mat-select placeholder="{{ 'severity' | translate }}" name="severity" [formControl]="severity">
+      <mat-option *ngFor="let severity of severities" [value]="severity">
+        {{severity.name}}
+      </mat-option>
+    </mat-select>
+    <mat-error *ngIf="severity.invalid">{{ utilities.getErrorMessage(severity) | translate }}</mat-error>
+  </mat-form-field>
+
+  <div [fxFlex]="curStaff.compactness" fxLayout="row wrap">
+    <mat-form-field fxFlex="60%">
+      <input matInput placeholder="{{'Duration' | translate }}" type="number" name="duration"
+        [formControl]="duration">
+      <mat-error *ngIf="duration.invalid">{{ utilities.getErrorMessage(duration) | translate }}</mat-error>
+    </mat-form-field>
+
+    <mat-form-field [fxFlex]="curStaff.compactness">
+      <mat-select name="durationUnit" [formControl]="durationUnit">
+        <mat-option *ngFor="let durationUnit of durationUnits" [value]="durationUnit">
+          {{durationUnit.name}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+
+  <mat-form-field [fxFlex]="curStaff.compactness">
+    <mat-select placeholder="{{ 'Is It Recurring' | translate }}" name="isRecurring" [formControl]="isRecurring">
+      <mat-option *ngFor="let isRecurring of isRecurringList" [value]="isRecurring.id">
+        {{isRecurring.name}}
+      </mat-option>
+    </mat-select>
+    <mat-error *ngIf="isRecurring.invalid">{{ utilities.getErrorMessage(isRecurring) | translate }}</mat-error>
+  </mat-form-field>
+
+  <mat-form-field *ngIf="isRecurring.value === 1" [fxFlex]="curStaff.compactness">
+    <input matInput placeholder="{{'Recurring Frequency' | translate }}" name="recurringFreq"
+      [formControl]="recurringFreq">
+    <mat-error *ngIf="recurringFreq.invalid">{{ utilities.getErrorMessage(recurringFreq) | translate }}
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field [fxFlex]="curStaff.compactness">
+    <mat-select placeholder="{{ 'Onset' | translate }}" name="onset" [formControl]="onset">
+      <mat-option *ngFor="let onset of onsets" [value]="onset">
+        {{onset.name}}
+      </mat-option>
+    </mat-select>
+    <mat-error *ngIf="onset.invalid">{{ utilities.getErrorMessage(onset) | translate }}</mat-error>
+  </mat-form-field>
+
+  <!--   <mat-form-field [fxFlex]="curStaff.compactness">
+    <input matInput placeholder="{{'location' | translate }}" name="location" [formControl]="location">
+    <mat-error *ngIf="location.invalid">{{ utilities.getErrorMessage(location) | translate }}</mat-error>
+  </mat-form-field> -->
+
+
+  <mat-form-field [fxFlex]="curStaff.compactness">
+    <input matInput placeholder="{{'Characteristics' | translate }}" name="characteristics"
+      [formControl]="characteristics">
+    <mat-error *ngIf="characteristics.invalid">{{ utilities.getErrorMessage(characteristics) | translate }}
+    </mat-error>
+  </mat-form-field>
+
+
+  <mat-form-field [fxFlex]="curStaff.compactness">
+    <input matInput placeholder="{{'Sensation' | translate }}" name="sensation" [formControl]="sensation">
+    <mat-error *ngIf="sensation.invalid">{{ utilities.getErrorMessage(sensation) | translate }}</mat-error>
+  </mat-form-field>
+
+
+
+  <mat-form-field [fxFlex]="curStaff.compactness">
+    <input matInput placeholder="{{'Aggravation' | translate }}" name="aggravation" [formControl]="aggravation">
+    <mat-error *ngIf="aggravation.invalid">{{ utilities.getErrorMessage(aggravation) | translate }}</mat-error>
+  </mat-form-field>
+
+  <mat-form-field [fxFlex]="curStaff.compactness">
+    <input matInput placeholder="{{'Amelioration' | translate }}" name="amelioration"
+      [formControl]="amelioration">
+    <mat-error *ngIf="amelioration.invalid">{{ utilities.getErrorMessage(amelioration) | translate }}
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field [fxFlex]="curStaff.compactness">
+    <input matInput placeholder="{{'Modality' | translate }}" name="modality" [formControl]="modality">
+    <mat-error *ngIf="modality.invalid">{{ utilities.getErrorMessage(modality) | translate }}</mat-error>
+  </mat-form-field>
+
+
+  <mat-form-field [fxFlex]="curStaff.compactness">
+    <mat-select placeholder="{{ 'Associated Symptoms' | translate }}" name="symptoms" [formControl]="symptoms">
+      <mat-option *ngFor="let symptoms of symptomsList" [value]="symptoms.id">
+        {{symptoms.name}}
+      </mat-option>
+    </mat-select>
+    <mat-error *ngIf="symptoms.invalid">{{ utilities.getErrorMessage(symptoms) | translate }}</mat-error>
+  </mat-form-field>
+  
+</div>
+
+<button [fxFlex]="curStaff.compactness" id="add-btn" mat-button [disabled]="complaintsForm.invalid"
+(click)="add()">{{ 'Add' | translate }}</button>
+</form>
+

@@ -1,0 +1,252 @@
+<div fxLayout="row" fxLayoutAlign="start start">
+
+  <div fxFlex="20px"></div>
+
+  <div fxFlex>
+    <mat-card style="margin-top: 15px; padding: 0;">
+      <!-- <mat-card-title>{{ 'history' | translate }}</mat-card-title> -->
+      <mat-card-content>
+
+        <mat-accordion class="headers-align">
+          <form autocomplete="off">
+
+
+
+
+
+            <mat-expansion-panel [expanded]="step === 3" (opened)="setStep(3)" hideToggle>
+              <mat-expansion-panel-header>
+                <mat-panel-title>
+                  Personal Details
+                </mat-panel-title>
+                <mat-panel-description>
+                  <mat-icon *ngIf="currentMedicationHasData">done</mat-icon>
+                </mat-panel-description>
+              </mat-expansion-panel-header>
+
+              <div fxLayout="row wrap" [fxLayoutGap]="curStaff.gapBetweenControls">
+                <mat-form-field fxFlex="22%">
+                  <input matInput placeholder="{{'first_name' | translate }}" name="firstName">
+                </mat-form-field>
+
+                <mat-form-field fxFlex="22%">
+                  <input matInput placeholder="{{'last_name' | translate }}" name="lastName">
+                </mat-form-field>
+
+                <mat-form-field fxFlex="22%">
+                  <input matInput [matDatepicker]="templateVariableDob" placeholder="{{ 'date_of_birth' | translate }}"
+                    name="dob">
+                  <mat-datepicker-toggle matSuffix [for]="templateVariableDob"></mat-datepicker-toggle>
+                  <mat-datepicker #templateVariableDob></mat-datepicker>
+                </mat-form-field>
+
+
+                <mat-form-field fxFlex="22%">
+                  <mat-select placeholder="{{ 'gender' | translate }}" name="gender">
+                    <mat-option *ngFor="let gender of genders" [value]="gender.id">
+                      {{gender.name}}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+
+
+                <mat-form-field fxFlex="22%">
+                  <input matInput placeholder="{{'phone_number' | translate }}" name="phoneNumber">
+                </mat-form-field>
+
+                <mat-form-field fxFlex="22%">
+                  <input matInput placeholder="{{'Email' | translate }}" name="email">
+                </mat-form-field>
+
+              </div>
+
+              <mat-action-row>
+                <button mat-button color="warn" (click)="prevStep()">Previous</button>
+                <button mat-button color="primary" (click)="nextStep()">Next</button>
+              </mat-action-row>
+            </mat-expansion-panel>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            
+
+            <mat-expansion-panel [expanded]="step === 3" (opened)="setStep(3)" hideToggle>
+              <mat-expansion-panel-header>
+                <mat-panel-title>
+                  Professional Details
+                </mat-panel-title>
+                <mat-panel-description>
+                  <mat-icon *ngIf="currentMedicationHasData">done</mat-icon>
+                </mat-panel-description>
+              </mat-expansion-panel-header>
+
+              <div fxLayout="row wrap" [fxLayoutGap]="curStaff.gapBetweenControls">
+
+                <mat-form-field fxFlex="30%">
+                  <input matInput placeholder="{{'Registration Number' | translate }}">
+                </mat-form-field>
+
+                <div fxFlex="60%"></div>
+
+                <mat-form-field fxFlex="90%">
+                  <textarea #qual1 matInput placeholder="{{'Qualification' | translate }}"></textarea>
+                </mat-form-field>
+
+                <mat-form-field *ngIf="qual1.value.length > 0" fxFlex="90%">
+                  <textarea matInput placeholder="{{'Qualification 2' | translate }}"></textarea>
+                </mat-form-field>
+
+                <mat-form-field fxFlex="90%">
+                  <textarea matInput #exp1 placeholder="{{'Experience' | translate }}"></textarea>
+                </mat-form-field>
+
+                <mat-form-field *ngIf="exp1.value.length > 0" fxFlex="90%">
+                  <textarea matInput placeholder="{{'Experience 2' | translate }}"></textarea>
+                </mat-form-field>
+
+
+                <mat-form-field fxFlex="90%">
+                  <textarea matInput #aw1 placeholder="{{'Awards' | translate }}"></textarea>
+                </mat-form-field>
+
+                <mat-form-field *ngIf="aw1.value.length > 0" fxFlex="90%">
+                  <textarea matInput placeholder="{{'Awards 2' | translate }}"></textarea>
+                </mat-form-field>
+
+                <mat-form-field fxFlex="90%">
+                  <textarea matInput #mem1 placeholder="{{'Membership' | translate }}"></textarea>
+                </mat-form-field>
+
+                <mat-form-field *ngIf="mem1.value.length > 0" fxFlex="90%">
+                  <textarea matInput placeholder="{{'Membership 2' | translate }}"></textarea>
+                </mat-form-field>
+
+              </div>
+
+              <mat-action-row>
+                <button mat-button color="warn" (click)="prevStep()">Previous</button>
+                <button mat-button color="primary" (click)="nextStep()">Next</button>
+              </mat-action-row>
+            </mat-expansion-panel>
+
+
+
+
+
+
+
+
+
+
+
+
+
+            <mat-expansion-panel [expanded]="step === 3" (opened)="setStep(3)" hideToggle>
+              <mat-expansion-panel-header>
+                <mat-panel-title>
+                  Clinic Details
+                </mat-panel-title>
+                <mat-panel-description>
+                  <mat-icon *ngIf="currentMedicationHasData">done</mat-icon>
+                </mat-panel-description>
+              </mat-expansion-panel-header>
+
+              <div fxLayout="row wrap" [fxLayoutGap]="curStaff.gapBetweenControls">
+
+                <mat-form-field fxFlex="22%">
+                  <input matInput placeholder="{{'Clinic Name' | translate }}">
+                </mat-form-field>
+
+                <mat-form-field fxFlex="22%">
+                  <input matInput placeholder="{{'First Line' | translate }}">
+                </mat-form-field>
+
+                <mat-form-field fxFlex="22%">
+                  <input matInput placeholder="{{'Second Line' | translate }}">
+
+                </mat-form-field>
+
+                <mat-form-field fxFlex="22%">
+                  <input matInput placeholder="{{'City' | translate }}">
+
+                </mat-form-field>
+                <mat-form-field fxFlex="22%">
+                  <input matInput placeholder="{{'State' | translate }}">
+
+                </mat-form-field>
+
+                <mat-form-field fxFlex="22%">
+                  <input matInput placeholder="{{'Country' | translate }}">
+
+                </mat-form-field>
+
+                <mat-form-field fxFlex="22%">
+                  <input matInput placeholder="{{'PinCode' | translate }}" type="number">
+
+                </mat-form-field>
+
+
+              </div>
+
+              <mat-action-row>
+                <button mat-button color="warn" (click)="prevStep()">Previous</button>
+                <button mat-button color="primary" (click)="nextStep()">Next</button>
+              </mat-action-row>
+            </mat-expansion-panel>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            
+
+
+
+
+
+
+
+          </form>
+
+        </mat-accordion>
+
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+  <div fxFlex="20px"></div>
+
+</div>

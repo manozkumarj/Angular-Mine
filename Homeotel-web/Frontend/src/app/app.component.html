@@ -1,0 +1,18 @@
+<div class="container" ngClass.sm="is-mobile">
+
+  <mat-progress-bar mode="determinate" [value]="loader.progress$|async"></mat-progress-bar>
+  <!-- <ngx-loading-bar></ngx-loading-bar> -->
+
+  <app-header *ngIf="authService.isAuthenticated() && !utilities.printMode"></app-header>
+
+  <mat-sidenav-container class="sidenav-container">
+    <mat-sidenav *ngIf="authService.isAuthenticated() && !utilities.printMode && !utilities.docMode" #snav fullscreen
+      [ngStyle]="{ 'width.em': sidenavService.getSidenavWidth() }" [opened]="sidenavService.sideNavOpened"
+      [mode]="sidenavService.sideNavMode" [fixedInViewport]="false" fixedTopGap="56" fxLayout="column">
+      <app-sidebar class='sidebar'></app-sidebar>
+    </mat-sidenav>
+    <mat-sidenav-content style="background-color: white">
+      <router-outlet></router-outlet>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+</div>

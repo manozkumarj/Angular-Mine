@@ -1,0 +1,298 @@
+<div style="margin:20px;" *ngIf="curStaff.isLabTechnician() || curStaff.isPharmacist()">
+  Loading..
+</div>
+
+<div fxLayout="row" fxLayoutAlign="start start" *ngIf="!curStaff.isLabTechnician() && !curStaff.isPharmacist()">
+
+  <div fxFlex="20px"></div>
+
+  <mat-card fxFlex="75%" fxFlex.xs="100%" fxFlex.sm="100%" style="margin-top: 15px;">
+
+    <!-- <mat-card-title>{{ 'registration' | translate }}</mat-card-title> -->
+
+    <mat-card-content>
+      <form fxLayout="row wrap " fxLayout.xs="column" [fxLayoutGap]="curStaff.gapBetweenControls" [formGroup]="regForm"
+        autocomplete="off">
+
+        <!-- tele-homeo -->
+
+
+        <mat-card id='ben-photo-card' [ngStyle]="{'borderTop': utilities.getBenCardBorderTopStyle() }" fxFlex="20%"
+          *ngIf="curStaff.canRegisterBen()" fxHide.lg="true" fxHide.sm="true">
+          <div style="text-align:center;"> <img mat-card-image class='ben-image'
+              *ngIf="!cameraRolling && !benPhotoExists" mat-card-image src="assets/images/photo-male-generic.png"
+              style="width: 50%;padding-top: 10px">
+            <img mat-card-image class='ben-image' *ngIf="!cameraRolling && benPhotoExists" mat-card-image
+              [src]="getPhotoDataUrl()" style="width: 50%;padding-top: 10px"></div>
+
+          <webcam *ngIf="cameraRolling" [height]="200" [width]="200" [trigger]="capturePhotoObservable"
+            (imageCapture)="photoCaptusred($event)"></webcam>
+          <div style="width: 50% ;text-align: center; margin: auto;">
+            <button id="take-photo" mat-button *ngIf="!cameraRolling" (click)="startCamera()">Start Camera</button>
+            <button id="take-photo" mat-button *ngIf="cameraRolling" (click)="takePhoto()">Take Photo</button>
+          </div>
+        </mat-card>
+        <!--   <br> -->
+
+
+
+
+
+        <!--     <mat-form-field [fxFlex]="curStaff.compactness"  >
+          <mat-select placeholder="{{ 'Consultation For' | translate }}" name="consultationFor"  [formControl]="consultationFor"(change)="consultationChanged()">
+            <mat-option *ngFor="let consultation of Consultations" [value]="consultation.id">
+              {{consultation.name}}
+            </mat-option>
+          </mat-select>
+          
+        </mat-form-field> -->
+        <!-- tele-homeo -->
+        <mat-form-field [fxFlex]="curStaff.compactness" *ngIf="relationVisiblity" style="line-height: 20px;">
+          <mat-select placeholder="{{ 'Relation' | translate }}" name="relationWithConsultant"
+            [formControl]="relationWithConsultant">
+            <mat-option *ngFor="let relation of relations" [value]="relation.id">
+              {{relation.name}}
+            </mat-option>
+          </mat-select>
+
+        </mat-form-field>
+        <div fxFill></div>
+
+
+
+        <mat-form-field [fxFlex]="curStaff.compactness">
+          <input #firstNameElement matInput placeholder="{{'first_name' | translate }}" name="firstName"
+            [formControl]="firstName" (keyup)="firstNameChanged()">
+          <mat-error *ngIf="firstName.invalid">{{ utilities.getErrorMessage(firstName) | translate }}</mat-error>
+        </mat-form-field>
+
+        <mat-form-field [fxFlex]="curStaff.compactness">
+          <input matInput placeholder="{{'last_name' | translate }}" name="lastName" [formControl]="lastName"
+            (keyup)="lastNameChanged()">
+          <mat-error *ngIf="lastName.invalid">{{ utilities.getErrorMessage(lastName) | translate }}</mat-error>
+        </mat-form-field>
+
+        <mat-form-field [fxFlex]="curStaff.compactness">
+          <input matInput [max]="maxDob" [min]="minDob" [matDatepicker]="templateVariableDob"
+            placeholder="{{ 'date_of_birth' | translate }}" (dateChange)="dobChanged($event)" name="dob"
+            [formControl]="dob">
+          <mat-datepicker-toggle matSuffix [for]="templateVariableDob"></mat-datepicker-toggle>
+          <mat-datepicker #templateVariableDob></mat-datepicker>
+          <!-- TODO - Allow user to directly enter the dob like so - 24-04-1987 etc -->
+          <mat-error *ngIf="dob.invalid">{{ utilities.getErrorMessage(dob) | translate }}</mat-error>
+        </mat-form-field>
+
+
+        <mat-form-field [fxFlex]="curStaff.compactness">
+          <mat-select placeholder="{{ 'gender' | translate }}" name="gender" [formControl]="gender"
+            (change)="genderChanged()">
+            <mat-option *ngFor="let gender of genders" [value]="gender.id">
+              {{gender.name}}
+            </mat-option>
+          </mat-select>
+          <mat-error *ngIf="gender.invalid">{{ utilities.getErrorMessage(gender) | translate }}</mat-error>
+        </mat-form-field>
+
+
+        <mat-form-field [fxFlex]="curStaff.compactness">
+          <mat-select placeholder="{{ 'Occupation' | translate }}" name="occupation" [formControl]="occupation">
+            <mat-option *ngFor="let occupationType of occupationTypes" [value]="occupationType.id">
+              {{occupationType.shift}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+
+        <mat-form-field [fxFlex]="curStaff.compactness">
+          <mat-select placeholder="{{ 'marital_status' | translate }}" name="maritalStatus"
+            [formControl]="maritalStatus" [disabled]="disableMaritalStatus" (change)="maritalStatusChanged()">
+            <mat-option *ngFor="let maritalStatus of maritalStatuses" [value]="maritalStatus.id">
+              {{maritalStatus.name}}
+            </mat-option>
+          </mat-select>
+          <mat-error *ngIf="maritalStatus.invalid">{{ utilities.getErrorMessage(maritalStatus) | translate }}
+          </mat-error>
+        </mat-form-field>
+
+
+        <mat-form-field [fxFlex]="curStaff.compactness">
+          <mat-select placeholder="{{ 'Religion' | translate }}" name="religion" [formControl]="religion">
+            <mat-option *ngFor="let religion of religions" [value]="religion.id">
+              {{religion.name}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field [fxFlex]="curStaff.compactness">
+          <mat-select placeholder="{{ 'Nationality' | translate }}" name="nationality" [formControl]="nationality">
+            <mat-option *ngFor="let nationality of nationalities" [value]="nationality.id">
+              {{nationality.name}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+
+
+        <mat-form-field [fxFlex]="curStaff.compactness">
+          <input matInput placeholder="{{'phone_number' | translate }}" name="phoneNumber" [formControl]="phoneNumber">
+          <mat-error *ngIf="phoneNumber.invalid">{{ utilities.getErrorMessage(phoneNumber) | translate }}</mat-error>
+        </mat-form-field>
+
+        <mat-form-field [fxFlex]="curStaff.compactness">
+          <input matInput placeholder="{{'Email' | translate }}" name="email" [formControl]="email">
+          <mat-error *ngIf="email.invalid">{{ utilities.getErrorMessage(email) | translate }}</mat-error>
+        </mat-form-field>
+
+
+      </form>
+    </mat-card-content>
+
+    <mat-card-actions align="center">
+
+      <button *ngIf="curStaff.canRegisterBen() && curBen.showRegisterButton()" id="register-btn" mat-button
+        [disabled]="regForm.invalid"
+        [swal]="{ title: 'confirm_registration' | translate, type: 'question', showConfirmButton: true, confirmButtonText: 'ok' | translate, showCancelButton: true, cancelButtonText: 'cancel' | translate }"
+        (confirm)="register()">{{ 'register' | translate }}</button>
+
+      <button *ngIf="curStaff.canRegisterBen() && curBen.showRevisitButton()" id="revisit-btn" mat-button
+        [disabled]="regForm.invalid"
+        [swal]="{ title: 'confirm_revist' | translate, type: 'question', showConfirmButton: true, confirmButtonText: 'ok' | translate, showCancelButton: true, cancelButtonText: 'cancel' | translate }"
+        (confirm)="revisit()">{{ 'revisit' | translate }}</button>
+
+      <button *ngIf="curStaff.canRegisterBen() && !curBen.showRegisterButton() && !curBen.showRevisitButton()"
+        id="revisit-btn" mat-button [disabled]="regForm.invalid"
+        [swal]="{ title: 'confirm_update' | translate, type: 'question', showConfirmButton: true, confirmButtonText: 'ok' | translate, showCancelButton: true, cancelButtonText: 'cancel' | translate }"
+        (confirm)="updateBenDetails()">{{ 'update' | translate }}</button>
+
+      <button *ngIf="curStaff.isLocalDoctor() && curBen.showForceRevisitButton()" id="revisit-btn" mat-button
+        [disabled]="regForm.invalid"
+        [swal]="{ title: 'confirm_revist' | translate, type: 'question', showConfirmButton: true, confirmButtonText: 'ok' | translate, showCancelButton: true, cancelButtonText: 'cancel' | translate }"
+        (confirm)="revisit()">{{ 'force_revisit' | translate }}</button>
+
+    </mat-card-actions>
+  </mat-card>
+
+  <div fxFlex="20px"></div>
+
+  <!-- TODO - make both the photo card and ben cards to look similar, the plus button should also be similar -->
+  <!-- Alternatively, using the same component and toggling the content might work better -->
+  <div fxFlex="20%" *ngIf="curStaff.canRegisterBen()" fxHide.xs="true">
+    <mat-card id='ben-photo-card' [ngStyle]="{'borderTop': utilities.getBenCardBorderTopStyle() }">
+      <img mat-card-image class='ben-image' *ngIf="!cameraRolling && !benPhotoExists" mat-card-image
+        src="assets/images/photo-male-generic.png">
+      <img mat-card-image class='ben-image' *ngIf="!cameraRolling && benPhotoExists" mat-card-image
+        [src]="getPhotoDataUrl()">
+      <webcam *ngIf="cameraRolling" [height]="200" [width]="200" [trigger]="capturePhotoObservable"
+        (imageCapture)="photoCaptured($event)"></webcam>
+      <mat-card-content>
+        <button id="take-photo" mat-button *ngIf="!cameraRolling" (click)="startCamera()">Start Camera</button>
+        <button id="take-photo" mat-button *ngIf="cameraRolling" (click)="takePhoto()">Take Photo</button>
+        <br>
+        <div *ngIf="curBen.benId">
+          <p>Beneficiary ID: {{curBen.benId}} ({{curBen.benNodeId == 1 ? 'Clinic' : 'MMU'}})</p>
+          <p>{{curBen.strName}}</p>
+          <p *ngIf="curBen.strFatherNameOrHusbandName != ''">{{curBen.strFatherNameOrHusbandName}}</p>
+          <p>{{curBen.strGender}}, {{curBen.strAge}}</p>
+          <p *ngIf="curBen.strDob != ''">{{curBen.strDob}}</p>
+          <p *ngIf="curBen.strRegisteredOn != ''">{{curBen.strRegisteredOn}}</p>
+          <p *ngIf="curBen.strPhoneNumber">{{curBen.strPhoneNumber}}</p>
+          <p *ngIf="curBen.strIdProof">{{curBen.strIdProof}}</p>
+          <p *ngIf="curBen.strVillageName">{{curBen.strVillageName}}</p>
+          <p *ngIf="curBen.strOtherLocation">{{curBen.strOtherLocation}}</p>
+        </div>
+      </mat-card-content>
+    </mat-card>
+    <mat-icon id="add-new-ben-icon" (click)="addNewBen()">add_circle</mat-icon>
+  </div>
+
+  <app-ben-details *ngIf="!curStaff.canRegisterBen()" fxFlex="20%" (addNewBenClicked)="addNewBen(true)">
+  </app-ben-details>
+
+</div>
+
+
+<!-- 
+          <h3>Address :</h3>
+        <div fxFill></div>
+        
+
+        <mat-form-field [fxFlex]="curStaff.compactness" >
+          <input  matInput placeholder="{{'First Line' | translate }}">
+         
+        </mat-form-field>
+
+        <mat-form-field [fxFlex]="curStaff.compactness" >
+          <input  matInput placeholder="{{'Second Line' | translate }}">
+         
+        </mat-form-field>
+
+        <mat-form-field [fxFlex]="curStaff.compactness" >
+          <input  matInput placeholder="{{'City' | translate }}">
+         
+        </mat-form-field>
+        <mat-form-field [fxFlex]="curStaff.compactness" >
+          <input  matInput placeholder="{{'State' | translate }}">
+         
+        </mat-form-field>
+
+        <mat-form-field [fxFlex]="curStaff.compactness" >
+          <input  matInput placeholder="{{'Country' | translate }}">
+         
+        </mat-form-field>
+
+        <mat-form-field [fxFlex]="curStaff.compactness" >
+          <input  matInput placeholder="{{'PinCode' | translate }}" type ="number">
+         
+        </mat-form-field>
+
+        
+       ---!--  <mat-form-field [fxFlex]="curStaff.compactness" >
+          <mat-select placeholder="{{ 'Drugs Delivery' | translate }}" name ="delivery" [formControl]="delivery" (change)="deliveryTypeChanged()">
+            <mat-option *ngFor="let deliveryType of deliveryTypes" [value]="deliveryType.id">
+              {{deliveryType.type}}
+            </mat-option>
+          </mat-select>
+         
+        </mat-form-field> ------
+        <div fxFill></div>
+        
+        <h3 *ngIf ="differentAdressVisibilty">Delivery Address :</h3>
+        <div fxFill></div>
+
+        <div fxLayout="row wrap " fxLayout.xs="column" [fxLayoutGap]="curStaff.gapBetweenControls" *ngIf ="differentAdressVisibilty">
+          
+          <mat-form-field [fxFlex]="'40%'" style ="line-height: 20px;">
+            <input  matInput placeholder="{{'first Line' | translate }}">
+           
+          </mat-form-field>
+  
+          <mat-form-field [fxFlex]="'40%'" style ="line-height: 20px;">
+            <input  matInput placeholder="{{'Second Line' | translate }}">
+           
+          </mat-form-field>
+  
+          <mat-form-field [fxFlex]="'40%'" style ="line-height: 20px;">
+            <input  matInput placeholder="{{'City' | translate }}">
+           
+          </mat-form-field>
+          <mat-form-field [fxFlex]="'40%'" style ="line-height: 20px;" >
+            <input  matInput placeholder="{{'State' | translate }}">
+           
+          </mat-form-field>
+  
+          <mat-form-field [fxFlex]="'40%'" style ="line-height: 20px;">
+            <input  matInput placeholder="{{'Country' | translate }}">
+           
+          </mat-form-field>
+  
+          <mat-form-field [fxFlex]="'40%'" style ="line-height: 20px;">
+            <input  matInput placeholder="{{'PinCode' | translate }}" type ="number">
+           
+          </mat-form-field>
+  
+          
+         
+        </div>
+
+
+-->

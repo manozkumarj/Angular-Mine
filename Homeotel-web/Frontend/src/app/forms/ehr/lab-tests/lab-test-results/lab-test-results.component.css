@@ -1,0 +1,7 @@
+.mat-table-container {
+    margin-top: 15px;
+}
+
+.lab-test-results-input ::ng-deep .mat-input-underline {
+    display: none;
+ }

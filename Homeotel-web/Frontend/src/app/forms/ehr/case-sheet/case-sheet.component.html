@@ -1,0 +1,262 @@
+<div fxLayout="row" fxLayoutAlign="start start">
+
+    <div fxFlex="20px"></div>
+
+    <div fxFlex="75%">
+        <mat-card style="margin-top: 15px; padding: 0;">
+            <!-- <mat-card-title>{{ 'history' | translate }}</mat-card-title> -->
+            <mat-card-content>
+
+                <mat-accordion class="headers-align">
+                    <mat-expansion-panel *ngFor="let encounter of encounters; let i = index" [expanded]="step === i"
+                        (opened)="setStep(i)" hideToggle>
+                        <mat-expansion-panel-header>
+                            <mat-panel-title>
+                                Visit {{ i + 1 }} at {{encounter['enc_at']}}
+                            </mat-panel-title>
+                        </mat-expansion-panel-header>
+
+                        <div
+                            *ngIf="encounter['height'] || encounter['weight'] || encounter['bmi'] || encounter['waist']">
+                            <h3>Measurements</h3>
+                            <p *ngIf="encounter['height']">Height: {{ encounter['height'] }}</p>
+                            <p *ngIf="encounter['weight']">Weight: {{ encounter['weight'] }}</p>
+                            <p *ngIf="encounter['bmi']">BMI: {{ encounter['bmi'] }}</p>
+                            <p *ngIf="encounter['waist']">Waist: {{ encounter['waist'] }}</p>
+                        </div>
+
+
+                        <div *ngIf="encounter['temperature'] || encounter['pulse_rate'] || 
+                        encounter['resp_rate'] || encounter['bp_systolic'] || 
+                        encounter['bp_diastolic']">
+                            <br>
+                            <h3>Vitals</h3>
+                            <p *ngIf="encounter['temperature']">Temperature: {{ encounter['temperature'] }}</p>
+                            <p *ngIf="encounter['pulse_rate']">Pulse Rate: {{ encounter['pulse_rate'] }}</p>
+                            <p *ngIf="encounter['resp_rate']">Respiratory Rate: {{ encounter['resp_rate'] }}</p>
+                            <p *ngIf="encounter['bp_systolic'] && encounter['bp_diastolic']">BP:
+                                {{ encounter['bp_systolic'] }}/{{ encounter['bp_diastolic'] }}</p>
+                        </div>
+
+
+                        <div *ngIf="encounter['complaints']">
+                            <br>
+                            <h3>Complaints</h3>
+                            <p *ngFor="let complaint of encounter['complaints']" style="margin-left: 20px;">
+                                {{ complaint }}
+                            </p>
+                        </div>
+
+
+
+                        <div *ngIf="encounter['se']">
+                            <br>
+                            <h3>Systemic Examinations</h3>
+                            <p *ngIf="encounter['se']['resp_sys']">Respiratory System: {{encounter['se']['resp_sys']}}
+                            </p>
+                            <p *ngIf="encounter['se']['cardio_sys']">Cardiovascular System:
+                                {{encounter['se']['cardio_sys']}}</p>
+                            <p *ngIf="encounter['se']['gastro_sys']">Gastrointestinal System:
+                                {{encounter['se']['gastro_sys']}}</p>
+                            <p *ngIf="encounter['se']['nervous_sys']">Central Nervous System:
+                                {{encounter['se']['nervous_sys']}}</p>
+                            <p *ngIf="encounter['se']['genito_sys']">Genitourinary System:
+                                {{encounter['se']['genito_sys']}}</p>
+                            <p *ngIf="encounter['se']['musculo_sys']">Musculoskeletal System:
+                                {{encounter['se']['musculo_sys']}}</p>
+                            <p *ngIf="encounter['se']['other_findings']">Other Findings:
+                                {{encounter['se']['other_findings']}}</p>
+                        </div>
+
+
+
+                        <div *ngIf="encounter['ge']">
+                            <br>
+                            <h3>General Examinations</h3>
+                            <p>Has Pallor: {{encounter['ge']['has_pallor'] == 1 ? 'Yes' : 'No'}}</p>
+                            <p>Has Jaundice: {{encounter['ge']['has_jaundice'] == 1 ? 'Yes' : 'No'}}</p>
+                            <p>Has Cyanosis: {{encounter['ge']['has_cyanosis'] == 1 ? 'Yes' : 'No'}}</p>
+                            <p>Has Clubbing: {{encounter['ge']['has_clubbing'] == 1 ? 'Yes' : 'No'}}</p>
+                            <p>Has Gingivitis: {{encounter['ge']['has_gingivitis'] == 1 ? 'Yes' : 'No'}}</p>
+                            <p>Has Lymphadenopathy: {{encounter['ge']['has_lympha'] == 1 ? 'Yes' : 'No'}}</p>
+                            <p *ngIf="encounter['ge']['lympha_remarks']">Lymphadenopathy Remarks:
+                                {{encounter['ge']['lympha_remarks']}}</p>
+                            <p>Has Edema: {{encounter['ge']['has_edema'] == 1 ? 'Yes' : 'No'}}</p>
+                            <p *ngIf="encounter['ge']['edema_remarks']">Edema Remarks:
+                                {{encounter['ge']['edema_remarks']}}</p>
+                        </div>
+
+
+
+                        <div *ngIf="encounter['habits']">
+                            <br>
+                            <h3>Personal Habits</h3>
+                            <p>Smoking - {{encounter['habits']['smoking_name']}}
+                                {{encounter['habits']['smoking_duration'] ? ' - ' + encounter['habits']['smoking_duration'] : ''}}
+                                {{encounter['habits']['smoking_freq'] ? ' - ' + encounter['habits']['smoking_freq'] : ''}}
+                            </p>
+                            <p>Alcohol - {{encounter['habits']['alcohol_name']}}
+                                {{encounter['habits']['alcohol_duration'] ? ' - ' + encounter['habits']['alcohol_duration'] : ''}}
+                                {{encounter['habits']['alcohol_freq'] ? ' - ' + encounter['habits']['alcohol_freq'] : ''}}
+                            </p>
+                            <p>Exercise - {{encounter['habits']['exercise_name']}}
+                                {{encounter['habits']['exercise_duration'] ? ' - ' + encounter['habits']['exercise_duration'] : ''}}
+                                {{encounter['habits']['exercise_freq'] ? ' - ' + encounter['habits']['exercise_freq'] : ''}}
+                            </p>
+                        </div>
+
+
+
+                        <div *ngIf="encounter['ph']">
+                            <br>
+                            <h3>Personal History</h3>
+                            <p *ngIf="encounter['ph']['appetite_name']">Appetite: {{encounter['ph']['appetite_name']}}
+                            </p>
+                            <p *ngIf="encounter['ph']['bowel_movement_name']">Bowel Movement:
+                                {{encounter['ph']['bowel_movement_name']}}</p>
+                            <p *ngIf="encounter['ph']['defecation_name']">Defecation:
+                                {{encounter['ph']['defecation_name']}}</p>
+                            <p *ngIf="encounter['ph']['hand_washing_name']">Hand Washing Habits:
+                                {{encounter['ph']['hand_washing_name']}}</p>
+                            <p *ngIf="encounter['ph']['occuptaion_name']">Occupation:
+                                {{encounter['ph']['occuptaion_name']}}</p>
+                            <p *ngIf="encounter['ph']['drinking_water_name']">Drinking Water:
+                                {{encounter['ph']['drinking_water_name']}}</p>
+                            <p *ngIf="encounter['ph']['mosquito_exposure_name']">Exposure to Mosquito:
+                                {{encounter['ph']['mosquito_exposure_name']}}</p>
+                        </div>
+
+
+
+                        <div *ngIf="encounter['allergies'].length > 0">
+                            <br>
+                            <h3>Allergies</h3>
+                            <p *ngFor="let allergy of encounter['allergies']">{{allergy['allergy_name']}}
+                                {{allergy['other_allergy'] ? ' - ' + allergy['other_allergy'] : ''}}</p>
+                        </div>
+
+
+
+                        <div *ngIf="encounter['medical_history'].length > 0">
+                            <br>
+                            <h3>Medical History</h3>
+                            <p *ngFor="let mh of encounter['medical_history']">{{mh['medical_name']}}
+                                {{mh['other_medical'] ? ' - ' + mh['other_medical'] : ''}}</p>
+                        </div>
+
+
+
+                        <div *ngIf="encounter['surgical_history'].length > 0">
+                            <br>
+                            <h3>Surgical History</h3>
+                            <p *ngFor="let sh of encounter['surgical_history']">{{sh['surgical_name']}}
+                                {{sh['other_surgical'] ? ' - ' + sh['other_surgical'] : ''}}</p>
+                        </div>
+
+
+
+                        <div *ngIf="encounter['obs']">
+                            <br>
+                            <h3>Obstetrics and Menstruation</h3>
+                            <p *ngIf="encounter['obs']['menstrual_name']">Menstrual History:
+                                {{encounter['obs']['menstrual_name']}}</p>
+                            <p *ngIf="encounter['obs']['period_name']">Periods Regularity:
+                                {{encounter['obs']['period_name']}}</p>
+                            <p *ngIf="encounter['obs']['bleeding_name']">Bleeding: {{encounter['obs']['bleeding_name']}}
+                            </p>
+                            <p *ngIf="encounter['obs']['pain_name']">Pain: {{encounter['obs']['pain_name']}}</p>
+                            <p *ngIf="encounter['obs']['discharge_name']">White Discharge:
+                                {{encounter['obs']['discharge_name']}}</p>
+                        </div>
+
+
+
+                        <div *ngIf="encounter['fh'].length > 0">
+                            <br>
+                            <h3>Family History</h3>
+                            <p *ngFor="let fh of encounter['fh']">{{fh['relation_name']}} -
+                                {{fh['medical_name'] + (fh['other_medical'] ? (' - ' + fh['other_medical']) : '')}} </p>
+                        </div>
+
+
+
+                        <div *ngIf="encounter['current_medication'].length > 0">
+                            <br>
+                            <h3>Current Medication</h3>
+                            <p *ngFor="let cm of encounter['current_medication']">
+                                {{cm['medicine_name']}}
+                                {{cm['dosage'] ? ' - ' + cm['dosage'] : ''}}
+                                {{cm['freq'] ? ' - ' + cm['freq'] : ''}}
+                                {{cm['since'] ? ' - ' + cm['since'] : ''}}</p>
+                        </div>
+
+
+
+                        <div *ngIf="encounter['lab_results'] && encounter['lab_results'].length > 0">
+                            <br>
+                            <h3>Lab Results</h3>
+                            <table>
+                                <tr>
+                                    <td style="min-width: 250px">Lab Test Name</td>
+                                    <td style="min-width: 100px">Result</td>
+                                </tr>
+                                <tr *ngFor="let thisLabResult of encounter['lab_results']">
+                                    <td>{{thisLabResult['lab_test_name']}}</td>
+                                    <td>{{thisLabResult['lab_result']}}</td>
+                                </tr>
+                            </table>
+                        </div>
+
+
+
+                        <div *ngIf="encounter['diagnosis']">
+                            <br>
+                            <h3>Diagnosis: </h3>
+                            <p>{{ encounter['diagnosis'] }}</p>
+                        </div>
+
+
+
+                        <div *ngIf="encounter['drugs'] && encounter['drugs'].length > 0">
+                            <br>
+                            <h3>Drugs</h3>
+                            <table>
+                                <tr>
+                                    <td style="min-width: 200px">Drug Name</td>
+                                    <td style="min-width: 100px">dosage</td>
+                                    <td style="min-width: 100px">freq</td>
+                                    <td style="min-width: 100px">instruction</td>
+                                    <td style="min-width: 50px">days</td>
+                                    <td style="min-width: 50px">presc. qty</td>
+                                    <td style="min-width: 50px">issued qty</td>
+                                </tr>
+                                <tr *ngFor="let thisDrug of encounter['drugs']">
+                                    <td>{{thisDrug['drug_name']}} {{thisDrug['drug_strength']}}</td>
+                                    <td>{{thisDrug['dosage']}}</td>
+                                    <td>{{thisDrug['freq']}}</td>
+                                    <td>{{thisDrug['instruction']}}</td>
+                                    <td>{{thisDrug['no_of_days']}}</td>
+                                    <td>{{thisDrug['prescribed_qty']}}</td>
+                                    <td>{{thisDrug['issued_qty']}}</td>
+                                </tr>
+                            </table>
+                        </div>
+
+
+                        <mat-action-row>
+                            <button mat-button color="warn" (click)="prevStep()">Previous Visit</button>
+                            <button mat-button color="primary" (click)="nextStep()">Next Visit</button>
+                        </mat-action-row>
+                    </mat-expansion-panel>
+
+                </mat-accordion>
+
+            </mat-card-content>
+        </mat-card>
+    </div>
+
+    <div fxFlex="20px"></div>
+
+    <app-ben-details fxFlex="20%"></app-ben-details>
+
+</div>

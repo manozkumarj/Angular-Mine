@@ -1,0 +1,633 @@
+<div fxLayout="row" fxLayoutAlign="start start">
+  <div fxFlex="20px"></div>
+  <div fxFlex="75%">
+    <mat-card style="margin-top: 15px; padding: 0;">
+      <mat-card-content>
+        <mat-accordion class="headers-align">
+          <form [formGroup]="clinicalHistoryForm" autocomplete="off">
+
+            <mat-expansion-panel [expanded]="step === 0" (opened)="setStep(0)" hideToggle>
+              <mat-expansion-panel-header>
+                <mat-panel-title>
+                  Mental Generals
+                </mat-panel-title>
+                <mat-panel-description>
+                  <mat-icon *ngIf="clinicalHistoryHasData">done</mat-icon>
+                </mat-panel-description>
+              </mat-expansion-panel-header>
+
+              <div fxLayout="row wrap" [fxLayoutGap]="curStaff.gapBetweenControls">
+                <mat-form-field [fxFlex]="curStaff.compactness">
+                  <mat-select [formControl]="activity" (change)="dataChanged('activity', 'select')"
+                    placeholder="{{ 'Activity' | translate }}" name="activity">
+                    <mat-option *ngFor="let activity of activities" [value]="activity.id">
+                      {{activity.name}}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+
+                <!--  <mat-form-field [fxFlex]="curStaff.compactness">
+                <mat-select placeholder="{{ 'Understanding' | translate }}" name="understanding">
+                  <mat-option *ngFor="let understanding of understandings" [value]="understanding">
+                    {{understanding.name}}
+                  </mat-option>
+                </mat-select>              
+              </mat-form-field> -->
+
+                <mat-form-field [fxFlex]="curStaff.compactness">
+                  <mat-select [formControl]="memory" (change)="dataChanged('memory', 'select')"
+                    placeholder="{{ 'Memory' | translate }}" name="memory">
+                    <mat-option *ngFor="let memory of memories" [value]="memory.id">
+                      {{memory.name}}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+
+              <mat-action-row>
+                <button type="button" mat-button type="button" color="warn" (click)="prevStep()">Previous</button>
+                <button type="button" mat-button type="button" color="primary" (click)="nextStep()">Next</button>
+              </mat-action-row>
+            </mat-expansion-panel>
+
+            <mat-expansion-panel [expanded]="step === 1" (opened)="setStep(1)" hideToggle>
+              <mat-expansion-panel-header>
+                <mat-panel-title>
+                  Physical Generals
+                </mat-panel-title>
+                <mat-panel-description>
+                  <mat-icon *ngIf="clinicalHistoryHasData">done</mat-icon>
+                </mat-panel-description>
+              </mat-expansion-panel-header>
+
+              <div fxLayout="row wrap" [fxLayoutGap]="curStaff.gapBetweenControls">
+                <mat-form-field [fxFlex]="curStaff.compactness">
+                  <mat-select [formControl]="appetite" (change)="dataChanged('appetite', 'select')"
+                    placeholder="{{ 'Appetite' | translate }}" name="appetite">
+                    <mat-option *ngFor="let appetite of appetiteList" [value]="appetite.id">
+                      {{appetite.name}}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+
+                <mat-form-field [fxFlex]="curStaff.compactness">
+                  <input matInput [formControl]="habbitsAddictions" (change)="dataChanged('habbitsAddictions', 'input')"
+                    placeholder="{{'Habits/ Addictions' | translate }}" name="habits">
+                </mat-form-field>
+
+                <mat-form-field [fxFlex]="curStaff.compactness">
+                  <mat-select [formControl]="thirst" (change)="dataChanged('thirst', 'select')"
+                    placeholder="{{ 'Thirst' | translate }}" name="thirst">
+                    <mat-option *ngFor="let thirst of thirstList" [value]="thirst.id">
+                      {{thirst.name}}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+
+              <mat-action-row>
+                <button type="button" mat-button color="warn" (click)="prevStep()">Previous</button>
+                <button type="button" mat-button color="primary" (click)="nextStep()">Next</button>
+              </mat-action-row>
+            </mat-expansion-panel>
+
+            <mat-expansion-panel [expanded]="step === 2" (opened)="setStep(2)" hideToggle>
+              <mat-expansion-panel-header>
+                <mat-panel-title>
+                  Preferences
+                </mat-panel-title>
+                <mat-panel-description>
+                  <mat-icon *ngIf="clinicalHistoryHasData">done</mat-icon>
+                </mat-panel-description>
+              </mat-expansion-panel-header>
+
+              <div fxLayout="row wrap" [fxLayoutGap]="curStaff.gapBetweenControls">
+
+                <mat-form-field [fxFlex]="curStaff.compactness">
+                  <input matInput [formControl]="aversions" (change)="dataChanged('aversions', 'input')"
+                    placeholder="{{'Aversions' | translate }}" name="Aversions">
+                </mat-form-field>
+
+                <mat-form-field [fxFlex]="curStaff.compactness">
+                  <input matInput [formControl]="desires" (change)="dataChanged('desires', 'input')"
+                    placeholder="{{'Desires' | translate }}" name="Desires">
+                </mat-form-field>
+
+                <mat-form-field [fxFlex]="curStaff.compactness">
+                  <mat-select [formControl]="intolarence" (change)="dataChanged('intolarence', 'input')"
+                    placeholder="{{ 'Intolarence' | translate }}" name="intolarence" [formControl]="intolerance"
+                    multiple>
+                    <mat-option *ngFor="let intolarence of intolarenceList" [value]="intolarence.id">
+                      {{intolarence.name}}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+
+                <mat-form-field *ngIf="foodI" [fxFlex]="curStaff.compactness">
+                  <input matInput placeholder="{{'Food Intolarence' | translate }}" name="habits">
+                </mat-form-field>
+
+                <mat-form-field *ngIf="envI" [fxFlex]="curStaff.compactness">
+                  <input matInput [formControl]="desires" (change)="dataChanged('desires', 'input')"
+                    placeholder="{{'Enviroment Intolarence' | translate }}" name="habits">
+                </mat-form-field>
+
+                <mat-form-field *ngIf="drugI" [fxFlex]="curStaff.compactness">
+                  <input matInput placeholder="{{'Drugs Intolarence' | translate }}" name="habits">
+                </mat-form-field>
+
+
+                <mat-form-field fxFlex="62%">
+                  <input matInput [formControl]="desiresInChildhood"
+                    (change)="dataChanged('desiresInChildhood', 'input')"
+                    placeholder="{{'Any specific desires during childhood' | translate }}" name="habits">
+                </mat-form-field>
+
+              </div>
+
+              <mat-action-row>
+                <button type="button" mat-button color="warn" (click)="prevStep()">Previous</button>
+                <button type="button" mat-button color="primary" (click)="nextStep()">Next</button>
+              </mat-action-row>
+            </mat-expansion-panel>
+
+            <mat-expansion-panel [expanded]="step === 3" (opened)="setStep(3)" hideToggle>
+              <mat-expansion-panel-header>
+                <mat-panel-title>
+                  Sleep
+                </mat-panel-title>
+                <mat-panel-description>
+                  <mat-icon *ngIf="clinicalHistoryHasData">done</mat-icon>
+                </mat-panel-description>
+              </mat-expansion-panel-header>
+
+              <div fxLayout="row wrap" [fxLayoutGap]="curStaff.gapBetweenControls">
+
+                <mat-form-field [fxFlex]="curStaff.compactness">
+                  <mat-select [formControl]="sleep" (change)="dataChanged('sleep', 'select')"
+                    placeholder="{{ 'Sleep' | translate }}" name="sleep">
+                    <mat-option *ngFor="let sleep of sleepList" [value]="sleep.id">
+                      {{sleep.name}}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+
+                <mat-form-field [fxFlex]="curStaff.compactness">
+                  <mat-select [formControl]="sleepPosture" (change)="dataChanged('sleepPosture', 'select')"
+                    placeholder="{{ 'Posture of Sleep' | translate }}" name="sleepPosture">
+                    <mat-option *ngFor="let sleepPosture of sleepPostureList" [value]="sleepPosture.id">
+                      {{sleepPosture.name}}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+
+                <mat-form-field *ngIf="isOtherSleepPosture" [fxFlex]="curStaff.compactness">
+                  <input matInput placeholder="{{'Other Sleep Posture' | translate }}" name="otherSleepPosture">
+                </mat-form-field>
+
+                <mat-form-field [fxFlex]="curStaff.compactness">
+                  <input matInput [formControl]="dreams" (change)="dataChanged('dreams', 'input')"
+                    placeholder="{{'Dreams' | translate }}" name="Dreams">
+                </mat-form-field>
+
+              </div>
+
+              <mat-action-row>
+                <button type="button" mat-button color="warn" (click)="prevStep()">Previous</button>
+                <button type="button" mat-button color="primary" (click)="nextStep()">Next</button>
+              </mat-action-row>
+            </mat-expansion-panel>
+
+            <mat-expansion-panel [expanded]="step === 4" (opened)="setStep(4)" hideToggle>
+              <mat-expansion-panel-header>
+                <mat-panel-title>
+                  Sweat
+                </mat-panel-title>
+                <mat-panel-description>
+                  <mat-icon *ngIf="clinicalHistoryHasData">done</mat-icon>
+                </mat-panel-description>
+              </mat-expansion-panel-header>
+
+              <div fxLayout="row wrap" [fxLayoutGap]="curStaff.gapBetweenControls">
+
+                <div [fxFlex]="2* curStaff.compactness"></div>
+
+                <mat-form-field [fxFlex]="curStaff.compactness">
+                  <input matInput [formControl]="sweat" (change)="dataChanged('sweat', 'input')"
+                    placeholder="{{'Sweat' | translate }}" name="Sweat">
+                </mat-form-field>
+
+                <mat-form-field [fxFlex]="curStaff.compactness">
+                  <mat-select [formControl]="sweatQuantity" (change)="dataChanged('sweatQuantity', 'select')"
+                    placeholder="{{ 'Sweat Qty.' | translate }}" name="sweatChar">
+                    <mat-option *ngFor="let sweatChar1 of sweatCharListQty" [value]="sweatChar1.id">
+                      {{sweatChar1.name}}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+
+                <mat-form-field [fxFlex]="curStaff.compactness">
+                  <mat-select [formControl]="sweatSmell" (change)="dataChanged('sweatSmell', 'select')"
+                    placeholder="{{ 'Sweat Smell.' | translate }}" name="sweatChar"
+                    placeholder="{{ 'Sweat Smell' | translate }}" name="sweatChar">
+                    <mat-option *ngFor="let sweatChar2 of sweatCharListSmell" [value]="sweatChar2.id">
+                      {{sweatChar2.name}}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+
+              </div>
+
+              <mat-action-row>
+                <button type="button" mat-button color="warn" (click)="prevStep()">Previous</button>
+                <button type="button" mat-button color="primary" (click)="nextStep()">Next</button>
+              </mat-action-row>
+            </mat-expansion-panel>
+
+            <mat-expansion-panel [expanded]="step === 5" (opened)="setStep(5)" hideToggle>
+              <mat-expansion-panel-header>
+                <mat-panel-title>
+                  Life Situation
+                </mat-panel-title>
+                <mat-panel-description>
+                  <mat-icon *ngIf="clinicalHistoryHasData">done</mat-icon>
+                </mat-panel-description>
+              </mat-expansion-panel-header>
+
+              <div fxLayout="row wrap" [fxLayoutGap]="curStaff.gapBetweenControls">
+
+                <mat-form-field [fxFlex]="2 * curStaff.compactness">
+                  <textarea matInput [formControl]="lifeSituation" (change)="dataChanged('lifeSituation', 'input')"
+                    placeholder="{{'Life Situation' | translate }}" name="lifeSitutation"></textarea>
+                </mat-form-field>
+
+              </div>
+
+              <mat-action-row>
+                <button type="button" mat-button color="warn" (click)="prevStep()">Previous</button>
+                <button type="button" mat-button color="primary" (click)="nextStep()">Next</button>
+              </mat-action-row>
+            </mat-expansion-panel>
+
+            <mat-expansion-panel [expanded]="step === 6" (opened)="setStep(6)" hideToggle>
+              <mat-expansion-panel-header>
+                <mat-panel-title>
+                  Urine
+                </mat-panel-title>
+                <mat-panel-description>
+                  <mat-icon *ngIf="clinicalHistoryHasData">done</mat-icon>
+                </mat-panel-description>
+              </mat-expansion-panel-header>
+
+              <div fxLayout="row wrap" [fxLayoutGap]="curStaff.gapBetweenControls">
+
+                <mat-form-field [fxFlex]="curStaff.compactness">
+                  <mat-select [formControl]="urineQuantity" (change)="dataChanged('urineQuantity', 'select')"
+                    placeholder="{{ 'Qty' | translate }}" name="urine">
+                    <mat-option *ngFor="let urine of urineList1" [value]="urine.id">
+                      {{urine.name}}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+
+                <mat-form-field [fxFlex]="curStaff.compactness">
+                  <mat-select [formControl]="urineSmell" (change)="dataChanged('urineSmell', 'select')"
+                    placeholder="{{ 'Smell' | translate }}" name="urine2">
+                    <mat-option *ngFor="let urine2 of urineList2" [value]="urine2.id">
+                      {{urine2.name}}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+
+                <mat-form-field [fxFlex]="curStaff.compactness">
+                  <mat-select [formControl]="urineFlow" (change)="dataChanged('urineFlow', 'select')"
+                    placeholder="{{ 'Flow' | translate }}" name="urine3">
+                    <mat-option *ngFor="let urine3 of urineList3" [value]="urine3.id">
+                      {{urine3.name}}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+
+                <mat-form-field [fxFlex]="curStaff.compactness">
+                  <input matInput [formControl]="urineColor" (change)="dataChanged('urineColor', 'input')"
+                    placeholder="{{'Color' | translate }}" name="Sweat">
+                </mat-form-field>
+
+                <mat-form-field [fxFlex]="curStaff.compactness">
+                  <input matInput [formControl]="urinationTimesDay" (change)="dataChanged('urinationTimesDay', 'input')"
+                    placeholder="{{'No. of times in day' | translate }}" name="Sweat">
+                </mat-form-field>
+
+                <mat-form-field [fxFlex]="curStaff.compactness">
+                  <input matInput [formControl]="urinationTimesNight"
+                    (change)="dataChanged('urinationTimesNight', 'input')"
+                    placeholder="{{'No. of times in night' | translate }}" name="Sweat">
+                </mat-form-field>
+
+
+              </div>
+
+
+              <mat-action-row>
+                <button type="button" mat-button color="warn" (click)="prevStep()">Previous</button>
+                <button type="button" mat-button color="primary" (click)="nextStep()">Next</button>
+              </mat-action-row>
+            </mat-expansion-panel>
+
+            <mat-expansion-panel [expanded]="step === 7" (opened)="setStep(7)" hideToggle>
+              <mat-expansion-panel-header>
+                <mat-panel-title>
+                  Bowels
+                </mat-panel-title>
+                <mat-panel-description>
+                  <mat-icon *ngIf="clinicalHistoryHasData">done</mat-icon>
+                </mat-panel-description>
+              </mat-expansion-panel-header>
+
+              <div fxLayout="row wrap" [fxLayoutGap]="curStaff.gapBetweenControls">
+
+
+                <mat-form-field [fxFlex]="curStaff.compactness">
+                  <input matInput [formControl]="bowelsTimesDay" (change)="dataChanged('bowelsTimesDay', 'input')"
+                    placeholder="{{'No. of times in day' | translate }}" name="Sweat">
+                </mat-form-field>
+
+                <mat-form-field [fxFlex]="curStaff.compactness">
+                  <input matInput [formControl]="bowelsTimesNight" (change)="dataChanged('bowelsTimesNight', 'input')"
+                    placeholder="{{'No. of times in night' | translate }}" name="Sweat">
+                </mat-form-field>
+
+                <mat-form-field [fxFlex]="curStaff.compactness">
+                  <mat-select [formControl]="periodicity" (change)="dataChanged('periodicity', 'select')"
+                    placeholder="{{ 'Periodicity' | translate }}" name="bowels">
+                    <mat-option *ngFor="let bowels of bowelsList1" [value]="bowels.id">
+                      {{bowels.name}}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+
+                <mat-form-field [fxFlex]="curStaff.compactness">
+                  <mat-select [formControl]="consistency" (change)="dataChanged('consistency', 'select')"
+                    placeholder="{{ 'Consistency' | translate }}" name="bowels2">
+                    <mat-option *ngFor="let bowels2 of bowelsList2" [value]="bowels2.id">
+                      {{bowels2.name}}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+
+
+                <mat-form-field [fxFlex]="curStaff.compactness">
+                  <input matInput [formControl]="bowelsColorStool" (change)="dataChanged('bowelsColorStool', 'input')"
+                    placeholder="{{'Color of Stool' | translate }}" name="Sweat">
+                </mat-form-field>
+
+              </div>
+
+
+              <mat-action-row>
+                <button type="button" mat-button color="warn" (click)="prevStep()">Previous</button>
+                <button type="button" mat-button color="primary" (click)="nextStep()">Next</button>
+              </mat-action-row>
+            </mat-expansion-panel>
+
+            <mat-expansion-panel [expanded]="step === 8" (opened)="setStep(8)" hideToggle>
+              <mat-expansion-panel-header>
+                <mat-panel-title>
+                  Tongue
+                </mat-panel-title>
+                <mat-panel-description>
+                  <mat-icon *ngIf="clinicalHistoryHasData">done</mat-icon>
+                </mat-panel-description>
+              </mat-expansion-panel-header>
+
+              <div fxLayout="row wrap" [fxLayoutGap]="curStaff.gapBetweenControls">
+
+                <mat-form-field [fxFlex]="curStaff.compactness">
+                  <input matInput [formControl]="tongueColor" (change)="dataChanged('tongueColor', 'input')"
+                    placeholder="{{'Color' | translate }}" name="Sweat">
+                </mat-form-field>
+
+                <mat-form-field [fxFlex]="curStaff.compactness">
+                  <input matInput [formControl]="tongueBackCoating" (change)="dataChanged('tongueBackCoating', 'input')"
+                    placeholder="{{'Back Coating' | translate }}" name="Sweat">
+                </mat-form-field>
+
+                <mat-form-field [fxFlex]="curStaff.compactness">
+                  <input matInput [formControl]="tongueFrontCoating"
+                    (change)="dataChanged('tongueFrontCoating', 'input')" placeholder="{{'Front Coating' | translate }}"
+                    name="Sweat">
+                </mat-form-field>
+
+                <mat-form-field [fxFlex]="curStaff.compactness">
+                  <input matInput [formControl]="tongueEntireCoating"
+                    (change)="dataChanged('tongueEntireCoating', 'input')"
+                    placeholder="{{'Entire Coating' | translate }}" name="Sweat">
+                </mat-form-field>
+
+                <mat-form-field [fxFlex]="curStaff.compactness">
+                  <mat-select [formControl]="tongueDryMoist" (change)="dataChanged('tongueDryMoist', 'select')"
+                    placeholder="{{ 'Dry/ Moist' | translate }}" name="tongue">
+                    <mat-option *ngFor="let tongue of tongueList" [value]="tongue.id">
+                      {{tongue.name}}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+
+              </div>
+
+              <mat-action-row>
+                <button type="button" mat-button color="warn" (click)="prevStep()">Previous</button>
+                <button type="button" mat-button color="primary" (click)="nextStep()">Next</button>
+              </mat-action-row>
+            </mat-expansion-panel>
+
+            <mat-expansion-panel [expanded]="step === 9" (opened)="setStep(9)" hideToggle>
+              <mat-expansion-panel-header>
+                <mat-panel-title>
+                  Thermals
+                </mat-panel-title>
+                <mat-panel-description>
+                  <mat-icon *ngIf="clinicalHistoryHasData">done</mat-icon>
+                </mat-panel-description>
+              </mat-expansion-panel-header>
+
+              <div fxLayout="row wrap" [fxLayoutGap]="curStaff.gapBetweenControls">
+
+                <mat-form-field [fxFlex]="curStaff.compactness">
+                  <mat-select [formControl]="bathing" (change)="dataChanged('bathing', 'select')"
+                    placeholder="{{ 'Bathing' | translate }}" name="thermals">
+                    <mat-option *ngFor="let thermals1 of thermalsList1" [value]="thermals1.id">
+                      {{thermals1.name}}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+
+                <mat-form-field [fxFlex]="curStaff.compactness">
+                  <mat-select [formControl]="season" (change)="dataChanged('season', 'select')"
+                    placeholder="{{ 'Season' | translate }}" name="thermals2">
+                    <mat-option *ngFor="let thermals2 of thermalsList2" [value]="thermals2.id">
+                      {{thermals2.name}}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+
+                <mat-form-field [fxFlex]="curStaff.compactness">
+                  <mat-select [formControl]="covering" (change)="dataChanged('covering', 'select')"
+                    placeholder="{{ 'Covering' | translate }}" name="thermals3">
+                    <mat-option *ngFor="let thermals3 of thermalsList3" [value]="thermals3.id">
+                      {{thermals3.name}}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+
+                <mat-form-field [fxFlex]="curStaff.compactness">
+                  <mat-select [formControl]="fanAc" (change)="dataChanged('fanAc', 'select')"
+                    placeholder="{{ 'Fan/ Ac' | translate }}" name="thermals4">
+                    <mat-option *ngFor="let thermals4 of thermalsList4" [value]="thermals4.id">
+                      {{thermals4.name}}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+
+                <mat-form-field [fxFlex]="curStaff.compactness">
+                  <mat-select [formControl]="openAir" (change)="dataChanged('openAir', 'select')"
+                    placeholder="{{ 'Open Air' | translate }}" name="thermals5">
+                    <mat-option *ngFor="let thermals5 of thermalsList5" [value]="thermals5.id">
+                      {{thermals5.name}}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+
+              </div>
+
+              <mat-action-row>
+                <button type="button" mat-button color="warn" (click)="prevStep()">Previous</button>
+                <button type="button" mat-button color="primary" (click)="nextStep()">Next</button>
+              </mat-action-row>
+            </mat-expansion-panel>
+
+            <mat-expansion-panel [expanded]="step === 10" (opened)="setStep(10)" hideToggle>
+              <mat-expansion-panel-header>
+                <mat-panel-title>
+                  Menstrual
+                </mat-panel-title>
+                <mat-panel-description>
+                  <mat-icon *ngIf="clinicalHistoryHasData">done</mat-icon>
+                </mat-panel-description>
+              </mat-expansion-panel-header>
+
+              <div fxLayout="row wrap" [fxLayoutGap]="curStaff.gapBetweenControls">
+
+                <mat-form-field [fxFlex]="curStaff.compactness">
+                  <input matInput [formControl]="menarche" (change)="dataChanged('menarche', 'select')"
+                    placeholder="{{'Menarche' | translate }}" name="menarche">
+                </mat-form-field>
+
+                <mat-form-field [fxFlex]="curStaff.compactness">
+                  <input matInput [formControl]="mensis" (change)="dataChanged('mensis', 'select')"
+                    placeholder="{{'Mensis' | translate }}" name="mensis">
+                </mat-form-field>
+
+                <mat-form-field [fxFlex]="curStaff.compactness">
+                  <input matInput [formControl]="lmpDate" (dateChange)="dataChanged('lmpDate', 'input')"
+                    [matDatepicker]="templateVariableDob" placeholder="{{ 'LMP' | translate }}" name="lmp">
+                  <mat-datepicker-toggle matSuffix [for]="templateVariableDob"></mat-datepicker-toggle>
+                  <mat-datepicker #templateVariableDob></mat-datepicker>
+                </mat-form-field>
+
+                <mat-form-field [fxFlex]="curStaff.compactness">
+                  <mat-select [formControl]="symptomsBeforeMensis"
+                    (change)="dataChanged('symptomsBeforeMensis', 'select')"
+                    placeholder="{{ 'Symptoms before mensis' | translate }}" name="meno">
+                    <mat-option *ngFor="let meno of menoList2" [value]="meno.id">
+                      {{meno.name}}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+
+                <mat-form-field [fxFlex]="curStaff.compactness">
+                  <mat-select [formControl]="symptomsDuringMensis"
+                    (change)="dataChanged('symptomsDuringMensis', 'select')"
+                    placeholder="{{ 'Symptoms during mensis' | translate }}" name="meno">
+                    <mat-option *ngFor="let meno of menoList2" [value]="meno.id">
+                      {{meno.name}}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+
+                <mat-form-field [fxFlex]="curStaff.compactness">
+                  <mat-select [formControl]="symptomsAfterMensis"
+                    (change)="dataChanged('symptomsAfterMensis', 'select')"
+                    placeholder="{{ 'Symptoms after mensis' | translate }}" name="meno">
+                    <mat-option *ngFor="let meno of menoList2" [value]="meno.id">
+                      {{meno.name}}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+
+                <mat-form-field [fxFlex]="curStaff.compactness">
+                  <mat-select [formControl]="menopause" (change)="dataChanged('menopause', 'select')"
+                    placeholder="{{ 'Menopause' | translate }}" name="meno" (change)="menoChanged()"
+                    [formControl]="meno">
+                    <mat-option *ngFor="let meno of menoList" [value]="meno.id">
+                      {{meno.name}}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+
+                <mat-form-field *ngIf="isMeno" [fxFlex]="curStaff.compactness">
+                  <input matInput placeholder="{{'Menopause attained at age' | translate }}" name="mensis">
+                </mat-form-field>
+
+                <mat-form-field *ngIf="isMeno" [fxFlex]="curStaff.compactness">
+                  <input matInput placeholder="{{'Complaints after menopause' | translate }}" name="mensis">
+                </mat-form-field>
+
+                <mat-form-field [fxFlex]="curStaff.compactness">
+                  <mat-select [formControl]="pregnant" (change)="dataChanged('pregnant', 'select')"
+                    placeholder="{{ 'Pregnant' | translate }}" name="meno2">
+                    <mat-option *ngFor="let meno2 of menoList" [value]="meno2.id">
+                      {{meno2.name}}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+
+                <mat-form-field [fxFlex]="curStaff.compactness">
+                  <input matInput [formControl]="deliveriesCount" (change)="dataChanged('deliveriesCount', 'select')"
+                    placeholder="{{'No. of deliveries' | translate }}" name="mensis">
+                </mat-form-field>
+
+                <mat-form-field [fxFlex]="curStaff.compactness">
+                  <input matInput [formControl]="childrenCount" (change)="dataChanged('childrenCount', 'select')"
+                    placeholder="{{'No. of children' | translate }}" name="mensis">
+                </mat-form-field>
+
+                <mat-form-field [fxFlex]="curStaff.compactness">
+                  <input matInput [formControl]="ultraUterineDeaths"
+                    (change)="dataChanged('ultraUterineDeaths', 'select')"
+                    placeholder="{{'Intra Uterine Deaths' | translate }}" name="mensis">
+                </mat-form-field>
+
+                <mat-form-field [fxFlex]="curStaff.compactness">
+                  <input matInput [formControl]="abortions" (change)="dataChanged('abortions', 'select')"
+                    placeholder="{{'Abortions' | translate }}" name="mensis">
+                </mat-form-field>
+              </div>
+
+              <mat-action-row>
+                <button type="button" mat-button color="warn" (click)="prevStep()">Previous</button>
+                <button type="button" mat-button color="primary" (click)="nextStep()">Next</button>
+              </mat-action-row>
+            </mat-expansion-panel>
+
+          </form>
+        </mat-accordion>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+  <div fxFlex="20px"></div>
+
+  <app-ben-details fxFlex="20%"></app-ben-details>
+
+</div>

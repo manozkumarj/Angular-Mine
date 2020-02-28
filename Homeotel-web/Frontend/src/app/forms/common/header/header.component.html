@@ -1,0 +1,56 @@
+<mat-toolbar style="background-color: white" class='mat-elevation-z3 main-header'>
+  <mat-toolbar-row style="margin:5px 0; padding-left: 0;">
+
+    <button mat-icon-button (click)="sidenavService.sideNavOpened = !sidenavService.sideNavOpened" fxShow="true"
+      fxHide.gt-sm>
+      <mat-icon>menu</mat-icon>
+    </button>
+
+    <img src="assets/images/Homeotel-logo.jpg" />
+
+    <mat-form-field id="search-bar" fxFlex="60" floatLabel="never" style="margin-left:30px">
+      <mat-icon matPrefix style="margin-right:10px; vertical-align: bottom">search</mat-icon>
+      <input #searchBarInput matInput type="search" placeholder="{{ 'search_ben' | translate }}" class="search-input"
+        [(ngModel)]="searchText" name="searchText" (keyup.enter)="searchBeneficiary()" (blur)="clearSearch()">
+    </mat-form-field>
+
+    <span fxFlex fxFlexFill></span>
+
+    <!-- <span> {{ curStaff.strName }} ({{ curStaff.strRole }}) </span> -->
+
+    <button mat-icon-button [matMenuTriggerFor]='topRightMenu'>
+      <mat-icon style="font-size: 30px;">account_circle</mat-icon>
+    </button>
+
+    <mat-menu #topRightMenu [overlapTrigger]='false'>
+
+      <!--
+      <button mat-menu-item>
+        <span> {{ curStaff.strRole }}</span>
+      </button>
+      <hr>
+
+
+      <button mat-menu-item (click)="goToSettings()">
+        <mat-icon>settings</mat-icon>
+        <span>Settings</span>
+      </button>
+      -->
+
+      
+      <button mat-menu-item (click)="goToProfile()">
+        <mat-icon>settings</mat-icon>
+        <span>Profile</span>
+      </button>
+      
+
+      <button mat-menu-item (click)="logout()">
+        <mat-icon>power_settings_new</mat-icon>
+        <span>{{ 'logout' | translate }}</span>
+      </button>
+
+
+
+    </mat-menu>
+  </mat-toolbar-row>
+</mat-toolbar>

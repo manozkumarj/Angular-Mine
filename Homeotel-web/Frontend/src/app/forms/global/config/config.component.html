@@ -1,0 +1,21 @@
+<form fxLayout="row wrap" fxLayoutAlign="center start" [formGroup]="configForm" autocomplete="off" style="padding: 100px">
+
+  <div fxFlex="100%" fxLayout="row wrap">
+    <mat-form-field fxFlex="50%">
+      <input matInput placeholder="{{'api_url_ip' }}" name="apiUrlIp" [formControl]="apiUrlIp">
+      <mat-error *ngIf="apiUrlIp.invalid">{{ utilities.getErrorMessage(apiUrlIp) }}</mat-error>
+    </mat-form-field>
+  </div>
+
+  <div fxFlex="100%" fxLayout="row wrap">
+    <mat-form-field fxFlex="50%">
+      <input matInput type="number" placeholder="{{'api_url_port' }}" name="apiUrlPort" [formControl]="apiUrlPort">
+      <mat-error *ngIf="apiUrlPort.invalid">{{ utilities.getErrorMessage(apiUrlPort) }}</mat-error>
+    </mat-form-field>
+  </div>
+
+  <button id="save-btn" mat-button [disabled]="configForm.invalid" [swal]="{ title: 'confirm_save', type: 'question', showConfirmButton: true, confirmButtonText: 'ok', showCancelButton: true, cancelButtonText: 'cancel' }"
+    (confirm)="saveConfig()">{{
+    'save' }}</button>
+
+</form>

@@ -1,0 +1,95 @@
+<form *ngIf="!viewMode" fxLayout="row wrap" [formGroup]="seForm" autocomplete="off">
+
+  <div fxFlex="100%" fxLayout="row wrap" [fxLayoutGap]="curStaff.gapBetweenControls">
+
+    <mat-form-field [fxFlex]="curStaff.compactness">
+      <input type="text" placeholder="{{'Respiratory System' | translate }}" matInput name="respSys" [formControl]="respSys"
+        [matAutocomplete]="temRespSys">
+      <mat-autocomplete #temRespSys="matAutocomplete">
+        <mat-option *ngFor="let option of ['NAD']" [value]="option">
+          {{option}}
+        </mat-option>
+      </mat-autocomplete>
+      <mat-error *ngIf="respSys.invalid">{{ utilities.getErrorMessage(respSys) | translate }}</mat-error>
+    </mat-form-field>
+
+    <mat-form-field [fxFlex]="curStaff.compactness">
+      <input type="text" placeholder="{{'Cardiovascular System' | translate }}" matInput name="cardioSys" [formControl]="cardioSys"
+        [matAutocomplete]="temCardioSys">
+      <mat-autocomplete #temCardioSys="matAutocomplete">
+        <mat-option *ngFor="let option of ['NAD']" [value]="option">
+          {{option}}
+        </mat-option>
+      </mat-autocomplete>
+      <mat-error *ngIf="cardioSys.invalid">{{ utilities.getErrorMessage(cardioSys) | translate }}</mat-error>
+    </mat-form-field>
+
+    <mat-form-field [fxFlex]="curStaff.compactness">
+      <input type="text" placeholder="{{'Gastrointestinal System' | translate }}" matInput name="gastroSys"
+        [formControl]="gastroSys" [matAutocomplete]="temGastroSys">
+      <mat-autocomplete #temGastroSys="matAutocomplete">
+        <mat-option *ngFor="let option of ['NAD']" [value]="option">
+          {{option}}
+        </mat-option>
+      </mat-autocomplete>
+      <mat-error *ngIf="gastroSys.invalid">{{ utilities.getErrorMessage(gastroSys) | translate }}</mat-error>
+    </mat-form-field>
+
+    <mat-form-field [fxFlex]="curStaff.compactness">
+      <input type="text" placeholder="{{'Central Nervous System' | translate }}" matInput name="nervousSys"
+        [formControl]="nervousSys" [matAutocomplete]="temNervousSys">
+      <mat-autocomplete #temNervousSys="matAutocomplete">
+        <mat-option *ngFor="let option of ['NAD']" [value]="option">
+          {{option}}
+        </mat-option>
+      </mat-autocomplete>
+      <mat-error *ngIf="nervousSys.invalid">{{ utilities.getErrorMessage(nervousSys) | translate }}</mat-error>
+    </mat-form-field>
+
+    <mat-form-field [fxFlex]="curStaff.compactness">
+      <input type="text" placeholder="{{'Genitourinary System' | translate }}" matInput name="genitoSys" [formControl]="genitoSys"
+        [matAutocomplete]="temGenitoSys">
+      <mat-autocomplete #temGenitoSys="matAutocomplete">
+        <mat-option *ngFor="let option of ['NAD']" [value]="option">
+          {{option}}
+        </mat-option>
+      </mat-autocomplete>
+      <mat-error *ngIf="genitoSys.invalid">{{ utilities.getErrorMessage(genitoSys) | translate }}</mat-error>
+    </mat-form-field>
+
+    <mat-form-field [fxFlex]="curStaff.compactness">
+      <input type="text" placeholder="{{'Musculoskeletal System' | translate }}" matInput name="musculoSys"
+        [formControl]="musculoSys" [matAutocomplete]="temMusculoSys">
+      <mat-autocomplete #temMusculoSys="matAutocomplete">
+        <mat-option *ngFor="let option of ['NAD']" [value]="option">
+          {{option}}
+        </mat-option>
+      </mat-autocomplete>
+      <mat-error *ngIf="musculoSys.invalid">{{ utilities.getErrorMessage(musculoSys) | translate }}</mat-error>
+    </mat-form-field>
+
+    <mat-form-field [fxFlex]="curStaff.compactness">
+      <input type="text" placeholder="{{'Other findings' | translate }}" matInput name="otherFindings" [formControl]="otherFindings">
+      <mat-error *ngIf="otherFindings.invalid">{{ utilities.getErrorMessage(otherFindings) | translate }}</mat-error>
+    </mat-form-field>
+
+  </div>
+
+  <button class="save-btn" *ngIf="curStaff.allowDataSave()" mat-button [disabled]="seForm.invalid" (click)="saveSystemicExaminations()">{{
+    'save' | translate }}</button>
+</form>
+
+
+<div *ngIf="viewMode">
+  <mat-card class="mat-table-container">
+    <mat-card-content>
+      <div class="line-height-25" *ngIf="respSys.value">Respiratory: {{respSys.value}} </div>
+      <div class="line-height-25" *ngIf="cardioSys.value">Cardiovascular: {{cardioSys.value}} </div>
+      <div class="line-height-25" *ngIf="gastroSys.value">Gastrointestinal: {{gastroSys.value}} </div>
+      <div class="line-height-25" *ngIf="nervousSys.value">Central Nervous: {{nervousSys.value}} </div>
+      <div class="line-height-25" *ngIf="genitoSys.value">Genitourinary: {{genitoSys.value}} </div>
+      <div class="line-height-25" *ngIf="musculoSys.value">Musculoskeletal: {{musculoSys.value}} </div>
+      <div class="line-height-25" *ngIf="otherFindings.value">Other findings: {{otherFindings.value}} </div>
+    </mat-card-content>
+  </mat-card>
+</div>

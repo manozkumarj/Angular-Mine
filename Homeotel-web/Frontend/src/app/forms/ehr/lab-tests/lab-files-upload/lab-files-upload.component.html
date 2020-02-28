@@ -1,0 +1,30 @@
+<div fxLayout="row wrap" [fxLayoutGap]="curStaff.gapBetweenControls" autocomplete="off">
+
+  <mat-form-field [fxFlex]="curStaff.compactness">
+    <input matInput placeholder="{{'file_description' | translate }}" name="description" [(ngModel)]="description"
+      [matAutocomplete]="temDescription">
+    <mat-autocomplete #temDescription="matAutocomplete">
+      <mat-option *ngFor="let option of ['Prescription', 'X-Ray', 'ECG']" [value]="option">
+        {{option}}
+      </mat-option>
+    </mat-autocomplete>
+  </mat-form-field>
+
+  <input #inputFile class="file-input" type="file" [disabled]="!curStaff.allowDataSave() || !description" [fxFlex]="curStaff.compactness" accept="image/x-png,image/gif,image/jpeg"
+    (change)="startUpload($event.target.files, description)">
+
+
+</div>
+
+<br>
+
+<div fxLayout="row wrap" [fxLayoutGap]="curStaff.gapBetweenControls" autocomplete="off">
+
+  <div fxFlex="200px" *ngFor="let file of labFiles; let i = index">
+    <span>{{file.description}}</span>
+    <img [src]="file.data" style="max-width: 100%; max-height: 100%" (click)="openImage(file.data)" />
+    <span style="cursor: pointer; color: blue" [swal]="{ title: 'confirm_delete' | translate, type: 'question', showConfirmButton: true, confirmButtonText: 'ok' | translate, showCancelButton: true, cancelButtonText: 'cancel' | translate }"
+      (confirm)="removeFile(file.description)()">Delete</span>
+  </div>
+
+</div>

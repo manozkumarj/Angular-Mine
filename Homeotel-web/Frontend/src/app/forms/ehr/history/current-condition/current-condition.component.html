@@ -1,0 +1,83 @@
+<form fxLayout="row wrap" fxLayoutAlign="center start"(ngSubmit)="addCurrentCondition()"  autocomplete="off">
+
+  <div fxFlex="100%" fxLayout="row wrap" [fxLayoutGap]="curStaff.gapBetweenControls">    
+    <mat-form-field [fxFlex]="'20%'">
+      <mat-select placeholder="{{ 'Condition' | translate }}" name="currentCondition" [formControl]="currentCondition" >
+        <mat-option *ngFor="let currentCondition of currentConditions" [value]="currentCondition.condition">
+          {{currentCondition.condition}}
+        </mat-option>
+      </mat-select>
+      
+    </mat-form-field>
+
+    <mat-form-field [fxFlex]="'20%'">
+      <mat-select placeholder="{{ 'Type' | translate }}"  name="type" [formControl]="type"  (change)="typeChanged()">
+        <mat-option *ngFor="let type of types" [value]="type.name">
+          {{type.name}}
+        </mat-option>
+      </mat-select>
+      
+    </mat-form-field>
+
+    <mat-form-field [fxFlex]="'20%'">
+      <textarea matInput placeholder="{{'Description' | translate }}" name="description" [formControl]="description"></textarea>
+      
+    </mat-form-field>
+
+    
+    <mat-form-field [fxFlex]="'20%'" *ngIf ="treatmentHistoryVisibility">
+      <textarea matInput placeholder="{{'Treatment History' | translate }}" name="treatmentHistory" [formControl]="treatmentHistory" ></textarea>
+      
+    </mat-form-field>
+
+  </div>
+
+  <button id="add-btn" mat-button type="submit">{{ 'add' | translate }}</button>
+</form>
+
+<mat-card class="mat-table-container" *ngIf ="addedCurrentCondition.length>0">
+  <mat-card-content>
+    <mat-table [dataSource]="dataSource">
+
+      <ng-container matColumnDef="sNo">
+        <mat-header-cell mat-header-cell *matHeaderCellDef> S No </mat-header-cell>
+        
+  <mat-cell *matCellDef="let element; let i = index;">{{i+1}}</mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="condition">
+        <mat-header-cell mat-header-cell *matHeaderCellDef> Condition </mat-header-cell>
+        <mat-cell mat-cell *matCellDef="let element"> {{element.currentCondition}} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="type">
+        <mat-header-cell mat-header-cell *matHeaderCellDef> Type </mat-header-cell>
+        <mat-cell mat-cell *matCellDef="let element"> {{element.type}} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="description">
+        <mat-header-cell mat-header-cell *matHeaderCellDef> Description</mat-header-cell>
+        <mat-cell mat-cell *matCellDef="let element"> {{element.description}} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="treatmentHistory">
+        <mat-header-cell mat-header-cell *matHeaderCellDef> Treatment History </mat-header-cell>
+        <mat-cell mat-cell *matCellDef="let element"> {{element.treatmentHistory}} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="deleteOption">
+        <mat-header-cell mat-header-cell *matHeaderCellDef>  </mat-header-cell>
+        <mat-cell mat-cell *matCellDef="let element; let i = index;" class="delete-btn">
+          <mat-icon  (click)="deleteCurrentCondition(i)">delete</mat-icon>
+        </mat-cell>
+      </ng-container>
+
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns;">
+      </mat-row>
+    </mat-table>
+
+  </mat-card-content>
+  <mat-card-actions align="center">
+    <button id="save-btn" *ngIf="curStaff.allowDataSave()" mat-button (click)="saveCurrentMedication()">{{ 'save' | translate }}</button>
+  </mat-card-actions>
+</mat-card>

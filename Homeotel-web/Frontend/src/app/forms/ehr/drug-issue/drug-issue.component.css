@@ -1,0 +1,16 @@
+.mat-table-container {
+    width: 100%;    
+}
+
+.prescription-drugs ::ng-deep .mat-input-underline {
+    display: none;
+ }
+
+ .prescription-drugs ::ng-deep .mat-form-field-wrapper {
+    padding-bottom: 0;
+ }
+
+ .prescription-drugs ::ng-deep .mat-form-field-infix {
+    border-top: 0;
+ }
+ 

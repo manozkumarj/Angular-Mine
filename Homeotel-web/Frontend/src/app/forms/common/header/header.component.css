@@ -1,0 +1,37 @@
+.app-heading {
+    margin-left: 5px;    
+}
+
+.main-header {    
+    z-index: 99 !important;      
+    position: relative;
+}
+
+#search-bar {
+    margin-left:10px; 
+    font-size: 17px; 
+    background-color: rgba(0,0,0,0.04);
+    padding: 0 30px;
+    border-radius: 5px;
+}
+
+#search-bar::ng-deep.mat-input-underline {
+    display: none;
+  }
+
+  #search-bar::ng-deep.mat-input-underline {
+    display: none;
+  }
+
+ #search-bar::ng-deep.mat-form-field-infix {    
+    border-top: 5px solid transparent !important;
+}
+#search-bar::ng-deep.mat-form-field-wrapper {
+    padding-bottom: 5px !important;
+}
+
+#search-bar:focus-within {
+    background-color: white !important;
+    border: 1px solid rgba(0,0,0,0.4);
+    box-shadow: 0 6px 10px 0 rgba(0, 0, 0, 0.14), 0 1px 18px 0 rgba(0, 0, 0, 0.12), 0 3px 5px -1px rgba(0, 0, 0, 0.3);
+}

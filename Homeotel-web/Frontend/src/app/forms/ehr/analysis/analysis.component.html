@@ -1,0 +1,68 @@
+<form fxLayout="row wrap" fxLayoutAlign="center start"(ngSubmit)="addCurrentCondition()"  autocomplete="off">
+
+  <div fxFlex="100%" fxLayout="row wrap" [fxLayoutGap]="curStaff.gapBetweenControls">    
+    
+  
+ 
+ 
+    <mat-form-field [fxFlex]="'20%'" style="padding-top: 20px;">
+      <input matInput placeholder="{{ 'Heading' | translate }}"  name="type" [formControl]="type"  >
+        
+      
+    </mat-form-field>
+
+
+    <mat-form-field [fxFlex]="'30%'">
+      <textarea matInput placeholder="{{'notes' | translate }}" name="notes" [formControl]="notes"></textarea>
+      
+    </mat-form-field>
+
+    
+    <mat-form-field [fxFlex]="'20%'" *ngIf ="treatmentHistoryVisibility">
+      <textarea matInput placeholder="{{'Treatment History' | translate }}" name="treatmentHistory" [formControl]="treatmentHistory" ></textarea>
+      
+    </mat-form-field>
+    <div [fxFlex]="'5%'" style="padding-top: 20px;">
+    <button id="add-btn" mat-button type="submit">{{ 'Add' | translate }}</button>
+    </div>
+  </div>
+
+  
+</form>
+
+<mat-card class="mat-table-container" *ngIf ="addedCurrentCondition.length>0">
+  <mat-card-content>
+    <mat-table [dataSource]="dataSource">
+
+
+     
+      <ng-container matColumnDef="type">
+        <mat-header-cell mat-header-cell *matHeaderCellDef> Heading </mat-header-cell>
+        <mat-cell mat-cell *matCellDef="let element"> {{element.type}} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="notes">
+        <mat-header-cell mat-header-cell *matHeaderCellDef> Notes</mat-header-cell>
+        <mat-cell mat-cell *matCellDef="let element"> {{element.notes}} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="sNo">
+        <mat-header-cell mat-header-cell *matHeaderCellDef> Added By </mat-header-cell>        
+        <mat-cell *matCellDef="let element; let i = index;">{{ getDoctorName(i) }}</mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="deleteOption">
+        <mat-header-cell mat-header-cell *matHeaderCellDef>  </mat-header-cell>
+        <mat-cell mat-cell *matCellDef="let element; let i = index;" >
+         
+        </mat-cell>
+      </ng-container>
+
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns;">
+      </mat-row>
+    </mat-table>
+
+  </mat-card-content>
+  
+</mat-card>

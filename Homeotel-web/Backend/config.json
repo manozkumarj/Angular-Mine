@@ -1,0 +1,10 @@
+{
+	"project_name": "homeotel",
+	"deployment_type": "test-mode",
+	"host": "127.0.0.1",
+	"database": "homeotel",
+	"user": "root",	
+	"password": "jShqCFqtqemqvgXiKNmpxld0KUhyeB6N",
+	"this_node_id": 1,
+	"uds_server_url": "http://localhost:9090/" 	
+}

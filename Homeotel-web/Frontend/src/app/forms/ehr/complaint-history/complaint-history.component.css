@@ -1,0 +1,56 @@
+.mat-table-container {
+    margin-top: 15px;
+}
+.mat-cell, .mat-header-cell {
+    flex: 0 0 15% !important;
+    padding: 0 10px;
+}
+
+/*
+.mat-cell.mat-column-complaint {
+    flex: 0 0 15% !important;
+}
+
+.mat-cell.mat-column-severity {
+    flex: 0 0 10% !important;
+}
+
+.mat-cell.mat-column-duration {
+    flex: 0 0 8% !important;
+}
+
+.mat-cell.mat-column-onset {
+    flex: 0 0 8% !important;
+}
+
+.mat-cell.mat-column-isRecurring {
+    flex: 0 0 10% !important;
+}
+
+.mat-cell.mat-column-recurringFreq {
+    flex: 0 0 15 !important;
+}
+
+.mat-cell.mat-column-characteristics {
+    flex: 0 0 15% !important;
+}
+.mat-cell.mat-column-sensation {
+    flex: 0 0 15% !important;
+}
+.mat-cell.mat-column-aggravation {
+    flex: 0 0 15% !important;
+}
+.mat-cell.mat-column-amelioration {
+    flex: 0 0 15% !important;
+}
+
+.mat-cell.mat-column-modality {
+    flex: 0 0 15% !important;
+}
+.mat-cell.mat-column-symptoms {
+    flex: 0 0 20% !important;
+}
+.mat-cell.mat-column-deleteOption {
+    flex: 0 0 5% !important;
+}
+*/

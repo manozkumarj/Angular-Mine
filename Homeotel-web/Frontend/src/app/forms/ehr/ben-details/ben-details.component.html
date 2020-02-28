@@ -1,0 +1,49 @@
+<div *ngIf="!viewMode">
+  <mat-card id='cur-ben-card' [ngStyle]="{'borderTop': utilities.getBenCardBorderTopStyle() }">
+    <img mat-card-image class="ben-image" [src]="getPhotoDataUrl()">
+    <mat-card-content>
+      <p>Beneficiary ID: {{curBen.benId}} ({{curBen.benNodeId == 1 ? 'Clinic' : 'MMU'}})</p>
+      <p>{{curBen.strName}}</p>
+      <p *ngIf="curBen.strFatherNameOrHusbandName != ''">{{curBen.strFatherNameOrHusbandName}}</p>
+      <p>{{curBen.strGender}}, {{curBen.strAge}}</p>      
+      <p *ngIf="curBen.strRegisteredOn != ''">{{curBen.strRegisteredOn}}</p>
+      <p *ngIf="curBen.strPhoneNumber">{{curBen.strPhoneNumber}}</p>                  
+    </mat-card-content>
+  </mat-card>
+
+  <mat-icon *ngIf="curStaff.canRegisterBen()" id="add-new-ben-icon" (click)="addNewBen()">add_circle</mat-icon>
+</div>
+
+<div *ngIf="viewMode">
+  <img [src]="getPhotoDataUrl()" style="min-height: 175px; max-height: 175px; float: left; margin-right: 30px;">
+  <table>
+    <tr>
+      <td style="min-width: 200px">Beneficiary ID:</td>
+      <td>{{curBen.benId}} ({{curBen.benNodeId == 1 ? 'Clinic' : 'MMU'}})</td>
+    </tr>
+    <tr>
+      <td>Name:</td>
+      <td>{{curBen.strName}}</td>
+    </tr>
+    <tr *ngIf="curBen.strAge">
+      <td>Age</td>
+      <td>{{curBen.strAge}}</td>
+    </tr>
+    <tr *ngIf="curBen.fatherNameOrHusbandName">
+      <td>Care Of</td>
+      <td>{{curBen.fatherNameOrHusbandName}}</td>
+    </tr>
+    <tr *ngIf="curBen.phoneNumber">
+      <td>Phone Number</td>
+      <td>{{curBen.phoneNumber}}</td>
+    </tr>
+    <tr>
+      <td>Reg. Date</td>
+      <td>{{curBen.registeredOn}}</td>
+    </tr>
+    <tr>
+      <td>Visit Date</td>
+      <td>{{strTodaysDate}}</td>
+    </tr>
+  </table>
+</div>

@@ -1,0 +1,24 @@
+#start-camera, #take-photo {
+    background-color:rgb(57, 100, 8);
+    color: white;
+    width: 100%;
+  }
+  
+  #ben-photo-card {
+      margin-top: 15px;
+      height: calc(100vh - 160px);
+  }
+  
+  #add-new-ben-icon {
+    cursor: pointer;
+    font-size: 50px;
+    color: #rgb(57, 100, 8);
+    position: absolute;
+    bottom: 50px;
+    right: 55px;
+  }
+  
+  .ben-image {
+    max-height: 175px !important;
+  }
+  

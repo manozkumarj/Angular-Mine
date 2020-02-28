@@ -1,0 +1,230 @@
+<div *ngIf="!viewMode" fxLayout="row" fxLayoutAlign="start start">
+
+  <div fxFlex="20px"></div>
+
+  <div fxFlex="75%">
+
+    <mat-card *ngIf="curStaff.allowDataSave()" style="margin-top: 15px;">
+
+      <!-- <mat-card-title>{{ 'complaints' | translate }}</mat-card-title> -->
+
+      <mat-card-content>
+        <form fxLayout="row wrap" [fxLayoutGap]="curStaff.gapBetweenControls" [formGroup]="complaintsForm"
+          autocomplete="off">
+
+          <mat-form-field [fxFlex]="curStaff.compactness">
+            <mat-select placeholder="{{ 'Complaint' | translate }}" name="complaint" [formControl]="complaint"
+              (change)="complaintChanged()">
+              <mat-option *ngFor="let complaint of restrainedComplaints" [value]="complaint">
+                {{complaint.name}}
+              </mat-option>
+            </mat-select>
+            <mat-error *ngIf="complaint.invalid">{{ utilities.getErrorMessage(complaint) | translate }}</mat-error>
+          </mat-form-field>
+
+          <mat-form-field [fxFlex]="curStaff.compactness" [hidden]="!isOtherComplaint">
+            <input matInput placeholder="{{'Other Complaint' | translate }}" name="otherComplaint"
+              [formControl]="otherComplaint">
+            <mat-error *ngIf="otherComplaint.invalid">{{ utilities.getErrorMessage(otherComplaint) | translate }}
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field [fxFlex]="curStaff.compactness">
+            <mat-select placeholder="{{ 'severity' | translate }}" name="severity" [formControl]="severity">
+              <mat-option *ngFor="let severity of severities" [value]="severity">
+                {{severity.name}}
+              </mat-option>
+            </mat-select>
+            <mat-error *ngIf="severity.invalid">{{ utilities.getErrorMessage(severity) | translate }}</mat-error>
+          </mat-form-field>
+
+          <div [fxFlex]="curStaff.compactness" fxLayout="row wrap">
+            <mat-form-field fxFlex="60%">
+              <input matInput placeholder="{{'Duration' | translate }}" type="number" name="duration"
+                [formControl]="duration">
+              <mat-error *ngIf="duration.invalid">{{ utilities.getErrorMessage(duration) | translate }}</mat-error>
+            </mat-form-field>
+
+            <mat-form-field [fxFlex]="curStaff.compactness">
+              <mat-select name="durationUnit" [formControl]="durationUnit">
+                <mat-option *ngFor="let durationUnit of durationUnits" [value]="durationUnit">
+                  {{durationUnit.name}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+
+          <mat-form-field [fxFlex]="curStaff.compactness">
+            <mat-select placeholder="{{ 'Is It Recurring' | translate }}" name="isRecurring"
+              [formControl]="isRecurring">
+              <mat-option *ngFor="let isRecurring of isRecurringList" [value]="isRecurring">
+                {{isRecurring.name}}
+              </mat-option>
+            </mat-select>
+            <mat-error *ngIf="isRecurring.invalid">{{ utilities.getErrorMessage(isRecurring) | translate }}</mat-error>
+          </mat-form-field>
+
+          <mat-form-field *ngIf="isRecurring.value && isRecurring.value.id === 1" [fxFlex]="curStaff.compactness">
+            <input style="line-height: 20px;" matInput placeholder="{{'Recurring Frequency' | translate }}"
+              name="recurringFreq" [formControl]="recurringFreq">
+            <mat-error *ngIf="recurringFreq.invalid">{{ utilities.getErrorMessage(recurringFreq) | translate }}
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field [fxFlex]="curStaff.compactness">
+            <mat-select placeholder="{{ 'Onset' | translate }}" name="onset" [formControl]="onset">
+              <mat-option *ngFor="let onset of onsets" [value]="onset">
+                {{onset.name}}
+              </mat-option>
+            </mat-select>
+            <mat-error *ngIf="onset.invalid">{{ utilities.getErrorMessage(onset) | translate }}</mat-error>
+          </mat-form-field>
+
+          <mat-form-field [fxFlex]="curStaff.compactness">
+            <input matInput placeholder="{{'Characteristics' | translate }}" name="characteristics"
+              [formControl]="characteristics">
+            <mat-error *ngIf="characteristics.invalid">{{ utilities.getErrorMessage(characteristics) | translate }}
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field [fxFlex]="curStaff.compactness">
+            <input matInput placeholder="{{'Sensation' | translate }}" name="sensation" [formControl]="sensation">
+            <mat-error *ngIf="sensation.invalid">{{ utilities.getErrorMessage(sensation) | translate }}</mat-error>
+          </mat-form-field>
+
+          <mat-form-field [fxFlex]="curStaff.compactness">
+            <input matInput placeholder="{{'Aggravation' | translate }}" name="aggravation" [formControl]="aggravation">
+            <mat-error *ngIf="aggravation.invalid">{{ utilities.getErrorMessage(aggravation) | translate }}</mat-error>
+          </mat-form-field>
+
+          <mat-form-field [fxFlex]="curStaff.compactness">
+            <input matInput placeholder="{{'Amelioration' | translate }}" name="amelioration"
+              [formControl]="amelioration">
+            <mat-error *ngIf="amelioration.invalid">{{ utilities.getErrorMessage(amelioration) | translate }}
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field [fxFlex]="curStaff.compactness">
+            <input matInput placeholder="{{'Modality' | translate }}" name="modality" [formControl]="modality">
+            <mat-error *ngIf="modality.invalid">{{ utilities.getErrorMessage(modality) | translate }}</mat-error>
+          </mat-form-field>
+
+          <mat-form-field [fxFlex]="curStaff.compactness">
+            <mat-select placeholder="{{ 'Associated Symptoms' | translate }}" name="symptoms" [formControl]="symptoms"
+              multiple>
+              <mat-option *ngFor="let symptoms of complaints" [value]="symptoms.id">
+                {{symptoms.name}}
+              </mat-option>
+            </mat-select>
+            <mat-error *ngIf="symptoms.invalid">{{ utilities.getErrorMessage(symptoms) | translate }}</mat-error>
+          </mat-form-field>
+
+        </form>
+      </mat-card-content>
+      <mat-card-actions align="center">
+        <button id="add-btn" mat-button [disabled]="complaintsForm.invalid"
+          (click)="add()">{{ 'Add' | translate }}</button>
+      </mat-card-actions>
+    </mat-card>
+
+
+
+
+    <span *ngIf="!curStaff.allowDataSave() && complaintsAdded.length == 0" style="padding:30px !important;">No
+      Complaints Added</span>
+    <mat-card class="mat-table-container" *ngIf="complaintsAdded.length > 0">
+      <mat-card-content>
+        <mat-table [dataSource]="dataSource">
+
+          <ng-container matColumnDef="complaint">
+            <mat-header-cell mat-header-cell *matHeaderCellDef> Complaint </mat-header-cell>
+            <mat-cell mat-cell *matCellDef="let element"> {{element.complaint}} </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="severity">
+            <mat-header-cell mat-header-cell *matHeaderCellDef> Severity </mat-header-cell>
+            <mat-cell mat-cell *matCellDef="let element"> {{element.severity}} </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="duration">
+            <mat-header-cell mat-header-cell *matHeaderCellDef> Duration </mat-header-cell>
+            <mat-cell mat-cell *matCellDef="let element"> {{element.duration + " " + element.durationUnit}} </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="onset">
+            <mat-header-cell mat-header-cell *matHeaderCellDef> OnSet </mat-header-cell>
+            <mat-cell mat-cell *matCellDef="let element"> {{element.onset}} </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="isRecurring">
+            <mat-header-cell mat-header-cell *matHeaderCellDef> Is Recurring </mat-header-cell>
+            <mat-cell mat-cell *matCellDef="let element"> {{element.isRecurring}} </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="recurringFreq">
+            <mat-header-cell mat-header-cell *matHeaderCellDef> Recurring Freq. </mat-header-cell>
+            <mat-cell mat-cell *matCellDef="let element"> {{element.recurringFreq}} </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="characteristics">
+            <mat-header-cell mat-header-cell *matHeaderCellDef> Characteristics </mat-header-cell>
+            <mat-cell mat-cell *matCellDef="let element"> {{element.characteristics}} </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="sensation">
+            <mat-header-cell mat-header-cell *matHeaderCellDef>Sensation </mat-header-cell>
+            <mat-cell mat-cell *matCellDef="let element"> {{element.sensation}} </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="aggravation">
+            <mat-header-cell mat-header-cell *matHeaderCellDef>Aggravation </mat-header-cell>
+            <mat-cell mat-cell *matCellDef="let element"> {{element.aggravation}} </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="amelioration">
+            <mat-header-cell mat-header-cell *matHeaderCellDef>Amelioration </mat-header-cell>
+            <mat-cell mat-cell *matCellDef="let element"> {{element.amelioration}} </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="modality">
+            <mat-header-cell mat-header-cell *matHeaderCellDef>Modality </mat-header-cell>
+            <mat-cell mat-cell *matCellDef="let element"> {{element.modality}} </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="symptoms">
+            <mat-header-cell mat-header-cell *matHeaderCellDef>Symptoms </mat-header-cell>
+            <mat-cell mat-cell *matCellDef="let element"> {{element.strSymptoms}} </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="deleteOption">
+            <mat-header-cell mat-header-cell *matHeaderCellDef> </mat-header-cell>
+            <mat-cell mat-cell *matCellDef="let element" class="delete-btn">
+              <mat-icon *ngIf="curStaff.allowDataSave()" (click)="deleteComplaint(element.complaint)">delete</mat-icon>
+            </mat-cell>
+          </ng-container>
+
+          <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+          <mat-row *matRowDef="let row; columns: displayedColumns;">
+          </mat-row>
+        </mat-table>
+
+      </mat-card-content>
+      <mat-card-actions align="center">
+        <button id="save-btn" *ngIf="curStaff.allowDataSave()" mat-button (click)="saveComplaints()">{{ 'save' |
+          translate }}</button>
+      </mat-card-actions>
+    </mat-card>
+  </div>
+
+  <div fxFlex="20px"></div>
+  <app-ben-details fxFlex="20%"></app-ben-details>
+</div>
+
+
+<!-- VIEW MODE -->
+<div *ngIf="viewMode">
+  <h3 *ngIf="complaintsAdded.length > 0">Chief Complaints</h3>
+  <span *ngFor="let thisComplaint of complaintsAdded; let i = index">
+    <span>{{thisComplaint.complaint}}</span><span *ngIf="i != (complaintsAdded.length - 1)">, </span>
+  </span>
+</div>

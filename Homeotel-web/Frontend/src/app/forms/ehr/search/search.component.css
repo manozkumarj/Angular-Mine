@@ -1,0 +1,29 @@
+.ben-image {
+    max-height: 175px !important;
+}
+
+.ben-image-in-table {    
+    margin: 0;
+    padding: 0;
+    max-width: 50px !important;
+    border-radius: 25px;
+}
+
+.ben-image-in-table:hover{       
+   max-width: 175px !important;
+}
+
+.search-results-row:hover {
+    cursor: pointer;
+    background: lightblue; /* #42A948;  green */
+}
+
+::ng-deep .mat-form-field-placeholder{    
+    color:#666;
+}
+
+.gray-icon {
+    color: #666;
+}
+
+  

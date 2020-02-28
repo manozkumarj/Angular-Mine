@@ -1,0 +1,83 @@
+<div fxLayout="row" fxLayoutAlign="start start">
+  <div fxFlex="20px"></div>
+  <div fxFlex="95%">
+    <mat-card style="margin-top: 15px;">
+      <mat-card-content>
+        <form fxLayout="row wrap" [fxLayoutGap]="curStaff.gapBetweenControls" [formGroup]="doctorRegistraion" autocomplete="off">
+
+          <mat-form-field [fxFlex]="curStaff.compactness" >
+            <input #firstNameElement matInput placeholder="{{'first_name' | translate }}" name="firstName"
+              [formControl]="firstName" (keyup)="firstNameChanged()">
+            <mat-error *ngIf="firstName.invalid">{{ utilities.getErrorMessage(firstName) | translate }}</mat-error>
+          </mat-form-field>
+
+          <mat-form-field [fxFlex]="curStaff.compactness">
+            <input matInput placeholder="{{'last_name' | translate }}" name="lastName" [formControl]="lastName"
+              (keyup)="lastNameChanged()">
+            <mat-error *ngIf="lastName.invalid">{{ utilities.getErrorMessage(lastName) | translate }}</mat-error>
+          </mat-form-field>
+
+          <mat-form-field [fxFlex]="curStaff.compactness">
+            <mat-select placeholder="{{ 'gender' | translate }}" name="gender" [formControl]="gender">
+              <mat-option *ngFor="let gender of genders" [value]="gender.id">
+                {{gender.name}}
+              </mat-option>
+            </mat-select>
+            <mat-error *ngIf="gender.invalid">{{ utilities.getErrorMessage(gender) | translate }}</mat-error>
+          </mat-form-field>
+
+          <div [fxFlex]="curStaff.compactness" fxLayout="row wrap">
+            <mat-form-field fxFlex="60%">
+              <input matInput placeholder="{{'age' | translate }}" type="number" name="age" [formControl]="age"
+                (change)="ageChanged()">
+              <mat-error *ngIf="age.invalid">{{ utilities.getErrorMessage(age) | translate }}</mat-error>
+            </mat-form-field>
+            <mat-form-field fxFlex="40%">
+              <mat-select name="ageUnit" [formControl]="ageUnit" (change)="ageChanged()">
+                <mat-option *ngFor="let ageUnit of ageUnits" [value]="ageUnit.id">
+                  {{ageUnit.name}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+
+          <mat-form-field [fxFlex]="curStaff.compactness">
+            <input matInput [max]="maxDob" [min]="minDob" [matDatepicker]="templateVariableDob"
+              placeholder="{{ 'date_of_birth' | translate }}" (dateChange)="dobChanged($event)" name="dob"
+              [formControl]="dob">
+            <mat-datepicker-toggle matSuffix [for]="templateVariableDob"></mat-datepicker-toggle>
+            <mat-datepicker #templateVariableDob></mat-datepicker>
+            <!-- TODO - Allow user to directly enter the dob like so - 24-04-1987 etc -->
+            <mat-error *ngIf="dob.invalid">{{ utilities.getErrorMessage(dob) | translate }}</mat-error>
+          </mat-form-field>
+         <mat-form-field [fxFlex]="curStaff.compactness">
+            <input matInput placeholder="{{'phone_number' | translate }}" name="phoneNumber" [formControl]="phoneNumber">
+            <mat-error *ngIf="phoneNumber.invalid">{{ utilities.getErrorMessage(phoneNumber) | translate }}</mat-error>
+          </mat-form-field>
+
+          <mat-form-field [fxFlex]="curStaff.compactness">
+            <input matInput placeholder="{{'Email' | translate }}" name="email" [formControl]="email">
+            <mat-error *ngIf="email.invalid">{{ utilities.getErrorMessage(email) | translate }}</mat-error>
+          </mat-form-field>
+
+
+          <mat-form-field [fxFlex]="curStaff.compactness">
+            <mat-select placeholder="{{'Doctor Type' | translate }}" name="doctorType" [formControl]="doctorType">
+              <mat-option *ngFor="let type of doctorTypes" [value]="type.id">
+                {{type.name}}
+              </mat-option>
+            </mat-select>
+            <mat-error *ngIf="doctorType.invalid">{{ utilities.getErrorMessage(doctorType) | translate }}</mat-error>
+          </mat-form-field>
+
+
+
+        </form>
+        </mat-card-content>
+        <mat-card-actions align="center">
+          <button id="add-btn" mat-button [disabled]="doctorRegistraion.invalid" (click)="onSubmit()">{{ 'Add Doctor' |
+            translate }}</button>
+        </mat-card-actions>
+        </mat-card>
+    </div>
+    </div>

@@ -1,0 +1,100 @@
+<form *ngIf="!viewMode" fxLayout="row wrap" fxLayoutAlign="center start" [formGroup]="geForm" autocomplete="off">
+
+  <div fxFlex="100%" fxLayout="row wrap" [fxLayoutGap]="curStaff.gapBetweenControls">
+    <mat-form-field [fxFlex]="curStaff.compactness">
+      <mat-select placeholder="{{ 'pallor' | translate }}" name="pallor" [formControl]="pallor">
+        <mat-option *ngFor="let status of statuses" [value]="status.id">
+          {{status.name}}
+        </mat-option>
+      </mat-select>
+      <mat-error *ngIf="pallor.invalid">{{ utilities.getErrorMessage(pallor) | translate }}</mat-error>
+    </mat-form-field>
+
+    <mat-form-field [fxFlex]="curStaff.compactness">
+      <mat-select placeholder="{{ 'Icterus' | translate }}" name="jaundice" [formControl]="jaundice">
+        <mat-option *ngFor="let status of statuses" [value]="status.id">
+          {{status.name}}
+        </mat-option>
+      </mat-select>
+      <mat-error *ngIf="jaundice.invalid">{{ utilities.getErrorMessage(jaundice) | translate }}</mat-error>
+    </mat-form-field>
+
+    <mat-form-field [fxFlex]="curStaff.compactness">
+      <mat-select placeholder="{{ 'cyanosis' | translate }}" name="pallor" [formControl]="cyanosis">
+        <mat-option *ngFor="let status of statuses" [value]="status.id">
+          {{status.name}}
+        </mat-option>
+      </mat-select>
+      <mat-error *ngIf="cyanosis.invalid">{{ utilities.getErrorMessage(cyanosis) | translate }}</mat-error>
+    </mat-form-field>
+
+    <mat-form-field [fxFlex]="curStaff.compactness">
+      <mat-select placeholder="{{ 'clubbing' | translate }}" name="clubbing" [formControl]="clubbing">
+        <mat-option *ngFor="let status of statuses" [value]="status.id">
+          {{status.name}}
+        </mat-option>
+      </mat-select>
+      <mat-error *ngIf="clubbing.invalid">{{ utilities.getErrorMessage(clubbing) | translate }}</mat-error>
+    </mat-form-field>
+
+    <mat-form-field [fxFlex]="curStaff.compactness">
+      <mat-select placeholder="{{ 'gum_gingivitis' | translate }}" name="gingivitis" [formControl]="gingivitis">
+        <mat-option *ngFor="let status of statuses" [value]="status.id">
+          {{status.name}}
+        </mat-option>
+      </mat-select>
+      <mat-error *ngIf="gingivitis.invalid">{{ utilities.getErrorMessage(gingivitis) | translate }}</mat-error>
+    </mat-form-field>
+  </div>
+
+  <div fxFlex="100%" fxLayout="row wrap" [fxLayoutGap]="curStaff.gapBetweenControls">
+    <mat-form-field [fxFlex]="curStaff.compactness">
+      <mat-select placeholder="{{ 'lymphadenopathy' | translate }}" name="lympha" [formControl]="lympha" (change)="lymphaChanged()">
+        <mat-option *ngFor="let status of statuses" [value]="status.id">
+          {{status.name}}
+        </mat-option>
+      </mat-select>
+      <mat-error *ngIf="lympha.invalid">{{ utilities.getErrorMessage(lympha) | translate }}</mat-error>
+    </mat-form-field>
+
+    <mat-form-field [fxFlex]="curStaff.compactness">
+      <input type="text" placeholder="{{'lympha_remarks' | translate }}" matInput name="lymphaRemarks" [formControl]="lymphaRemarks">
+      <mat-error *ngIf="lymphaRemarks.invalid">{{ utilities.getErrorMessage(lymphaRemarks) | translate }}</mat-error>
+    </mat-form-field>
+  </div>
+
+  <div fxFlex="100%" fxLayout="row wrap" [fxLayoutGap]="curStaff.gapBetweenControls">
+    <mat-form-field [fxFlex]="curStaff.compactness">
+      <mat-select placeholder="{{ 'edema' | translate }}" name="edema" [formControl]="edema" (change)="edemaChanged()">
+        <mat-option *ngFor="let status of statuses" [value]="status.id">
+          {{status.name}}
+        </mat-option>
+      </mat-select>
+      <mat-error *ngIf="edema.invalid">{{ utilities.getErrorMessage(edema) | translate }}</mat-error>
+    </mat-form-field>
+
+    <mat-form-field [fxFlex]="curStaff.compactness">
+      <input type="text" placeholder="{{'edema_remarks' | translate }}" matInput name="edemaRemarks" [formControl]="edemaRemarks">
+      <mat-error *ngIf="edemaRemarks.invalid">{{ utilities.getErrorMessage(edemaRemarks) | translate }}</mat-error>
+    </mat-form-field>
+  </div>
+
+  <button class="save-btn" *ngIf="curStaff.allowDataSave()" mat-button [disabled]="geForm.invalid" (click)="saveGeneralExaminations()">{{ 'save' | translate }}</button>
+
+</form>
+
+
+
+<div *ngIf="viewMode">
+    <mat-card class="mat-table-container">
+      <mat-card-content>
+        <div class="line-height-25">Pallor: {{statuses[pallor.value].name}}</div>        
+        <div class="line-height-25">Jaundice: {{statuses[jaundice.value].name}}</div>        
+        <div class="line-height-25">Cyanosis: {{statuses[cyanosis.value].name}}</div>        
+        <div class="line-height-25">Clubbing: {{statuses[clubbing.value].name}}</div>        
+        <div class="line-height-25">Gingivitis: {{statuses[gingivitis.value].name}}</div>        
+        <div class="line-height-25">Lymphadenopathy: {{statuses[lympha.value].name}} <span *ngIf="lymphaRemarks.value">({{lymphaRemarks.value}})</span></div>                    
+        <div class="line-height-25">Edema: {{statuses[edema.value].name}} <span *ngIf="edemaRemarks.value">({{edemaRemarks.value}})</span></div>        
+      </mat-card-content>
+    </mat-card>
+  </div>

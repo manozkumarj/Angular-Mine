@@ -1,0 +1,26 @@
+<mat-card style="margin: 15px 20px;">
+
+  <mat-card-title>{{ 'settings' | translate }}</mat-card-title>
+
+  <mat-card-content>
+    <form fxLayout="row wrap" [fxLayoutGap]="curStaff.gapBetweenControls" autocomplete="off">
+
+      <mat-form-field [fxFlex]="curStaff.compactness">
+        <mat-select placeholder="Select Language" name="language" [(ngModel)]="curStaff.language" (change)="languageChanged()">
+          <mat-option *ngFor="let language of languages" [value]="language">
+            {{language}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field [fxFlex]="curStaff.compactness">
+        <mat-select placeholder="Select Compactness" name="compactness" [(ngModel)]="curStaff.compactness">
+          <mat-option *ngFor="let compactness of compactnessOptions" [value]="compactness">
+            {{compactness}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+    </form>
+  </mat-card-content>
+</mat-card>

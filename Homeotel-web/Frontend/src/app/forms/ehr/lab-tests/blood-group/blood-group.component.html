@@ -1,0 +1,11 @@
+<form fxLayout="row wrap" [fxLayoutGap]="curStaff.gapBetweenControls" autocomplete="off">
+  <mat-form-field [fxFlex]="curStaff.compactness">
+    <mat-select placeholder="{{ 'blood_group' | translate }}" name="bloodGroup" [disabled]="!curStaff.allowDataSave()"
+      [formControl]="bloodGroup" (change)="bloodGroupChanged()">
+      <mat-option *ngFor="let bloodGroup of bloodGroups" [value]="bloodGroup">
+        {{bloodGroup.name}}
+      </mat-option>
+    </mat-select>
+    <mat-error *ngIf="bloodGroup.invalid">{{ utilities.getErrorMessage(bloodGroup) | translate }}</mat-error>
+  </mat-form-field>
+</form>

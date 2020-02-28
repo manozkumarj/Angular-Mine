@@ -1,0 +1,36 @@
+<form *ngIf="allowLabTestsOrder()" fxLayout="row wrap" autocomplete="off">
+  <div fxFlex="100%" fxLayout="row wrap" [fxLayoutGap]="curStaff.gapBetweenControls">
+    <mat-form-field fxFlex="100%">
+      <mat-select placeholder="{{ 'lab_test' | translate }}" name="labTest" [formControl]="labTest" multiple>
+        <mat-option *ngFor="let labTest of unassignedLabTests" [value]="labTest">
+          {{labTest.name}}
+        </mat-option>
+      </mat-select>
+      <mat-error *ngIf="labTest.invalid">{{ utilities.getErrorMessage(labTest) | translate }}</mat-error>
+    </mat-form-field>
+  </div>
+  <button id="save-btn" mat-button [disabled]="!labTest.value || labTest.value.length == 0"
+    (click)="addToLabTestsOrdered()">{{'add' | translate }}</button>
+</form>
+
+<mat-card class="mat-table-container" *ngIf="labTestsOrdered.length > 0">
+  <mat-card-content>
+    <mat-table [dataSource]="dataSource">
+
+      <ng-container matColumnDef="labTestName">
+        <mat-header-cell mat-header-cell *matHeaderCellDef> Lab Tests Ordered </mat-header-cell>
+        <mat-cell mat-cell *matCellDef="let element"> {{element.labTestName}} </mat-cell>
+      </ng-container>
+
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns;">
+      </mat-row>
+    </mat-table>
+
+  </mat-card-content>
+  <mat-card-actions>
+    <button id="save-btn" *ngIf="allowLabTestsOrder()" mat-button
+      [swal]="{ title: 'confirm_save' | translate, type: 'question', showConfirmButton: true, confirmButtonText: 'ok' | translate, showCancelButton: true, cancelButtonText: 'cancel' | translate }"
+      (confirm)="saveLabTestsOrdered()">{{'save' | translate }}</button>
+  </mat-card-actions>
+</mat-card>

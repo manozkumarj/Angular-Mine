@@ -1,0 +1,62 @@
+/* You can add global styles to this file, and also import other style files */
+
+@import '~@angular/material/prebuilt-themes/deeppurple-amber.css';
+
+
+@font-face {
+  font-family: 'roboto';
+  src: url('assets/fonts/roboto-regular.ttf');
+}
+
+
+@media print {
+  body {
+    position: relative;
+    overflow: visible;
+    height: 30in;   /*not sure why only this is working, but atleast it'll only print a few empty pages at worst */
+  }
+}
+
+body {
+  font-family: 'roboto', sans-serif;
+}
+
+#save-btn, #add-btn, #register-btn, #revisit-btn, .save-btn {
+  background-color:rgb(57, 100, 8);
+  color: white !important;
+}
+
+#save-btn:disabled, #add-btn:disabled, #register-btn:disabled, #revisit-btn:disabled, .save-btn:disabled {
+  background-color: gray !important;
+}
+
+.delete-btn {
+  cursor: pointer;
+}
+
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.mat-form-field[hidden] {
+  display: none !important;
+}
+
+a[hidden] {
+  display: none !important;
+}
+
+.mat-table-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.mat-table {
+  overflow: auto;
+}
+
+.line-height-25 {
+  line-height: 25px;
+}

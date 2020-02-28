@@ -1,0 +1,97 @@
+<div *ngIf="!viewMode" fxLayout="row" fxLayoutAlign="start start">
+
+  <div fxFlex="20px"></div>
+
+  <div fxFlex="75%">
+
+    <mat-card *ngIf="curStaff.allowDataSave()" style="margin-top: 15px;">
+
+      <!-- <mat-card-title>{{ 'complaints' | translate }}</mat-card-title> -->
+
+      <mat-card-content>
+        <form fxLayout="row wrap" [fxLayoutGap]="curStaff.gapBetweenControls" 
+          autocomplete="off">
+
+          <div fxFlex="100%" fxLayout="row wrap" [fxLayoutGap]="curStaff.gapBetweenControls">
+         
+            <mat-form-field fxFlex="80%">
+              <input matInput placeholder="{{'Vaccination Mishap' | translate }}" name="vaccinationMishap">                       
+            </mat-form-field>
+          </div>
+
+        </form>
+        
+      </mat-card-content>
+      <mat-card-actions align="center">
+        <button id="add-btn" mat-button [disabled]="clinicalHistoryForm.invalid"
+          (click)="add()">{{ 'Save' | translate }}</button>
+      </mat-card-actions>
+    </mat-card>
+
+
+    <mat-card *ngIf="curStaff.allowDataSave()" style="margin-top: 15px;">
+
+      <!-- <mat-card-title>{{ 'complaints' | translate }}</mat-card-title> -->
+
+      <mat-card-content>
+        <form fxLayout="row wrap" [fxLayoutGap]="curStaff.gapBetweenControls" [formGroup]="clinicalHistoryForm"
+          autocomplete="off">
+
+
+          
+            <mat-form-field [fxFlex]="curStaff.compactness">
+              <mat-select placeholder="{{ 'Medical History' | translate }}" name="medical" [formControl]="medical"
+                (change)="medicalChanged()" multiple>
+                <mat-option *ngFor="let medical of medicals" [value]="medical">
+                  {{medical.name}}
+                </mat-option>
+              </mat-select>
+              <mat-error *ngIf="medical.invalid">{{ utilities.getErrorMessage(medical) | translate }}</mat-error>
+            </mat-form-field>
+
+            <mat-form-field *ngIf="isOtherMedical" [fxFlex]="curStaff.compactness">
+              <input matInput placeholder="{{'Other Medical History' | translate }}" name="otherMedical"
+                [formControl]="otherMedical">
+              <mat-error *ngIf="otherMedical.invalid">{{ utilities.getErrorMessage(otherMedical) | translate }}
+              </mat-error>
+            </mat-form-field>
+
+
+
+          
+
+          
+            <mat-form-field [fxFlex]="curStaff.compactness">
+              <input matInput placeholder="{{'Medicines Used' | translate }}" name="medicinesUsed">
+            </mat-form-field>
+
+            <mat-form-field [fxFlex]="curStaff.compactness">
+              <input matInput placeholder="{{'Outcome' | translate }}" name="outcome">
+            </mat-form-field>
+          
+
+
+
+        </form>
+      </mat-card-content>
+      <mat-card-actions align="center">
+        <button id="add-btn" mat-button [disabled]="clinicalHistoryForm.invalid"
+          (click)="add()">{{ 'Add' | translate }}</button>
+      </mat-card-actions>
+    </mat-card>
+
+
+  </div>
+
+  <div fxFlex="20px"></div>
+  <app-ben-details fxFlex="20%"></app-ben-details>
+</div>
+
+
+<!-- VIEW MODE -->
+<div *ngIf="viewMode">
+  <h3 *ngIf="complaintsAdded.length > 0">Chief Complaints</h3>
+  <span *ngFor="let thisComplaint of complaintsAdded; let i = index">
+    <span>{{thisComplaint.complaint}}</span><span *ngIf="i != (complaintsAdded.length - 1)">, </span>
+  </span>
+</div>

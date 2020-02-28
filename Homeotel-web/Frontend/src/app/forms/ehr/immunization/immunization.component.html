@@ -1,0 +1,157 @@
+<div fxLayout="row" fxLayoutAlign="start start">
+
+  <div fxFlex="20px"></div>
+
+  <mat-card fxFlex="75%" style="margin-top: 15px;">
+
+    <!-- <mat-card-title>{{ 'immunization' | translate }}</mat-card-title> -->
+
+    <mat-card-content>
+      <form fxLayout="row wrap" [fxLayoutGap]="curStaff.gapBetweenControls" [formGroup]="immunizationForm" autocomplete="off">
+
+        <div fxFlex="90%" fxLayout="row wrap" [fxLayoutGap]="curStaff.gapBetweenControls">
+          <mat-form-field [fxFlex]="curStaff.compactness">
+            <mat-select placeholder="{{ 'birth_weight' | translate }}" name="birthWeight" [formControl]="birthWeight">
+              <mat-option *ngFor="let birthWeight of birthWeights" [value]="birthWeight.id">
+                {{birthWeight.name}}
+              </mat-option>
+            </mat-select>
+            <mat-error *ngIf="birthWeight.invalid">{{ utilities.getErrorMessage(birthWeight) | translate }}</mat-error>
+          </mat-form-field>
+
+          <mat-form-field [fxFlex]="curStaff.compactness">
+            <mat-select placeholder="{{ 'delivery_type' | translate }}" name="deliveryType" [formControl]="deliveryType">
+              <mat-option *ngFor="let deliveryType of deliveryTypes" [value]="deliveryType.id">
+                {{deliveryType.name}}
+              </mat-option>
+            </mat-select>
+            <mat-error *ngIf="deliveryType.invalid">{{ utilities.getErrorMessage(deliveryType) | translate }}</mat-error>
+          </mat-form-field>
+        </div>
+
+        <mat-form-field [fxFlex]="curStaff.compactness">
+          <mat-select placeholder="{{ 'polio' | translate }}" name="polio" [formControl]="polio" multiple>
+            <mat-select-trigger>
+              <div *ngIf="polio.value">
+                <span *ngFor="let selectedItem of polio.value; let i = index;">
+                  {{ selectedItem.name }} {{ i == (polio.value.length - 1) ? '' : ', '}}
+                </span>
+                <span class="additional-selection">
+                  ({{polios.length == polio.value.length ? 'None' : polios.length - polio.value.length}} Pending)
+                </span>
+              </div>
+            </mat-select-trigger>
+            <mat-option *ngFor="let polio of polios" [value]="polio">
+              {{polio.name}}
+            </mat-option>
+          </mat-select>
+          <mat-error *ngIf="polio.invalid">{{ utilities.getErrorMessage(polio) | translate }}</mat-error>
+        </mat-form-field>
+
+        <mat-form-field [fxFlex]="curStaff.compactness">
+          <mat-select placeholder="{{ 'bcg' | translate }}" name="bcg" [formControl]="bcg" multiple>
+            <mat-select-trigger>
+              <div *ngIf="bcg.value">
+                <span *ngFor="let selectedItem of bcg.value; let i = index;">
+                  {{ selectedItem.name }} {{ i == (bcg.value.length - 1) ? '' : ', '}}
+                </span>
+                <span class="additional-selection">
+                  ({{bcgs.length == bcg.value.length ? 'None' : bcgs.length - bcg.value.length}} Pending)
+                </span>
+              </div>
+            </mat-select-trigger>
+            <mat-option *ngFor="let bcg of bcgs" [value]="bcg">
+              {{bcg.name}}
+            </mat-option>
+          </mat-select>
+          <mat-error *ngIf="bcg.invalid">{{ utilities.getErrorMessage(bcg) | translate }}</mat-error>
+        </mat-form-field>
+
+        <mat-form-field [fxFlex]="curStaff.compactness">
+          <mat-select placeholder="{{ 'dpt' | translate }}" name="dpt" [formControl]="dpt" multiple>
+            <mat-select-trigger>
+              <div *ngIf="dpt.value">
+                <span *ngFor="let selectedItem of dpt.value; let i = index;">
+                  {{ selectedItem.name }} {{ i == (dpt.value.length - 1) ? '' : ', '}}
+                </span>
+                <span class="additional-selection">
+                  ({{dpts.length == dpt.value.length ? 'None' : dpts.length - dpt.value.length}} Pending)
+                </span>
+              </div>
+            </mat-select-trigger>
+            <mat-option *ngFor="let dpt of dpts" [value]="dpt">
+              {{dpt.name}}
+            </mat-option>
+          </mat-select>
+          <mat-error *ngIf="dpt.invalid">{{ utilities.getErrorMessage(dpt) | translate }}</mat-error>
+        </mat-form-field>
+
+        <mat-form-field [fxFlex]="curStaff.compactness">
+          <mat-select placeholder="{{ 'measles' | translate }}" name="measles" [formControl]="measles" multiple>
+            <mat-select-trigger>
+              <div *ngIf="measles.value">
+                <span *ngFor="let selectedItem of measles.value; let i = index;">
+                  {{ selectedItem.name }} {{ i == (measles.value.length - 1) ? '' : ', '}}
+                </span>
+                <span class="additional-selection">
+                  ({{measlesList.length == measles.value.length ? 'None' : measlesList.length - measles.value.length}} Pending)
+                </span>
+              </div>
+            </mat-select-trigger>
+            <mat-option *ngFor="let measles of measlesList" [value]="measles">
+              {{measles.name}}
+            </mat-option>
+          </mat-select>
+          <mat-error *ngIf="measles.invalid">{{ utilities.getErrorMessage(measles) | translate }}</mat-error>
+        </mat-form-field>
+
+        <mat-form-field [fxFlex]="curStaff.compactness">
+          <mat-select placeholder="{{ 'hepatitis_b' | translate }}" name="hepatitisB" [formControl]="hepatitisB" multiple>
+            <mat-select-trigger>
+              <div *ngIf="hepatitisB.value">
+                <span *ngFor="let selectedItem of hepatitisB.value; let i = index;">
+                  {{ selectedItem.name }} {{ i == (hepatitisB.value.length - 1) ? '' : ', '}}
+                </span>
+                <span class="additional-selection">
+                  ({{hepatitisBs.length == hepatitisB.value.length ? 'None' : hepatitisBs.length - hepatitisB.value.length}} Pending)
+                </span>
+              </div>
+            </mat-select-trigger>
+            <mat-option *ngFor="let hepatitisB of hepatitisBs" [value]="hepatitisB">
+              {{hepatitisB.name}}
+            </mat-option>
+          </mat-select>
+          <mat-error *ngIf="hepatitisB.invalid">{{ utilities.getErrorMessage(hepatitisB) | translate }}</mat-error>
+        </mat-form-field>
+
+        <mat-form-field [fxFlex]="curStaff.compactness">
+          <mat-select placeholder="{{ 'vitamin_a' | translate }}" name="vitaminA" [formControl]="vitaminA" multiple>
+            <mat-select-trigger>
+              <div *ngIf="vitaminA.value">
+                <span *ngFor="let selectedItem of vitaminA.value; let i = index;">
+                  {{ selectedItem.name }} {{ i == (vitaminA.value.length - 1) ? '' : ', '}}
+                </span>
+                <span class="additional-selection">
+                  ({{vitaminAs.length == vitaminA.value.length ? 'None' : vitaminAs.length - vitaminA.value.length}} Pending)
+                </span>
+              </div>
+            </mat-select-trigger>
+            <mat-option *ngFor="let vitaminA of vitaminAs" [value]="vitaminA">
+              {{vitaminA.name}}
+            </mat-option>
+          </mat-select>
+          <mat-error *ngIf="vitaminA.invalid">{{ utilities.getErrorMessage(vitaminA) | translate }}</mat-error>
+        </mat-form-field>
+
+      </form>
+    </mat-card-content>
+    <mat-card-actions align="center">
+      <button id="save-btn" *ngIf="curStaff.allowDataSave()" mat-button [disabled]="immunizationForm.invalid" (click)="saveImmunization()">{{ 'save' | translate }}</button>
+    </mat-card-actions>
+  </mat-card>
+
+  <div fxFlex="20px"></div>
+
+  <app-ben-details fxFlex="20%"></app-ben-details>
+
+</div>

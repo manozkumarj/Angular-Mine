@@ -1,0 +1,19 @@
+<mat-nav-list fxFlexFill fxLayout="column" fxLayoutAlign="start start" style="padding-top:0px; background-color: rgb(0,0,0,0.04)">
+  <a fxFlex="50px" mat-list-item *ngFor="let menu of sidenavService.currentMenu; let i = index" [ngStyle]="{ 'width.em': sidenavService.getSidenavWidth() }"
+    [routerLink]="menu.routerLink" routerLinkActive="active-list-item" [hidden]="hideMenuItem(menu.name)">    
+    <mat-icon class='icon'> {{ menu.icon }} </mat-icon>
+    <span *ngIf="sidenavService.showMenuText()" style="margin-left:5px;">
+      {{ menu.name | translate }}      
+    </span>
+  </a>
+  <span fxFlex></span>
+  <a fxFlex="50px" mat-list-item [ngStyle]="{ 'width.em': sidenavService.getSidenavWidth() }" style="float:right;"
+    (click)="sidenavService.iconsToggleSidenav()" fxHide.lt-md="true">
+    <span fxFlexFill fxLayout="row" fxLayoutAlign="start start">
+      <span fxFlex></span>
+      <mat-icon fxFlex="30px" style="padding-top:15px; float:right">
+        {{ sidenavService.toggleLeftRightIcon }}
+      </mat-icon>
+    </span>
+  </a>
+</mat-nav-list>

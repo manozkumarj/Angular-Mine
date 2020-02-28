@@ -1,0 +1,52 @@
+<form fxLayout="row wrap" fxLayoutAlign="center start" [fxLayoutGap]="curStaff.gapBetweenControls" [formGroup]="obstetricsForm"
+  autocomplete="off">
+  <div fxFlex="100%" fxLayout="row wrap" [fxLayoutGap]="curStaff.gapBetweenControls">
+
+    <mat-form-field [fxFlex]="curStaff.compactness">
+      <mat-select placeholder="{{ 'menstrual_history' | translate }}" name="menstrual" [formControl]="menstrual" (change)="menstrualChanged()">
+        <mat-option *ngFor="let menstrual of menstruals" [value]="menstrual.id">
+          {{menstrual.name}}
+        </mat-option>
+      </mat-select>
+      <mat-error *ngIf="menstrual.invalid">{{ utilities.getErrorMessage(menstrual) | translate }}</mat-error>
+    </mat-form-field>
+
+    <mat-form-field [fxFlex]="curStaff.compactness">
+      <mat-select placeholder="{{ 'periods_regularity' | translate }}" name="period" [formControl]="period">
+        <mat-option *ngFor="let period of periods" [value]="period.id">
+          {{period.name}}
+        </mat-option>
+      </mat-select>
+      <mat-error *ngIf="period.invalid">{{ utilities.getErrorMessage(period) | translate }}</mat-error>
+    </mat-form-field>
+
+    <mat-form-field [fxFlex]="curStaff.compactness">
+      <mat-select placeholder="{{ 'bleeding' | translate }}" name="bleeding" [formControl]="bleeding">
+        <mat-option *ngFor="let bleeding of bleedings" [value]="bleeding.id">
+          {{bleeding.name}}
+        </mat-option>
+      </mat-select>
+      <mat-error *ngIf="bleeding.invalid">{{ utilities.getErrorMessage(bleeding) | translate }}</mat-error>
+    </mat-form-field>
+
+    <mat-form-field [fxFlex]="curStaff.compactness">
+      <mat-select placeholder="{{ 'pain' | translate }}" name="pain" [formControl]="pain">
+        <mat-option *ngFor="let pain of pains" [value]="pain.id">
+          {{pain.name}}
+        </mat-option>
+      </mat-select>
+      <mat-error *ngIf="pain.invalid">{{ utilities.getErrorMessage(pain) | translate }}</mat-error>
+    </mat-form-field>
+
+    <mat-form-field [fxFlex]="curStaff.compactness">
+      <mat-select placeholder="{{ 'white_discharge' | translate }}" name="discharge" [formControl]="discharge">
+        <mat-option *ngFor="let discharge of discharges" [value]="discharge.id">
+          {{discharge.name}}
+        </mat-option>
+      </mat-select>
+      <mat-error *ngIf="discharge.invalid">{{ utilities.getErrorMessage(discharge) | translate }}</mat-error>
+    </mat-form-field>
+  </div>
+
+  <button id="save-btn" *ngIf="curStaff.allowDataSave()" mat-button [disabled]="obstetricsForm.invalid" (click)="saveObstetrics()">{{ 'save' | translate }}</button>
+</form>

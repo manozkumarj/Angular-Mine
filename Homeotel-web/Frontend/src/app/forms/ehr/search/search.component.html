@@ -1,0 +1,97 @@
+<mat-form-field floatLabel="never" style="margin-left:25px; margin-top: 10px; width: 30%;">
+  <mat-icon class="gray-icon" matPrefix style="margin-right:10px; vertical-align: bottom">filter_list</mat-icon>
+  <input matInput type="search" [(ngModel)]="filterText" name="filterText" (keyup)="filterResults()"
+    placeholder="{{ 'Filter results' | translate }}" class="search-input">
+</mat-form-field>
+<button id="save-btn" mat-button *ngIf="!mergeMode" style="margin-left: 30px;" (click)="enableMergeMode()">{{'Merge' | translate }}</button>
+<button id="save-btn" mat-button *ngIf="mergeMode" style="margin-left: 30px;" (click)="disableMergeMode()">{{'Cancel Merge' | translate }}</button>
+<button id="save-btn" mat-button *ngIf="mergeBenIds.length == 2" style="margin-left: 30px;" (click)="doMerge()">{{"Merge Selected Beneficiaries" | translate }}</button>
+<!-- Table Mode View -->
+<mat-tab-group *ngIf="viewMode == 1">
+  <mat-tab label="Search Results">
+    <div fxLayout="row wrap" fxLayoutAlign="center start">
+      <p *ngIf="filtererdSearchResults.length == 0">No Beneficiaries Found!</p>
+      <div style="width: 100%">
+        <mat-table [dataSource]="dataSource" *ngIf="filtererdSearchResults.length > 0">
+          <ng-container matColumnDef="photo">
+            <mat-cell mat-cell *matCellDef="let element">
+              <img class="ben-image-in-table" [src]="element.photo">
+            </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="benId">
+            <mat-cell mat-cell *matCellDef="let element">Ben. ID: {{element.benId}}
+              ({{element.benNodeId == 1 ? 'Clinic' : 'MMU'}})</mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="strName">
+            <mat-cell mat-cell *matCellDef="let element">{{element.strName}}</mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="strFatherNameOrHusbandName">
+            <mat-cell mat-cell *matCellDef="let element">{{element.strFatherNameOrHusbandName}}</mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="strGender">
+            <mat-cell mat-cell *matCellDef="let element">{{element.strGender}}</mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="strAge">
+            <mat-cell mat-cell *matCellDef="let element">{{element.strAge}}</mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="strVillageNameForTable">
+            <mat-cell mat-cell *matCellDef="let element">{{element.strVillageNameForTable}}</mat-cell>
+          </ng-container>
+
+          <mat-row *matRowDef="let row; columns: displayedColumns;" class="search-results-row"
+            (click)="beneficiarySelected(row.benId, row.benNodeId, row.curEncNodeId)" [ngStyle]="{'background-color': isSelectedForMerging(row.benId, row.benNodeId) ? 'lightgreen' : ''}">
+          </mat-row>
+        </mat-table>
+      </div>
+    </div>
+  </mat-tab>
+
+  <mat-tab disabled>
+    <ng-template mat-tab-label>
+      <button mat-icon-button (click)="viewMode = 2;">
+        <mat-icon>assignment_ind</mat-icon>
+        <!-- TODO - keep the default option - tabular or cards view - in user settings  -->
+      </button>
+    </ng-template>
+  </mat-tab>
+</mat-tab-group>
+
+
+<!-- Cards Mode View -->
+<mat-tab-group *ngIf="viewMode == 2">
+  <mat-tab label="Search Results">
+    <div fxLayout="row wrap" fxLayoutAlign="center start">
+
+      <p *ngIf="filtererdSearchResults.length == 0">No Beneficiaries Found!</p>
+      <mat-card *ngFor="let ben of filtererdSearchResults" fxFlex="20%" style="margin: 20px; cursor: pointer;"
+        (click)="beneficiarySelected(ben.benId, ben.benNodeId)" [ngStyle]="{'background-color': isSelectedForMerging(row.benId, row.benNodeId) ? 'lightgreen' : ''}">
+        <img mat-card-image class="ben-image" [src]="ben.photo">
+        <mat-card-content>
+          <p>Beneficiary ID: {{ben.benId}} ({{ben.benNodeId == 1 ? 'Clinic' : 'MMU'}})</p>
+          <p>{{ben.strName}}</p>
+          <p *ngIf="ben.strFatherNameOrHusbandName != ''">{{ben.strFatherNameOrHusbandName}}</p>
+          <p>{{ben.strGender}}, {{ben.strAge}}</p>
+          <p *ngIf="ben.strDob != ''">{{ben.strDob}}</p>
+          <p *ngIf="ben.strRegisteredOn != ''">{{ben.strRegisteredOn}}</p>
+          <p *ngIf="ben.strPhoneNumber">{{ben.strPhoneNumber}}</p>
+          <p *ngIf="ben.strIdProof">{{ben.strIdProof}}</p>
+          <p *ngIf="ben.strVillageName">{{ben.strVillageName}}</p>
+          <p *ngIf="ben.strOtherLocation">{{ben.strOtherLocation}}</p>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </mat-tab>
+  <mat-tab disabled>
+    <ng-template mat-tab-label>
+      <button mat-icon-button (click)="viewMode = 1;">
+        <mat-icon>view_headline</mat-icon>
+      </button>
+    </ng-template>
+  </mat-tab>
+</mat-tab-group>

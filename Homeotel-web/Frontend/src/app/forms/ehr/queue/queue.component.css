@@ -1,0 +1,28 @@
+.ben-image {
+    max-height: 175px !important;
+}
+
+.ben-image-in-table {
+    margin: 0;
+    padding: 0;
+    max-width: 50px !important;
+    border-radius: 25px;
+}
+
+.ben-image-in-table:hover{
+   max-width: 175px !important;
+}
+
+.open-queue-row:hover {
+    cursor: pointer;
+    background: lightblue; /* #42A948;  green */
+}
+
+#add-new-ben-icon {
+    cursor: pointer;
+    font-size: 50px;
+    color: #rgb(57, 100, 8);
+    position: absolute;
+    bottom: 50px;
+    right: 55px;
+}

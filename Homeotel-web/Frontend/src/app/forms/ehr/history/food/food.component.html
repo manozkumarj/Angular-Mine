@@ -1,0 +1,89 @@
+<form fxLayout="row wrap" fxLayoutAlign="center start"(ngSubmit)="addFoodDetails()"  autocomplete="off">
+
+  <div fxFlex="100%" fxLayout="row wrap" [fxLayoutGap]="curStaff.gapBetweenControls">    
+    <mat-form-field [fxFlex]="'20%'">
+      <mat-select placeholder="{{ 'Food Type' | translate }}" (change)="foodTypeChanged()" name="foodType" [formControl]="foodType" >
+        <mat-option *ngFor="let food of foods" [value]="food.name">
+          {{food.name}}
+        </mat-option>
+      </mat-select>
+      
+    </mat-form-field>
+
+    <mat-form-field [fxFlex]="'20%'" *ngIf ="otherFoodVisibility" style="line-height: 20px;">
+      <input matInput placeholder="{{'Other Food Type' | translate }}" name="otherFood" [formControl]="otherFood">
+    </mat-form-field>
+
+    <mat-form-field [fxFlex]="'20%'">
+      <mat-select placeholder="{{ 'Type' | translate }}" name="type" [formControl]="type">
+        <mat-option *ngFor="let type of types" [value]="type.name">
+          {{type.name}}
+        </mat-option>
+      </mat-select>
+      
+    </mat-form-field>
+
+    <mat-form-field [fxFlex]="'25%'">
+      <mat-select placeholder="{{ 'Rating' | translate }}" name="rating" [formControl]="rating">
+        <mat-option *ngFor="let rating of ratings" [value]="rating">
+          {{rating}}
+        </mat-option>
+      </mat-select>
+      <mat-hint style="color: red !important;">10 - Very Strong , 1 - Insignificant</mat-hint>
+      
+    </mat-form-field>
+
+    
+  </div>
+   <br><br><br><br> 
+  <div fxFlex="50px"></div>
+
+  <button id="add-btn" mat-button type="submit">{{ 'add' | translate }}</button>
+</form>
+
+<mat-card class="mat-table-container" *ngIf ="addedFoodDetails.length>0">
+  <mat-card-content>
+    <mat-table [dataSource]="dataSource">
+
+      <ng-container matColumnDef="sNo">
+        <mat-header-cell mat-header-cell *matHeaderCellDef> S No </mat-header-cell>
+        
+  <mat-cell *matCellDef="let element; let i = index;">{{i+1}}</mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="foodType">
+        <mat-header-cell mat-header-cell *matHeaderCellDef> Food Type </mat-header-cell>
+        <mat-cell mat-cell *matCellDef="let element"> {{element.foodType}} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="otherFood">
+        <mat-header-cell mat-header-cell *matHeaderCellDef> Other Food </mat-header-cell>
+        <mat-cell mat-cell *matCellDef="let element"> {{element.otherFood}} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="type">
+        <mat-header-cell mat-header-cell *matHeaderCellDef> Type</mat-header-cell>
+        <mat-cell mat-cell *matCellDef="let element"> {{element.type}} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="rating">
+        <mat-header-cell mat-header-cell *matHeaderCellDef> Rating </mat-header-cell>
+        <mat-cell mat-cell *matCellDef="let element"> {{element.rating}} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="deleteOption">
+        <mat-header-cell mat-header-cell *matHeaderCellDef>  </mat-header-cell>
+        <mat-cell mat-cell *matCellDef="let element; let i = index;" class="delete-btn">
+          <mat-icon  (click)="deleteFoodDetails(i)">delete</mat-icon>
+        </mat-cell>
+      </ng-container>
+
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns;">
+      </mat-row>
+    </mat-table>
+
+  </mat-card-content>
+  <mat-card-actions align="center">
+    <button id="save-btn" *ngIf="curStaff.allowDataSave()" mat-button (click)="saveCurrentMedication()">{{ 'save' | translate }}</button>
+  </mat-card-actions>
+</mat-card>

@@ -1,0 +1,48 @@
+<form *ngIf="!viewMode" fxLayout="row wrap" [formGroup]="bmiForm" autocomplete="off">
+
+  <div fxFlex="100%" fxLayout="row wrap" [fxLayoutGap]="curStaff.gapBetweenControls">
+    <mat-form-field [fxFlex]="curStaff.compactness" hintLabel="{{strWeightHint}}">
+      <input matInput placeholder="{{'weight_in_kg' | translate }}" (blur)="weightChanged()" type="number" name="weight"
+        [formControl]="weight">
+      <mat-error *ngIf="weight.hasError('required')">{{ utilities.getErrorMessage(weight) | translate }}
+      </mat-error>
+      <mat-error *ngIf="!weight.hasError('required') && weight.invalid">{{strWeightHint}}</mat-error>
+    </mat-form-field>
+
+    <mat-form-field [fxFlex]="curStaff.compactness" hintLabel="{{strHeightHint}}">
+      <input matInput placeholder="{{'height_in_cm' | translate }}" (blur)="heightChanged()" type="number" name="height"
+        [formControl]="height">
+      <mat-error *ngIf="height.hasError('required')">{{ utilities.getErrorMessage(height) | translate }}
+      </mat-error>
+      <mat-error *ngIf="!height.hasError('required') && height.invalid">{{strHeightHint}}</mat-error>
+    </mat-form-field>
+
+    <mat-form-field [fxFlex]="curStaff.compactness" hintLabel="{{strWaistHint}}">
+      <input matInput placeholder="{{'bmi_in_kg_by_m2' | translate }}" type="number" name="bmi" [formControl]="bmi">
+      <mat-error *ngIf="bmi.invalid">{{ utilities.getErrorMessage(bmi) | translate }}</mat-error>
+    </mat-form-field>
+
+    <mat-form-field [fxFlex]="curStaff.compactness">
+      <input matInput placeholder="{{'waist_circumference_cm' | translate }}" type="number" name="waist"
+        [formControl]="waist">
+      <mat-error *ngIf="waist.hasError('required')">{{ utilities.getErrorMessage(waist) | translate }}
+      </mat-error>
+      <mat-error *ngIf="!waist.hasError('required') && waist.invalid">{{strWaistHint}}</mat-error>
+    </mat-form-field>
+
+  </div>
+  <button id="save-btn" *ngIf="curStaff.allowDataSave()" mat-button [disabled]="bmiForm.invalid" (click)="saveBmi()">{{
+    'save' | translate }}</button>
+</form>
+
+
+<div *ngIf="viewMode">
+  <mat-card class="mat-table-container">
+    <mat-card-content>
+      <div class="line-height-25" *ngIf="weight.value">Weight: {{weight.value}} kg</div>
+      <div class="line-height-25" *ngIf="height.value">Height: {{height.value}} cm </div>
+      <div class="line-height-25" *ngIf="bmi.value">BMI: {{bmi.value}} </div>
+      <div class="line-height-25" *ngIf="waist.value">Waist: {{waist.value}} cm </div>
+    </mat-card-content>
+  </mat-card>
+</div>

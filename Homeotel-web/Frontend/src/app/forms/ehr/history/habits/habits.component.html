@@ -1,0 +1,70 @@
+<form fxLayout="row wrap" fxLayoutAlign="center start"  [formGroup]="habitsForm" autocomplete="off">
+
+  <div fxFlex="100%" fxLayout="row wrap" [fxLayoutGap]="curStaff.gapBetweenControls">
+    <mat-form-field [fxFlex]="curStaff.compactness">
+      <mat-select placeholder="{{ 'smoking' | translate }}" name="smoking" [formControl]="smoking" (change)="smokingChanged()">
+        <mat-option *ngFor="let smoking of smokings" [value]="smoking">
+          {{smoking.name}}
+        </mat-option>
+      </mat-select>
+      <mat-error *ngIf="smoking.invalid">{{ utilities.getErrorMessage(smoking) | translate }}</mat-error>
+    </mat-form-field>
+
+    <mat-form-field [fxFlex]="curStaff.compactness">
+      <input matInput placeholder="{{'duration' | translate }}" name="smokingDuration" [formControl]="smokingDuration">
+      <mat-error *ngIf="smokingDuration.invalid">{{ utilities.getErrorMessage(smokingDuration) | translate }}</mat-error>
+    </mat-form-field>
+
+    <mat-form-field [fxFlex]="curStaff.compactness">
+      <input matInput placeholder="{{'frequency' | translate }}" name="smokingFrequency" [formControl]="smokingFrequency">
+      <mat-error *ngIf="smokingFrequency.invalid">{{ utilities.getErrorMessage(smokingFrequency) | translate }}</mat-error>
+    </mat-form-field>
+  </div>
+
+
+
+  <div fxFlex="100%" fxLayout="row wrap" [fxLayoutGap]="curStaff.gapBetweenControls">
+    <mat-form-field [fxFlex]="curStaff.compactness">
+      <mat-select placeholder="{{ 'alcohol' | translate }}" name="alcohol" [formControl]="alcohol" (change)="alcoholChanged()">
+        <mat-option *ngFor="let alcohol of alcohols" [value]="alcohol">
+          {{alcohol.name}}
+        </mat-option>
+      </mat-select>
+      <mat-error *ngIf="alcohol.invalid">{{ utilities.getErrorMessage(alcohol) | translate }}</mat-error>
+    </mat-form-field>
+
+    <mat-form-field [fxFlex]="curStaff.compactness">
+      <input matInput placeholder="{{'duration' | translate }}" name="alcoholDuration" [formControl]="alcoholDuration">
+      <mat-error *ngIf="alcoholDuration.invalid">{{ utilities.getErrorMessage(alcoholDuration) | translate }}</mat-error>
+    </mat-form-field>
+
+    <mat-form-field [fxFlex]="curStaff.compactness">
+      <input matInput placeholder="{{'frequency' | translate }}" name="alcoholFrequency" [formControl]="alcoholFrequency">
+      <mat-error *ngIf="alcoholFrequency.invalid">{{ utilities.getErrorMessage(alcoholFrequency) | translate }}</mat-error>
+    </mat-form-field>
+  </div>
+
+
+  <div fxFlex="100%" fxLayout="row wrap" [fxLayoutGap]="curStaff.gapBetweenControls">
+    <mat-form-field [fxFlex]="curStaff.compactness">
+      <mat-select placeholder="{{ 'exercise' | translate }}" name="exercise" [formControl]="exercise" (change)="exerciseChanged()">
+        <mat-option *ngFor="let exercise of exercises" [value]="exercise">
+          {{exercise.name}}
+        </mat-option>
+      </mat-select>
+      <mat-error *ngIf="exercise.invalid">{{ utilities.getErrorMessage(exercise) | translate }}</mat-error>
+    </mat-form-field>
+
+    <mat-form-field [fxFlex]="curStaff.compactness">
+      <input matInput placeholder="{{'duration' | translate }}" name="exerciseDuration" [formControl]="exerciseDuration">
+      <mat-error *ngIf="exerciseDuration.invalid">{{ utilities.getErrorMessage(exerciseDuration) | translate }}</mat-error>
+    </mat-form-field>
+
+    <mat-form-field [fxFlex]="curStaff.compactness">
+      <input matInput placeholder="{{'frequency' | translate }}" name="exerciseFrequency" [formControl]="exerciseFrequency">
+      <mat-error *ngIf="exerciseFrequency.invalid">{{ utilities.getErrorMessage(exerciseFrequency) | translate }}</mat-error>
+    </mat-form-field>
+  </div>
+
+  <button id="save-btn" *ngIf="curStaff.allowDataSave()" mat-button [disabled]="habitsForm.invalid" (click)="saveHabits()">{{ 'save' | translate }}</button>
+</form>

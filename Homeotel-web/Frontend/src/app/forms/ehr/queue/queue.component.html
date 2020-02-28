@@ -1,0 +1,121 @@
+<!-- Table Mode View -->
+<mat-tab-group *ngIf="viewMode == 1">
+  <mat-tab label="Open">
+    <div fxLayout="row wrap" fxLayoutAlign="center start">
+      <p *ngIf="benQueueOpen.length == 0">No Open Cases!</p>
+      <div style="width: 100%">
+        <mat-table [dataSource]="openQueueDataSource" *ngIf="benQueueOpen.length > 0">
+          <ng-container matColumnDef="photo">
+            <mat-cell mat-cell *matCellDef="let element">
+              <img class="ben-image-in-table" [src]="element.photo">
+            </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="benId">
+            <mat-cell mat-cell *matCellDef="let element">Ben. ID: {{element.benId}}
+              ({{element.benNodeId == 1 ? 'Clinic' : 'MMU'}})</mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="strName">
+            <mat-cell mat-cell *matCellDef="let element">{{element.strName}}</mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="strGender">
+            <mat-cell mat-cell *matCellDef="let element">{{element.strGender}}</mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="strAge">
+            <mat-cell mat-cell *matCellDef="let element">{{element.strAge}}</mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="strPhoneNumber">
+            <mat-cell mat-cell *matCellDef="let element">{{element.strPhoneNumber}}</mat-cell>
+          </ng-container>
+
+          <mat-row *matRowDef="let row; columns: displayedColumns;" class="open-queue-row"
+            (click)="curBen.selectBeneficiary(row.benId, row.benNodeId, row.curEncNodeId)">
+          </mat-row>
+        </mat-table>
+      </div>
+    </div>
+  </mat-tab>
+
+  <mat-tab label="Closed">
+    <div fxLayout="row wrap" fxLayoutAlign="center start">
+      <p *ngIf="benQueueClosed.length == 0">No Closed Cases!</p>
+      <div style="width: 100%">
+        <mat-table [dataSource]="closedQueueDataSource" *ngIf="benQueueClosed.length > 0">
+          <ng-container matColumnDef="photo">
+            <mat-cell mat-cell *matCellDef="let element">
+              <img class="ben-image-in-table" [src]="element.photo">
+            </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="strName">
+            <mat-cell mat-cell *matCellDef="let element">{{element.strName}}</mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="strGender">
+            <mat-cell mat-cell *matCellDef="let element">{{element.strGender}}</mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="strAge">
+            <mat-cell mat-cell *matCellDef="let element">{{element.strAge}}</mat-cell>
+          </ng-container>
+
+          <mat-row *matRowDef="let row; columns: displayedColumns;" class="open-queue-row"
+            (click)="curBen.selectBeneficiary(row.benId, row.benNodeId, row.curEncNodeId)">
+          </mat-row>
+        </mat-table>
+      </div>
+    </div>
+  </mat-tab>
+  <mat-tab disabled>
+    <ng-template mat-tab-label>
+      <button mat-icon-button (click)="viewMode = 2;">
+        <mat-icon>assignment_ind</mat-icon>
+        <!-- TODO - keep the default option - tabular or cards view - in user settings  -->
+      </button>
+    </ng-template>
+  </mat-tab>
+</mat-tab-group>
+
+
+<!-- Cards Mode View -->
+<mat-tab-group *ngIf="viewMode == 2">
+  <mat-tab label="Open">
+    <div fxLayout="row wrap" fxLayoutAlign="center start">
+      <p *ngIf="benQueueOpen.length == 0">No Open Cases!</p>
+      <mat-card *ngFor="let ben of benQueueOpen" fxFlex="20%" style="margin: 20px; cursor: pointer;"
+        (click)="curBen.selectBeneficiary(ben.benId, ben.benNodeId, ben.curEncNodeId)">
+        <img mat-card-image class="ben-image" [src]="ben.photo">
+        <mat-card-content>
+          <p>{{ben.strName}}</p>
+          <p>{{ben.strGender}}, {{ben.strAge}}</p>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </mat-tab>
+  <mat-tab label="Closed">
+    <div fxLayout="row wrap" fxLayoutAlign="center start">
+      <p *ngIf="benQueueClosed.length == 0">No Closed Cases!</p>
+      <mat-card *ngFor="let ben of benQueueClosed" fxFlex="20%" style="margin: 20px; cursor: pointer;"
+        (click)="curBen.selectBeneficiary(ben.benId, ben.benNodeId, ben.curEncNodeId)">
+        <img mat-card-image class="ben-image" [src]="ben.photo">
+        <mat-card-content>
+          <p>{{ben.strName}}</p>
+          <p>{{ben.strGender}}, {{ben.strAge}}</p>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </mat-tab>
+  <mat-tab disabled>
+    <ng-template mat-tab-label>
+      <button mat-icon-button (click)="viewMode = 1;">
+        <mat-icon>view_headline</mat-icon>
+      </button>
+    </ng-template>
+  </mat-tab>
+</mat-tab-group>
+
+<mat-icon *ngIf="curStaff.canRegisterBen()" id="add-new-ben-icon" (click)="addNewBen()">add_circle</mat-icon>

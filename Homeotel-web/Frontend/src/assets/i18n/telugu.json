@@ -1,0 +1,50 @@
+{
+	"digwal_telemedicine_application" : "డిగ్వాల్ టెలిమెడిసిన్ అప్లికేషన్",
+	
+	"welcome" : "స్వాగతం",
+	"username" : "యూజర్పేరు",
+	"password" : "పాస్వర్డ్",
+	"login" : "లాగిన్",	
+	"powered_by" : "ద్వారా ఆధారితం",
+	"zolt_info_solutions" : "Zolt Info Solutions",
+
+	"required_error_msg" : "మీరు విలువను నమోదు చేయాలి",
+	"invalid_error_msg" : "చెల్లని విలువ",
+	"ok" : "సమర్పించు",
+	"cancel" : "రద్దు చేయండి",
+
+	"logout" : "లాగ్అవుట్",
+	"search_ben" : "లబ్ధిదారులను శోధించండి",	
+	
+	"registration" : "రిజిస్ట్రేషన్",
+	"register": "నమోదు చేయండి",
+	"confirm_registration" : "నమోదుని నిర్ధారించండి",
+	"first_name" : "పేరు",
+	"last_name" : "ఇంటిపేరు",	
+	"gender" : "లింగం",
+	"age" : "వయసు",
+	"date_of_birth" : "పుట్టిన తేది",
+	"marital_status" : "వైవాహిక స్థితి",
+	"father_name" : "తండ్రి పేరు",
+	"husband_name" : "భర్త పేరు",
+	"phone_number" : "ఫోను నంబరు",
+	"encounter_type" : "లబ్దిదారుని వర్గం",
+	"id_proof_type" : "ఐడి రుజువు రకం",
+	"id_proof_number" : "ఐడి రుజువు సంఖ్య",
+	"is_piramal_staff" : "పిరమల్ ఉద్యోగి",
+	"social_status" : "సాంఘిక స్థితి",
+	"economic_status" : "ఆర్థిక స్థితి",
+	"literacy_type" : "అక్షరాస్యత రకం",
+	"district" : "జిల్లా",
+	"mandal" : "మండలం",
+	"village" : "గ్రామం",
+	"location" : "ప్రదేశం",
+
+	"complaints" : "ఫిర్యాదులు",
+
+	"history" : "వైద్య చరిత్ర",
+
+	"immunization" : "ఇమ్యునైజేషన్",
+
+	"clinical_examinations" : "క్లినికల్ పరీక్షలు"
+}

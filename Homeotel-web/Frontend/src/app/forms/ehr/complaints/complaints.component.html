@@ -1,0 +1,116 @@
+<div *ngIf="!viewMode" fxLayout="row" fxLayoutAlign="start start">
+
+  <div fxFlex="20px"></div>
+
+  <div fxFlex="75%">
+
+    <mat-card *ngIf="curStaff.allowDataSave()" style="margin-top: 15px;">
+
+      <mat-card-content>
+        <form fxLayout="row wrap" [fxLayoutGap]="curStaff.gapBetweenControls" [formGroup]="complaintsForm" autocomplete="off">
+
+          <mat-form-field [fxFlex]="curStaff.compactness">
+            <mat-select placeholder="{{ 'Complaint' | translate }}" name="complaint" [formControl]="complaint" (change)="complaintChanged()">
+              <mat-option *ngFor="let complaint of complaints" [value]="complaint">
+                {{complaint.name}}
+              </mat-option>
+            </mat-select>
+            <mat-error *ngIf="complaint.invalid">{{ utilities.getErrorMessage(complaint) | translate }}</mat-error>
+          </mat-form-field>
+
+          <mat-form-field [fxFlex]="curStaff.compactness" [hidden]="!isOtherComplaint">
+            <input matInput placeholder="{{'Other Complaint' | translate }}" name="otherComplaint" [formControl]="otherComplaint">
+            <mat-error *ngIf="otherComplaint.invalid">{{ utilities.getErrorMessage(otherComplaint) | translate }}</mat-error>
+          </mat-form-field>          
+
+          <div [fxFlex]="curStaff.compactness" fxLayout="row wrap">
+            <mat-form-field fxFlex="60%">
+              <input matInput placeholder="{{'Duration' | translate }}" type="number" name="duration" [formControl]="duration">
+              <mat-error *ngIf="duration.invalid">{{ utilities.getErrorMessage(duration) | translate }}</mat-error>
+            </mat-form-field>
+            <mat-form-field fxFlex="40%">
+              <mat-select name="durationUnit" [formControl]="durationUnit">
+                <mat-option *ngFor="let durationUnit of durationUnits" [value]="durationUnit">
+                  {{durationUnit.name}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+
+          <mat-form-field [fxFlex]="curStaff.compactness">
+            <input matInput placeholder="{{'location' | translate }}" name="location" [formControl]="location">
+            <mat-error *ngIf="location.invalid">{{ utilities.getErrorMessage(location) | translate }}</mat-error>
+          </mat-form-field>
+
+
+        </form>
+      </mat-card-content>
+      <mat-card-actions align="center">
+        <button id="add-btn" mat-button [disabled]="complaintsForm.invalid" (click)="add()">{{ 'Add' | translate }}</button>
+      </mat-card-actions>
+    </mat-card>
+
+
+
+
+    <span *ngIf="!curStaff.allowDataSave() && complaintsAdded.length == 0" style="padding:30px !important;">No
+      Complaints Added</span>
+    <mat-card class="mat-table-container" *ngIf="complaintsAdded.length > 0">
+      <mat-card-content>
+        <mat-table [dataSource]="dataSource">
+
+          <ng-container matColumnDef="complaint">
+            <mat-header-cell mat-header-cell *matHeaderCellDef> Complaint </mat-header-cell>
+            <mat-cell mat-cell *matCellDef="let element"> {{element.complaint}} </mat-cell>
+          </ng-container>
+
+
+          <ng-container matColumnDef="duration">
+            <mat-header-cell mat-header-cell *matHeaderCellDef> Duration </mat-header-cell>
+            <mat-cell mat-cell *matCellDef="let element"> {{element.duration + " " + element.durationUnit}} </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="location">
+            <mat-header-cell mat-header-cell *matHeaderCellDef> Location </mat-header-cell>
+            <mat-cell mat-cell *matCellDef="let element"> {{element.location}} </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="deleteOption">
+            <mat-header-cell mat-header-cell *matHeaderCellDef> </mat-header-cell>
+            <mat-cell mat-cell *matCellDef="let element" class="delete-btn">
+              <mat-icon *ngIf="curStaff.allowDataSave()" (click)="deleteComplaint(element.complaint)">delete</mat-icon>
+            </mat-cell>
+          </ng-container>
+
+          <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+          <mat-row *matRowDef="let row; columns: displayedColumns;">
+          </mat-row>
+        </mat-table>
+
+      </mat-card-content>
+      <mat-card-actions align="center">
+        <button id="save-btn" *ngIf="curStaff.allowDataSave()" mat-button (click)="saveComplaints()">{{ 'save' |
+          translate }}</button>
+      </mat-card-actions>
+    </mat-card>
+  </div>
+
+  <div fxFlex="20px"></div>
+ <!-- <app-ben-details fxFlex="20%"></app-ben-details> -->
+ <mat-card id='cur-ben-card' [ngStyle]="{'borderTop': utilities.getBenCardBorderTopStyle() }">
+  <button mat-button (click)="toggleSide()">Toggle View</button>
+  <canvas #canvas (click)="getPoint($event)"></canvas>
+  <!-- <img mat-card-image src="assets/images/human-body.jpg"> -->
+  <mat-card-content>
+    </mat-card-content>
+    </mat-card>
+</div>
+
+
+<!-- VIEW MODE -->
+<div *ngIf="viewMode">
+  <h3 *ngIf="complaintsAdded.length > 0">Chief Complaints</h3>
+  <span *ngFor="let thisComplaint of complaintsAdded; let i = index">
+    <span>{{thisComplaint.complaint}}</span><span *ngIf="i != (complaintsAdded.length - 1)">, </span>
+  </span>
+</div>

@@ -1,0 +1,95 @@
+<form fxLayout="row wrap" fxLayoutAlign="center start" [fxLayoutGap]="curStaff.gapBetweenControls" [formGroup]="personalHistoryForm" autocomplete="off">
+
+  <div fxFlex="100%" fxLayout="row wrap" [fxLayoutGap]="curStaff.gapBetweenControls">
+    <mat-form-field [fxFlex]="curStaff.compactness">
+      <mat-select placeholder="{{ 'allergies' | translate }}" name="allergy" [formControl]="allergy" (change)="allergyChanged()"
+        multiple>
+        <mat-option *ngFor="let allergy of allergies" [value]="allergy">
+          {{allergy.name}}
+        </mat-option>
+      </mat-select>
+      <mat-error *ngIf="allergy.invalid">{{ utilities.getErrorMessage(allergy) | translate }}</mat-error>
+    </mat-form-field>
+
+    <mat-form-field [fxFlex]="curStaff.compactness">
+      <input matInput placeholder="{{'other_allergy' | translate }}" name="otherAllergy" [formControl]="otherAllergy">
+      <mat-error *ngIf="otherAllergy.invalid">{{ utilities.getErrorMessage(otherAllergy) | translate }}</mat-error>
+    </mat-form-field>
+
+    <mat-form-field [fxFlex]="curStaff.compactness">
+      <mat-select placeholder="{{ 'appetite' | translate }}" name="appetite" [formControl]="appetite">
+        <mat-option *ngFor="let appetite of appetites" [value]="appetite.id">
+          {{appetite.name}}
+        </mat-option>
+      </mat-select>
+      <mat-error *ngIf="appetite.invalid">{{ utilities.getErrorMessage(appetite) | translate }}</mat-error>
+    </mat-form-field>
+
+    <mat-form-field [fxFlex]="curStaff.compactness">
+      <mat-select placeholder="{{ 'bowel_movement' | translate }}" name="bowelMovement" [formControl]="bowelMovement">
+        <mat-option *ngFor="let bowelMovement of bowelMovements" [value]="bowelMovement.id">
+          {{bowelMovement.name}}
+        </mat-option>
+      </mat-select>
+      <mat-error *ngIf="bowelMovement.invalid">{{ utilities.getErrorMessage(bowelMovement) | translate }}</mat-error>
+    </mat-form-field>
+
+    <mat-form-field [fxFlex]="curStaff.compactness">
+      <mat-select placeholder="{{ 'defecation' | translate }}" name="defecation" [formControl]="defecation">
+        <mat-option *ngFor="let defecation of defecations" [value]="defecation.id">
+          {{defecation.name}}
+        </mat-option>
+      </mat-select>
+      <mat-error *ngIf="defecation.invalid">{{ utilities.getErrorMessage(defecation) | translate }}</mat-error>
+    </mat-form-field>
+
+    <mat-form-field [fxFlex]="curStaff.compactness">
+      <mat-select placeholder="{{ 'hand_washing' | translate }}" name="handWashing" [formControl]="handWashing">
+        <mat-option *ngFor="let handWashing of handWashings" [value]="handWashing.id">
+          {{handWashing.name}}
+        </mat-option>
+      </mat-select>
+      <mat-error *ngIf="handWashing.invalid">{{ utilities.getErrorMessage(handWashing) | translate }}</mat-error>
+    </mat-form-field>
+
+    <mat-form-field [fxFlex]="curStaff.compactness">
+      <mat-select placeholder="{{ 'occupation' | translate }}" name="occupation" [formControl]="occupation">
+        <mat-option *ngFor="let occupation of occupations" [value]="occupation.id">
+          {{occupation.name}}
+        </mat-option>
+      </mat-select>
+      <mat-error *ngIf="occupation.invalid">{{ utilities.getErrorMessage(occupation) | translate }}</mat-error>
+    </mat-form-field>
+
+    <mat-form-field [fxFlex]="curStaff.compactness">
+      <mat-select placeholder="{{ 'drinking_water' | translate }}" name="drinkingWater" [formControl]="drinkingWater">
+        <mat-option *ngFor="let drinkingWater of drinkingWaters" [value]="drinkingWater.id">
+          {{drinkingWater.name}}
+        </mat-option>
+      </mat-select>
+      <mat-error *ngIf="drinkingWater.invalid">{{ utilities.getErrorMessage(drinkingWater) | translate }}</mat-error>
+    </mat-form-field>
+
+    <mat-form-field [fxFlex]="curStaff.compactness">
+      <mat-select placeholder="{{ 'mosquito_exposure' | translate }}" name="mosquitoExposure" [formControl]="mosquitoExposure">
+        <mat-option *ngFor="let mosquitoExposure of mosquitoExposures" [value]="mosquitoExposure.id">
+          {{mosquitoExposure.name}}
+        </mat-option>
+      </mat-select>
+      <mat-error *ngIf="mosquitoExposure.invalid">{{ utilities.getErrorMessage(mosquitoExposure) | translate }}</mat-error>
+    </mat-form-field>
+
+  </div>
+  
+  <button id="save-btn" *ngIf="curStaff.allowDataSave()" mat-button [disabled]="personalHistoryForm.invalid" (click)="savePersonalHistory()">{{ 'save' | translate }}</button>
+
+</form>
+
+
+
+
+
+
+
+
+

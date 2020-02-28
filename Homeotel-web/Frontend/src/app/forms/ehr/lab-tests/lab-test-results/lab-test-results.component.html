@@ -1,0 +1,85 @@
+<div *ngIf="!viewMode">
+  <div fxLayout="row wrap" fxLayoutAlign="start center" [fxLayoutGap]="curStaff.gapBetweenControls">
+    <mat-form-field [fxFlex]="curStaff.compactness">
+      <mat-select placeholder="{{ 'lab_test_institute' | translate }}"
+        [disabled]="!curStaff.isLabTechnician() || !curStaff.allowDataSave()" name="labInstitute"
+        [formControl]="labInstitute" (change)="labInstituteChanged()">
+        <mat-option *ngFor="let labInstitute of labInstitutes" [value]="labInstitute">
+          {{labInstitute.name}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field [fxFlex]="curStaff.compactness" [hidden]="!isOtherLabInstitute">
+      <input matInput placeholder="{{'other_lab_institute' | translate }}"
+        [disabled]="!curStaff.isLabTechnician() || !curStaff.allowDataSave()" name="otherLabInstitute"
+        [formControl]="otherLabInstitute" (blur)="saveLabInstitute()">
+    </mat-form-field>
+  </div>
+
+  <mat-table [dataSource]="dataSource" *ngIf="labTestResults.length > 0">
+
+    <ng-container matColumnDef="fullTestName">
+      <mat-header-cell mat-header-cell *matHeaderCellDef> Lab Test </mat-header-cell>
+      <mat-cell mat-cell *matCellDef="let element"> {{element.fullTestName}} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="result">
+      <mat-header-cell mat-header-cell *matHeaderCellDef> Result </mat-header-cell>
+      <mat-cell mat-cell *matCellDef="let element">
+        <mat-form-field class="lab-test-results-input" floatLabel="never">
+          <input matInput placeholder="{{'result' | translate }}"
+            [disabled]="!curStaff.isLabTechnician() || !curStaff.allowDataSave()" [(ngModel)]="element.result"
+            (blur)="saveThisResult(element)">
+          <mat-error *ngIf="isRbsAndInvalid(element)">{{strRbsHint}}</mat-error>
+          <mat-error *ngIf="isHbAndInvalid(element)">{{strHbHint}}</mat-error>
+        </mat-form-field>
+      </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="unitId">
+      <mat-header-cell mat-header-cell *matHeaderCellDef> Unit </mat-header-cell>
+      <mat-cell mat-cell *matCellDef="let element">
+        <mat-form-field class="lab-test-results-input" floatLabel="never">
+          <mat-select placeholder="{{ 'unit' | translate }}"
+            [disabled]="!curStaff.isLabTechnician() || !curStaff.allowDataSave()" [(ngModel)]="element.unitId"
+            (change)="saveThisResult(element)">
+            <mat-option *ngFor="let unit of units" [value]="unit.id">
+              {{unit.name}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="saved">
+      <mat-header-cell mat-header-cell *matHeaderCellDef> </mat-header-cell>
+      <mat-cell mat-cell *matCellDef="let element">
+        <button class="save-btn" *ngIf="curStaff.isLabTechnician() && curStaff.allowDataSave() && !element.saved"
+          mat-button (click)="saveThisResult(element)">{{ 'save' | translate }}</button>
+        <button *ngIf="curStaff.isLabTechnician() && element.saved" mat-button>{{ 'result_saved' | translate }}
+        </button>
+      </mat-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns;">
+    </mat-row>
+  </mat-table>
+</div>
+
+<div *ngIf="viewMode">
+  <h3>Lab Results</h3>
+  <table>
+    <tr>
+      <td style="font-weight: bold; min-width: 200px">Lab Test</td>
+      <td style="font-weight: bold; min-width: 150px">Result</td>
+      <td style="font-weight: bold; min-width: 100px">Units</td>
+    </tr>
+    <tr *ngFor="let thisLabResult of labTestResults">
+      <td>{{thisLabResult.fullTestName}}</td>
+      <td>{{thisLabResult.result}}</td>
+      <td>{{getUnitName(thisLabResult.unitId)}}</td>
+    </tr>
+  </table>
+</div>

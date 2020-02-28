@@ -1,0 +1,142 @@
+<div *ngIf="!utilities.printMode" fxLayout="row" fxLayoutAlign="start start">
+
+  <div fxFlex="20px"></div>
+
+  <div fxFlex="75%">
+    <mat-card style="margin-top: 15px; padding: 0;">
+      <!-- <mat-card-title>{{ 'history' | translate }}</mat-card-title> -->
+      <mat-card-content>
+
+        <mat-accordion class="headers-align">
+          <mat-expansion-panel [expanded]="step === 0" (opened)="setStep(0)" hideToggle>
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                Blood Group
+              </mat-panel-title>
+              <mat-panel-description>
+                {{bloodGroupShortDescription}}
+                <mat-icon *ngIf="bloodGroupHasData">done</mat-icon>
+                <!-- TODO - show completed (check/ tick mark) dynamically based on user input -->
+              </mat-panel-description>
+            </mat-expansion-panel-header>
+
+            <app-blood-group (dataReady)="setDescription($event)"></app-blood-group>
+
+            <mat-action-row>
+              <button mat-button color="primary" (click)="nextStep()">Next</button>
+            </mat-action-row>
+          </mat-expansion-panel>
+
+          <mat-expansion-panel [expanded]="step === 1" (opened)="setStep(1)" hideToggle>
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                Lab Tests Order
+              </mat-panel-title>
+              <mat-panel-description>
+                {{labTestsOrderShortDescription}}
+                <mat-icon *ngIf="labTestsOrderHasData">done</mat-icon>
+              </mat-panel-description>
+            </mat-expansion-panel-header>
+
+            <app-lab-tests-order (dataReady)="setDescription($event)" (newTestsAdded)="newTestsAdded()"></app-lab-tests-order>
+
+            <mat-action-row>
+              <button mat-button color="warn" (click)="prevStep()">Previous</button>
+              <button mat-button color="primary" (click)="nextStep()">Next</button>
+            </mat-action-row>
+          </mat-expansion-panel>
+
+          <mat-expansion-panel [expanded]="step === 2" (opened)="setStep(2)" hideToggle>
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                Lab Test Results
+              </mat-panel-title>
+              <mat-panel-description>
+                {{labTestResultsShortDescription}}
+                <mat-icon *ngIf="labTestResultsHasData">done</mat-icon>
+              </mat-panel-description>
+            </mat-expansion-panel-header>
+
+            <app-lab-test-results #labTestResults (dataReady)="setDescription($event)"></app-lab-test-results>
+
+            <mat-action-row>
+              <button mat-button (click)="printPreview()">Print Preview</button>
+              <button mat-button color="warn" (click)="prevStep()">Previous</button>
+              <button mat-button color="primary" (click)="nextStep()">Next</button>
+            </mat-action-row>
+          </mat-expansion-panel>
+
+          <mat-expansion-panel [expanded]="step === 3" (opened)="setStep(3)" hideToggle>
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                Files Upload
+              </mat-panel-title>
+              <mat-panel-description>
+                {{labFilesUploadShortDescription}}
+                <mat-icon *ngIf="labFilesUploadHasData">done</mat-icon>
+              </mat-panel-description>
+            </mat-expansion-panel-header>
+
+            <app-lab-files-upload (dataReady)="setDescription($event)"></app-lab-files-upload>
+
+            <mat-action-row>
+              <button mat-button color="warn" (click)="prevStep()">Previous</button>
+            </mat-action-row>
+          </mat-expansion-panel>
+
+        </mat-accordion>
+
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+  <div fxFlex="20px"></div>
+
+  <app-ben-details fxFlex="20%"></app-ben-details>
+
+</div>
+
+
+<mat-card *ngIf="utilities.printMode" style="margin-top: 15px; padding: 0">
+  <mat-card-content>
+    <h2 style="text-align: center">Piramal Arogya Seva Kendra - Digwal</h2>
+
+    <mat-card style="min-height: 175px !important; padding: 5px 24px">
+      <mat-card-content>
+        <app-ben-details [view-mode]='true'></app-ben-details>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card style="padding: 5px 24px">
+      <mat-card-content>
+        <app-complaints [view-mode]='true'></app-complaints>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card style="padding: 5px 24px">
+      <h3>Clinical Examinations</h3>
+      <mat-card-content>
+        <div fxLayout="row wrap" fxLayoutGap="20px" fxLayoutAlign="start start">
+          <app-bmi fxFlex="18%" [view-mode]='true'></app-bmi>
+          <br>
+          <app-vitals fxFlex="18%" [view-mode]='true'></app-vitals>
+          <br>
+          <app-systemic-examination fxFlex="26%" [view-mode]='true'></app-systemic-examination>
+          <br>
+          <app-general-examination fxFlex="26%" [view-mode]='true'></app-general-examination>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card style="padding: 5px 24px">
+      <mat-card-content>
+        <app-lab-test-results [view-mode]='true'></app-lab-test-results>
+      </mat-card-content>
+    </mat-card>
+
+  </mat-card-content>
+  <mat-card-actions align="center">
+    <button mat-button class="doNotPrint" (click)="print()">Print</button>
+    <button mat-button class="doNotPrint" (click)="endPrint()">Close</button>
+  </mat-card-actions>
+</mat-card>

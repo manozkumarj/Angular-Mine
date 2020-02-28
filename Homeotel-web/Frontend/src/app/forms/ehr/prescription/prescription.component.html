@@ -1,0 +1,303 @@
+<div *ngIf="!utilities.printMode" fxLayout="row" fxLayoutAlign="start start">
+
+  <div fxFlex="20px"></div>
+
+  <div fxFlex="75%">
+
+    <mat-card style="margin-top: 15px;">
+      <mat-card-content>
+
+        <form fxLayout="row wrap" [fxLayoutGap]="curStaff.gapBetweenControls" [formGroup]="prescriptionForm"
+          autocomplete="off">
+
+          <div fxFlex="100%" fxLayout="row wrap" [fxLayoutGap]="curStaff.gapBetweenControls">
+
+            <div [fxFlex]="curStaff.compactness" style="font-size: 17px; margin-top: 0px !important">Repertorial
+              Totality</div>
+
+            <input #inputFile class="file-input" type="file" [disabled]="prescFiles.length > 0"
+              [fxFlex]="curStaff.compactness" accept="image/x-png,image/gif,image/jpeg"
+              (change)="startUpload($event.target.files)">
+
+            <div fxFlex="200px" *ngFor="let file of prescFiles; let i = index">
+
+              <img [src]="file.data" style="max-width: 100%; max-height: 100%" (click)="openImage(file.data)" />
+              <span style="cursor: pointer; color: blue"
+                [swal]="{ title: 'confirm_delete' | translate, type: 'question', showConfirmButton: true, confirmButtonText: 'ok' | translate, showCancelButton: true, cancelButtonText: 'cancel' | translate }"
+                (confirm)="removeFile()">Delete</span>
+            </div>
+
+
+            <mat-form-field [fxFlex]="2 * curStaff.compactness">
+              <textarea matInput placeholder="{{'Repertorial Result' | translate }}" name="lifeSitutation"
+                [formControl]="lifeSitutation"></textarea>
+            </mat-form-field>
+
+
+            <mat-form-field [fxFlex]="curStaff.compactness">
+              <input matInput placeholder="{{'diagnosis' | translate }}" name="otherDiagnosis"
+                [formControl]="otherDiagnosis">
+              <mat-error *ngIf="otherDiagnosis.invalid">{{ utilities.getErrorMessage(otherDiagnosis) |
+                        translate }}</mat-error>
+            </mat-form-field>
+
+            <mat-form-field [fxFlex]="curStaff.compactness">
+              <input matInput [matDatepicker]="templateVariableReviewDate" placeholder="{{ 'review_date' | translate }}"
+                (focus)="templateVariableReviewDate.open()" name="reviewDate" [formControl]="reviewDate">
+              <mat-datepicker-toggle matSuffix [for]="templateVariableReviewDate"></mat-datepicker-toggle>
+              <mat-datepicker #templateVariableReviewDate></mat-datepicker>
+              <mat-error *ngIf="reviewDate.invalid">{{ utilities.getErrorMessage(reviewDate) | translate }}
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          <!-- <div fxFlex="100%" fxLayout="row wrap" [fxLayoutGap]="curStaff.gapBetweenControls">
+                      <mat-form-field [fxFlex]="curStaff.compactness">
+                      <input matInput [matDatepicker]="templateVariableReviewDate"
+                        placeholder="{{ 'review_date' | translate }}" (focus)="templateVariableReviewDate.open()"
+                        name="reviewDate" [formControl]="reviewDate">
+                      <mat-datepicker-toggle matSuffix [for]="templateVariableReviewDate"></mat-datepicker-toggle>
+                      <mat-datepicker #templateVariableReviewDate></mat-datepicker>
+                      <mat-error *ngIf="reviewDate.invalid">{{ utilities.getErrorMessage(reviewDate) | translate }}
+                      </mat-error>
+                    </mat-form-field>
+                  </div> -->
+        </form>
+
+        <div style="width: 100%">
+          <mat-table [dataSource]="dataSource" *ngIf="drugsAdded.length > 0">
+
+            <ng-container matColumnDef="name">
+              <mat-header-cell mat-header-cell fxFlex="200px" *matHeaderCellDef> Remedy </mat-header-cell>
+              <mat-cell mat-cell fxFlex="200px" *matCellDef="let element; let i = index">
+                <mat-form-field class="prescription-drugs" floatLabel="never">
+                  <mat-select placeholder="{{ 'select_drug' | translate }}" [(ngModel)]="element.id"
+                    (change)="drugChanged(i, element)">
+                    <mat-option *ngFor="let drug of drugs | drugFilter:{key: 'categoryId', id: element.categoryId}"
+                      [value]="drug.id">
+                      {{drug.name}}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </mat-cell>
+            </ng-container>
+
+
+
+
+
+            <ng-container matColumnDef="scale">
+              <mat-header-cell mat-header-cell fxFlex="80px" *matHeaderCellDef> Scale </mat-header-cell>
+              <mat-cell mat-cell fxFlex="80px" *matCellDef="let element">
+                <mat-form-field class="prescription-drugs" floatLabel="never">
+                  <mat-select placeholder="{{ 'scale' | translate }}" (change)="calculateQty(element)"
+                    [(ngModel)]="element.scale">
+                    <mat-option *ngFor="let scale of Testscale" [value]="scale.id">
+                      {{scale.name}}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </mat-cell>
+            </ng-container>
+
+
+            <ng-container matColumnDef="potency">
+              <mat-header-cell mat-header-cell fxFlex="80px" *matHeaderCellDef> Potency</mat-header-cell>
+              <mat-cell mat-cell fxFlex="80px" *matCellDef="let element">
+                <mat-form-field class="prescription-drugs" floatLabel="never">
+                  <mat-select placeholder="{{ 'potency' | translate }}" [(ngModel)]="element.potency">
+                    <mat-option *ngFor="let potency of Testpotency |  drugFilter:{key: 'id', id: element.scale}"
+                      [value]="potency.uid">
+                      {{potency.name}}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </mat-cell>
+            </ng-container>
+
+
+
+            <!--  <ng-container matColumnDef="dosage">
+                      <mat-header-cell mat-header-cell fxFlex="80px" *matHeaderCellDef> Dosage </mat-header-cell>
+                      <mat-cell mat-cell fxFlex="80px" *matCellDef="let element">
+                        <mat-form-field class="prescription-drugs" floatLabel="never">
+                          <mat-select placeholder="{{ 'dosage' | translate }}" [(ngModel)]="element.dosage"
+                            (change)="calculateQty(element)">
+                            <mat-option *ngFor="let dosage of Testdosages" [value]="dosage.id">
+                              {{dosage.name}}
+                            </mat-option>
+                          </mat-select>
+                        </mat-form-field>
+                      </mat-cell>
+                    </ng-container> -->
+
+            <ng-container matColumnDef="freq">
+              <mat-header-cell mat-header-cell fxFlex="120px" *matHeaderCellDef> Dosage </mat-header-cell>
+              <mat-cell mat-cell fxFlex="120px" *matCellDef="let element">
+                <mat-form-field class="prescription-drugs" floatLabel="never">
+                  <mat-select placeholder="{{ 'frequency' | translate }}" [(ngModel)]="element.freq"
+                    (change)="calculateQty(element)">
+                    <mat-option *ngFor="let freq of Testfrequency" [value]="freq.id">
+                      {{freq.name}}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </mat-cell>
+            </ng-container>
+
+
+
+            <ng-container matColumnDef="instruction">
+              <mat-header-cell mat-header-cell fxFlex="90px" *matHeaderCellDef> When </mat-header-cell>
+              <mat-cell mat-cell fxFlex="90px" *matCellDef="let element">
+                <mat-form-field class="prescription-drugs" floatLabel="never">
+                  <mat-select placeholder="{{ 'when' | translate }}" [(ngModel)]="element.instruction">
+                    <mat-option *ngFor="let instruction of instructions" [value]="instruction.id">
+                      {{instruction.name}}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="noOfDays">
+              <mat-header-cell mat-header-cell fxFlex="40px" *matHeaderCellDef> Days </mat-header-cell>
+              <mat-cell mat-cell fxFlex="40px" *matCellDef="let element">
+                <mat-form-field class="prescription-drugs" floatLabel="never" (keyup)="calculateQty(element)">
+                  <input type="number" matInput [(ngModel)]="element.noOfDays">
+                </mat-form-field>
+              </mat-cell>
+            </ng-container>
+
+
+
+            <ng-container matColumnDef="deleteOption">
+              <mat-header-cell mat-header-cell fxFlex="30px" *matHeaderCellDef> </mat-header-cell>
+              <mat-cell mat-cell fxFlex="30px" *matCellDef="let element" class="delete-btn">
+                <mat-icon *ngIf="allowPrescriptionSave()" (click)="deleteDrug(element)">delete</mat-icon>
+              </mat-cell>
+            </ng-container>
+
+            <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+            <mat-row *matRowDef="let row; columns: displayedColumns;">
+            </mat-row>
+          </mat-table>
+        </div>
+
+
+      </mat-card-content>
+      <mat-card-actions align="center">
+        <p *ngIf="drugsAdded.length == 0">No Drugs Prescribed</p>
+        <button id="add-btn" *ngIf="allowPrescriptionSave()" mat-button [disabled]="prescriptionForm.invalid"
+          [swal]="{ title: 'confirm_save' | translate, type: 'question', showConfirmButton: true, confirmButtonText: 'ok' | translate, showCancelButton: true, cancelButtonText: 'cancel' | translate }"
+          (confirm)="savePrescription()">{{
+                  'save' | translate }}</button>
+
+        <button mat-button *ngIf="curBen.isClosedCase()" (click)="printPreview()">Print Preview</button>
+      </mat-card-actions>
+    </mat-card>
+
+  </div>
+
+  <div fxFlex="20px"></div>
+
+  <app-ben-details fxFlex="20%"></app-ben-details>
+
+</div>
+
+
+<!-- ONLY FOR PRINT MODE (PRINT PRESCRIPTION) -->
+
+
+<mat-card *ngIf="utilities.printMode" style="margin-top: 15px; padding: 0;">
+  <mat-card-content>
+    <h2 style="text-align: center">Piramal Arogya Seva Kendra - Digwal (Prescription)</h2>
+
+    <div fxLayout="row wrap" fxLayoutGap="20px" fxLayoutAlign="center start">
+
+      <div>Beneficiary ID: {{curBen.benId}} ({{curBen.benNodeId == 1 ? 'Clinic' : 'MMU'}})</div>
+
+      <div>Name: {{ curBen.strName }}</div>
+
+      <div>Age: {{ curBen.strAge }}</div>
+
+      <div>Gender: {{ curBen.strGender }}</div>
+
+      <div>Diagnosis: {{ strDiagnosis }}</div>
+    </div>
+
+    <div style="width: 100%">
+      <mat-table [dataSource]="dataSource" *ngIf="drugsAdded.length > 0">
+
+        <ng-container matColumnDef="name">
+          <mat-header-cell mat-header-cell fxFlex="300px" *matHeaderCellDef> Drug </mat-header-cell>
+          <mat-cell mat-cell fxFlex="300px" *matCellDef="let element; let i = index">
+            <mat-form-field class="prescription-drugs" floatLabel="never" style="width: 200%" disabled>
+              <mat-select placeholder="{{ 'select_drug' | translate }}" [(ngModel)]="element.id">
+                <mat-option *ngFor="let drug of drugs | drugFilter:{key: 'categoryId', id: element.categoryId}"
+                  [value]="drug.id">
+                  {{drug.name}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="freq">
+          <mat-header-cell mat-header-cell fxFlex="120px" *matHeaderCellDef> Frequency </mat-header-cell>
+          <mat-cell mat-cell fxFlex="120px" *matCellDef="let element">
+            <mat-form-field class="prescription-drugs" floatLabel="never" disabled>
+              <mat-select placeholder="{{ 'frequency' | translate }}" [(ngModel)]="element.freq">
+                <mat-option *ngFor="let freq of frequencies" [value]="freq.id">
+                  {{freq.name}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="instruction">
+          <mat-header-cell mat-header-cell fxFlex="110px" *matHeaderCellDef> When </mat-header-cell>
+          <mat-cell mat-cell fxFlex="110px" *matCellDef="let element">
+            <mat-form-field class="prescription-drugs" floatLabel="never" disabled>
+              <mat-select placeholder="{{ 'when' | translate }}" [(ngModel)]="element.instruction">
+                <mat-option *ngFor="let instruction of instructions" [value]="instruction.id">
+                  {{instruction.name}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="noOfDays">
+          <mat-header-cell mat-header-cell fxFlex="80px" *matHeaderCellDef> Days </mat-header-cell>
+          <mat-cell mat-cell fxFlex="80px" *matCellDef="let element">
+            {{element.noOfDays + ' days'}}
+          </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="quantity">
+          <mat-header-cell mat-header-cell fxFlex="50px" *matHeaderCellDef> Qty. </mat-header-cell>
+          <mat-cell mat-cell fxFlex="50px" *matCellDef="let element">
+            {{element.quantity}}
+          </mat-cell>
+        </ng-container>
+
+        <mat-header-row *matHeaderRowDef="displayedColumnsForPrint"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedColumnsForPrint;">
+        </mat-row>
+      </mat-table>
+
+      <div style="float: right; margin-right: 50px; margin-top: 40px;">
+        {{doctorName}}
+        <br>
+        <img src="{{doctorSignature}}" style="max-height: 50px !important;" />
+      </div>
+    </div>
+
+  </mat-card-content>
+  <mat-card-actions align="center">
+    <button mat-button class="doNotPrint" (click)="print()">Print</button>
+    <button mat-button class="doNotPrint" (click)="endPrint()">Close</button>
+  </mat-card-actions>
+</mat-card>
