@@ -61,21 +61,21 @@
 
 
         <mat-form-field [fxFlex]="curStaff.compactness">
-          <input #firstNameElement matInput placeholder="{{'first_name' | translate }}" name="firstName"
+          <input #firstNameElement matInput placeholder="{{'first_name' | translate }} *" name="firstName"
             [formControl]="firstName" (keyup)="firstNameChanged()">
           <mat-error *ngIf="firstName.invalid">{{ utilities.getErrorMessage(firstName) | translate }}</mat-error>
         </mat-form-field>
 
         <mat-form-field [fxFlex]="curStaff.compactness">
-          <input matInput placeholder="{{'last_name' | translate }}" name="lastName" [formControl]="lastName"
+          <input matInput placeholder="{{'last_name' | translate }} *" name="lastName" [formControl]="lastName"
             (keyup)="lastNameChanged()">
           <mat-error *ngIf="lastName.invalid">{{ utilities.getErrorMessage(lastName) | translate }}</mat-error>
         </mat-form-field>
 
         <mat-form-field [fxFlex]="curStaff.compactness">
           <input matInput [max]="maxDob" [min]="minDob" [matDatepicker]="templateVariableDob"
-            placeholder="{{ 'date_of_birth' | translate }}" (dateChange)="dobChanged($event)" name="dob"
-            [formControl]="dob">
+            placeholder="{{ 'date_of_birth' | translate }} *" (dateChange)="dobChanged($event)" name="dob"
+            [formControl]="dob" readonly>
           <mat-datepicker-toggle matSuffix [for]="templateVariableDob"></mat-datepicker-toggle>
           <mat-datepicker #templateVariableDob></mat-datepicker>
           <!-- TODO - Allow user to directly enter the dob like so - 24-04-1987 etc -->
@@ -84,7 +84,7 @@
 
 
         <mat-form-field [fxFlex]="curStaff.compactness">
-          <mat-select placeholder="{{ 'gender' | translate }}" name="gender" [formControl]="gender"
+          <mat-select placeholder="{{ 'gender' | translate }} *" name="gender" [formControl]="gender"
             (change)="genderChanged()">
             <mat-option *ngFor="let gender of genders" [value]="gender.id">
               {{gender.name}}
@@ -151,22 +151,22 @@
 
       <button *ngIf="curStaff.canRegisterBen() && curBen.showRegisterButton()" id="register-btn" mat-button
         [disabled]="regForm.invalid"
-        [swal]="{ title: 'confirm_registration' | translate, type: 'question', showConfirmButton: true, confirmButtonText: 'ok' | translate, showCancelButton: true, cancelButtonText: 'cancel' | translate }"
+        [swal]="{ title: 'Confirm Registration' | translate, type: 'question', showConfirmButton: true, confirmButtonText: 'ok' | translate, showCancelButton: true, cancelButtonText: 'cancel' | translate }"
         (confirm)="register()">{{ 'register' | translate }}</button>
 
       <button *ngIf="curStaff.canRegisterBen() && curBen.showRevisitButton()" id="revisit-btn" mat-button
         [disabled]="regForm.invalid"
-        [swal]="{ title: 'confirm_revist' | translate, type: 'question', showConfirmButton: true, confirmButtonText: 'ok' | translate, showCancelButton: true, cancelButtonText: 'cancel' | translate }"
+        [swal]="{ title: 'Confirm Revist' | translate, type: 'question', showConfirmButton: true, confirmButtonText: 'ok' | translate, showCancelButton: true, cancelButtonText: 'cancel' | translate }"
         (confirm)="revisit()">{{ 'revisit' | translate }}</button>
 
       <button *ngIf="curStaff.canRegisterBen() && !curBen.showRegisterButton() && !curBen.showRevisitButton()"
         id="revisit-btn" mat-button [disabled]="regForm.invalid"
-        [swal]="{ title: 'confirm_update' | translate, type: 'question', showConfirmButton: true, confirmButtonText: 'ok' | translate, showCancelButton: true, cancelButtonText: 'cancel' | translate }"
+        [swal]="{ title: 'Confirm update' | translate, type: 'question', showConfirmButton: true, confirmButtonText: 'ok' | translate, showCancelButton: true, cancelButtonText: 'cancel' | translate }"
         (confirm)="updateBenDetails()">{{ 'update' | translate }}</button>
 
       <button *ngIf="curStaff.isLocalDoctor() && curBen.showForceRevisitButton()" id="revisit-btn" mat-button
         [disabled]="regForm.invalid"
-        [swal]="{ title: 'confirm_revist' | translate, type: 'question', showConfirmButton: true, confirmButtonText: 'ok' | translate, showCancelButton: true, cancelButtonText: 'cancel' | translate }"
+        [swal]="{ title: 'Confirm Revist' | translate, type: 'question', showConfirmButton: true, confirmButtonText: 'ok' | translate, showCancelButton: true, cancelButtonText: 'cancel' | translate }"
         (confirm)="revisit()">{{ 'force_revisit' | translate }}</button>
 
     </mat-card-actions>

@@ -334,6 +334,8 @@ export class ComplaintsComponent implements OnInit {
     this.setDefaults();
     this.complaintsAdded.push(thisComplaint);
     this.dataSource = new MatTableDataSource(this.complaintsAdded);
+
+    this.saveComplaints();
   }
 
   deleteComplaint(strComplaint) {
@@ -342,10 +344,20 @@ export class ComplaintsComponent implements OnInit {
         this.complaintsAdded.splice(index, 1);
     });
     this.dataSource = new MatTableDataSource(this.complaintsAdded);
+    if (this.complaintsAdded.length != 0) {
+      this.saveComplaints();
+    }
+
+    console.log("after delete")
+
+
+
   }
 
   //save and load data
   saveComplaints() {
+
+
     var strComplaintsToAdd = '';
     var thisEncId = this.curBen.curEncId;
     var thisEncNodeId = this.utilities.getCurEncNodeId();
@@ -379,7 +391,8 @@ export class ComplaintsComponent implements OnInit {
           console.log(data);
         }
         else {
-          swal({ title: "Success", text: "Saved Data Successfully", type: 'success' });
+          this.utilities.openSnackBar("Data Saved Successfully", "Success");
+          // swal({ title: "Success", text: "Saved Data Successfully", type: 'success' });
           this.initialiseForm();
         }
       });
@@ -401,7 +414,7 @@ export class ComplaintsComponent implements OnInit {
   setComplaintsData(data) {
     data[0].forEach(complaintData => {
       var isThisOtherComplaint = (complaintData['other_complaint'] && complaintData['other_complaint'] != '') ? true : false;
-      
+
       this.frontSavedPoints = complaintData['points_front'];
       this.backSavedPoints = complaintData['points_back'];
       this.sideSavedPoints = complaintData['points_side'];

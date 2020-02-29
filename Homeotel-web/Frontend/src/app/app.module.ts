@@ -85,6 +85,9 @@ export function HttpLoaderFactory(http: HttpClient) {
   var apiUrlIp = localStorage.getItem('api_url_ip');
   var apiUrlPort = localStorage.getItem('api_url_port');
 
+  apiUrlIp = '175.101.1.227';
+  apiUrlPort = '8123';
+
   if (apiUrlIp && apiUrlPort) {
     var apiUrl = "http://" + apiUrlIp + ":" + apiUrlPort + "/";
     var translationUrl = apiUrl + "translation/";

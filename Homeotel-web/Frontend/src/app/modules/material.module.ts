@@ -18,13 +18,14 @@ import {
   MatCardModule,
   MatMenuModule,
   MatTabsModule,
-  MatExpansionModule,  
-  MatDatepickerModule,  
+  MatExpansionModule,
+  MatDatepickerModule,
   MatRadioModule,
-  MatNativeDateModule,  
+  MatNativeDateModule,
   MatTableModule,
   MatAutocomplete,
-  MatAutocompleteModule  
+  MatAutocompleteModule,
+  MatSnackBarModule
 } from '@angular/material';
 
 
@@ -46,12 +47,13 @@ import {
     MatCardModule,
     MatMenuModule,
     MatTabsModule,
-    MatExpansionModule,    
-    MatDatepickerModule,    
+    MatExpansionModule,
+    MatDatepickerModule,
     MatRadioModule,
-    MatNativeDateModule,    
+    MatNativeDateModule,
     MatTableModule,
-    MatAutocompleteModule
+    MatAutocompleteModule,
+    MatSnackBarModule
   ],
   exports: [
     MatSelectModule,
@@ -70,12 +72,13 @@ import {
     MatCardModule,
     MatMenuModule,
     MatTabsModule,
-    MatExpansionModule,    
+    MatExpansionModule,
     MatDatepickerModule,
     MatRadioModule,
-    MatNativeDateModule,    
+    MatNativeDateModule,
     MatTableModule,
-    MatAutocompleteModule
+    MatAutocompleteModule,
+    MatSnackBarModule
   ]
 })
 export class MaterialModule { }

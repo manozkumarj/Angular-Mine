@@ -31,9 +31,9 @@ export class SearchComponent implements OnInit {
   benQueueClosed: Beneficiary[] = [];
 
   constructor(public apiService: ApiService, public utilities: UtilitiesService, public datePipe: DatePipe,
-    public curBen: CurBenService, public curStaff: CurStaffService) { 
-      this.utilities.docMode = false;
-    }
+    public curBen: CurBenService, public curStaff: CurStaffService) {
+    this.utilities.docMode = false;
+  }
 
   ngOnInit() {
     this.searchBeneficiaries();
@@ -173,18 +173,18 @@ export class SearchComponent implements OnInit {
     var boolIsSelectedForMerging = false;
     this.mergeBenIds.forEach(mergeBenId => {
       if (mergeBenId.benId == benId && mergeBenId.benNodeId == benNodeId)
-      boolIsSelectedForMerging = true;
+        boolIsSelectedForMerging = true;
     });
     return boolIsSelectedForMerging;
   }
 
   doMerge() {
-    var firstBenId = 0; 
+    var firstBenId = 0;
     var firstBenNodeId = 0;
     var secondBenId = 0;
     var secondBenNodeId = 0;
 
-    if(this.mergeBenIds[0].benId < this.mergeBenIds[1].benId) {
+    if (this.mergeBenIds[0].benId < this.mergeBenIds[1].benId) {
       firstBenId = this.mergeBenIds[0].benId;
       firstBenNodeId = this.mergeBenIds[0].benNodeId;
       secondBenId = this.mergeBenIds[1].benId;
@@ -198,16 +198,17 @@ export class SearchComponent implements OnInit {
     }
 
     this.apiService.mergeBeneficiaries(firstBenId, firstBenNodeId, secondBenId, secondBenNodeId, this.curStaff.staffId)
-    .subscribe((data) => {
-      if (this.utilities.isInvalidApiResponseData(data)) {
-        swal({ title: "Error", text: "Something went wrong while loading the masters", type: 'error' });
-        console.log(data);
-      }
-      else {
-        swal({ title: "Success", text: "Successfully Merged the records", type: 'success' });
-        this.searchBeneficiaries();
-      }
-    });
+      .subscribe((data) => {
+        if (this.utilities.isInvalidApiResponseData(data)) {
+          swal({ title: "Error", text: "Something went wrong while loading the masters", type: 'error' });
+          console.log(data);
+        }
+        else {
+          this.utilities.openSnackBar("Successfully Merged the records", "Success");
+          // swal({ title: "Success", text: "Successfully Merged the records", type: 'success' });
+          this.searchBeneficiaries();
+        }
+      });
 
     alert(this.mergeBenIds[0].benId + ' - ' + this.mergeBenIds[0].benNodeId + ' and ' + this.mergeBenIds[1].benId + ' - ' + this.mergeBenIds[1].benNodeId)
     this.disableMergeMode();

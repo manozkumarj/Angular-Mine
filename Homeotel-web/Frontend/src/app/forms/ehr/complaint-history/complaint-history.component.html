@@ -123,7 +123,7 @@
       </mat-card-content>
       <mat-card-actions align="center">
         <button id="add-btn" mat-button [disabled]="complaintsForm.invalid"
-          (click)="add()">{{ 'Add' | translate }}</button>
+          (click)="add()">{{ 'Save' | translate }}</button>
       </mat-card-actions>
     </mat-card>
 
@@ -210,8 +210,8 @@
 
       </mat-card-content>
       <mat-card-actions align="center">
-        <button id="save-btn" *ngIf="curStaff.allowDataSave()" mat-button (click)="saveComplaints()">{{ 'save' |
-          translate }}</button>
+        <!-- <button id="save-btn" *ngIf="curStaff.allowDataSave()" mat-button (click)="saveComplaints()">{{ 'save' |
+          translate }}</button> -->
       </mat-card-actions>
     </mat-card>
   </div>

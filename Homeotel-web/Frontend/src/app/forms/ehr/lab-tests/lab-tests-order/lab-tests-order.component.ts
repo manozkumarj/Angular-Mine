@@ -65,7 +65,7 @@ export class LabTestsOrderComponent implements OnInit {
           masterData.forEach(masterRow => {
             if (masterRow.master_type == 'lab_test')
               this.labTests.push({ name: masterRow.name, id: masterRow.id });
-              this.unassignedLabTests.push({ name: masterRow.name, id: masterRow.id });
+            this.unassignedLabTests.push({ name: masterRow.name, id: masterRow.id });
           });
           this.afterMasterDataLoads();
         }
@@ -98,7 +98,7 @@ export class LabTestsOrderComponent implements OnInit {
     });
 
     this.labTest.setValue('');
-    this.dataSource = new MatTableDataSource(this.labTestsOrdered);    
+    this.dataSource = new MatTableDataSource(this.labTestsOrdered);
   }
 
   //save and load data
@@ -120,7 +120,8 @@ export class LabTestsOrderComponent implements OnInit {
           console.log(data);
         }
         else {
-          swal({ title: "Success", text: "Saved Data Successfully", type: 'success' });
+          this.utilities.openSnackBar("Data Saved Successfully", "Success");
+          // swal({ title: "Success", text: "Saved Data Successfully", type: 'success' });
           this.initialiseForm();
         }
       });
@@ -149,7 +150,7 @@ export class LabTestsOrderComponent implements OnInit {
       }
       this.labTestsOrdered.push(thisLabTestOrdered);
 
-      this.unassignedLabTests = this.unassignedLabTests.filter(obj => obj.id !== labTestOrderedData['lab_test_id']);      
+      this.unassignedLabTests = this.unassignedLabTests.filter(obj => obj.id !== labTestOrderedData['lab_test_id']);
     });
 
     var strShortDescription = this.labTestsOrdered.length == 1 ? "1 Lab Test Ordered" : this.labTestsOrdered.length + " Lab Tests Ordered"

@@ -6,6 +6,7 @@ import { UtilitiesService } from '../../../services/utilities.service';
 import swal from 'sweetalert2';
 import { CurBenService } from '../../../services/cur-ben.service';
 import { DatePipe } from '@angular/common';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-personal-history',
@@ -618,7 +619,8 @@ export class PersonalHistoryComponent implements OnInit {
             console.log(data);
           }
           else {
-            swal({ title: "Success", text: "Saved Data Successfully", type: 'success' });
+            this.utilities.openSnackBar("Data Saved Successfully", "Success");
+            // swal({ title: "Success", text: "Saved Data Successfully", type: 'success' });
           }
         });
     }

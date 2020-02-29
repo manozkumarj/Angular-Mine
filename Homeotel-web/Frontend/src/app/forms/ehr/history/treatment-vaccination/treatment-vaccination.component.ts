@@ -19,19 +19,19 @@ export class TreatmentVaccinationComponent implements OnInit {
 
   ngOnInit() {
     this.loadCurrentVaccination();
-    
+
   }
 
-  saveVaccination()
-  {
-    this.apiService.saveVaccination( this.curBen.curEncId , this.utilities.getCurEncNodeId() , this.vaccinationMishap, this.curStaff.staffId )
+  saveVaccination() {
+    this.apiService.saveVaccination(this.curBen.curEncId, this.utilities.getCurEncNodeId(), this.vaccinationMishap, this.curStaff.staffId)
       .subscribe((data) => {
         if (this.utilities.isInvalidApiResponseData(data)) {
           swal({ title: "Error", text: "Something went wrong while saving the data", type: 'error' });
           console.log(data);
         }
         else {
-          swal({ title: "Success", text: "Saved Data Successfully", type: 'success' });
+          this.utilities.openSnackBar("Data Saved Successfully", "Success");
+          // swal({ title: "Success", text: "Saved Data Successfully", type: 'success' });
           this.loadCurrentVaccination();
         }
       });
@@ -40,9 +40,8 @@ export class TreatmentVaccinationComponent implements OnInit {
 
 
 
-  loadCurrentVaccination()
-  {
-    this.apiService.getVaccination(this.curBen.curEncId , this.utilities.getCurEncNodeId())
+  loadCurrentVaccination() {
+    this.apiService.getVaccination(this.curBen.curEncId, this.utilities.getCurEncNodeId())
       .subscribe((data) => {
         if (this.utilities.isInvalidApiResponseData(data)) {
           swal({ title: "Error", text: "Something went wrong while loading the data", type: 'error' });
@@ -52,7 +51,7 @@ export class TreatmentVaccinationComponent implements OnInit {
           console.log(data[0][0]["vaccination"]);
           console.log(data[0][0].vaccination);
           this.vaccinationMishap = data[0][0].vaccination;
-          if(this.vaccinationMishap){
+          if (this.vaccinationMishap) {
             this.hasData.emit();
           }
         }
@@ -60,4 +59,4 @@ export class TreatmentVaccinationComponent implements OnInit {
 
 
   }
-  }
+}

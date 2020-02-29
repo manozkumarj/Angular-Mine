@@ -15,7 +15,7 @@ import { DatePipe } from '@angular/common';
 export class ClinicalHistoryComponent implements OnInit {
 
   clinicalHistoryForm;
-  surgicalHistoryForm :FormGroup;
+  surgicalHistoryForm: FormGroup;
 
   medical; otherMedical; surgical; otherSurgical;
 
@@ -37,9 +37,9 @@ export class ClinicalHistoryComponent implements OnInit {
     //added
     this.createFormControls();
     this.createForm();
-   // this.setDefaults();
-   // this.createFormControls1();
-   // this.createForm1();
+    // this.setDefaults();
+    // this.createFormControls1();
+    // this.createForm1();
   }
 
   afterMasterDataLoads() {
@@ -49,7 +49,7 @@ export class ClinicalHistoryComponent implements OnInit {
 
     // this.loadClinicalHistory();
     this.getSurgicalHistory();
-   // this.setDefaults();
+    // this.setDefaults();
   }
 
   resetMasters() {
@@ -84,7 +84,7 @@ export class ClinicalHistoryComponent implements OnInit {
 
   createFormControls() {
     this.surgical = new FormControl();
-    this.otherSurgical = new FormControl({value: '', disabled: true});
+    this.otherSurgical = new FormControl({ value: '', disabled: true });
   }
 
   createForm() {
@@ -121,15 +121,14 @@ export class ClinicalHistoryComponent implements OnInit {
 
   surgicalChanged() {
 
-    if(this.surgical.value.join().indexOf(9)>-1){
+    if (this.surgical.value.join().indexOf(9) > -1) {
       this.surgicalHistoryForm.controls['otherSurgical'].enable();
     }
-    else
-    {
+    else {
       this.surgicalHistoryForm.controls['otherSurgical'].disable();
       this.otherSurgical.setValue('');
     }
-   // this.utilities.multiSelectEnableDisableOtherCtrl(this.surgical, this.otherSurgical);
+    // this.utilities.multiSelectEnableDisableOtherCtrl(this.surgical, this.otherSurgical);
   }
 
   //save and load data
@@ -227,8 +226,8 @@ export class ClinicalHistoryComponent implements OnInit {
   //   if (medicalsList.length > 0 || surgicalsList.length > 0)
   //     this.hasData.emit();
   // }
-//added
-  savesurgicalHistory(){
+  //added
+  savesurgicalHistory() {
 
 
     var curEncId = this.curBen.curEncId;
@@ -241,7 +240,7 @@ export class ClinicalHistoryComponent implements OnInit {
       strSurgicalsToAdd += curEncId + ",";
       strSurgicalsToAdd += encNodeId + ",";
       strSurgicalsToAdd += thisSurgical + ",";
-      if (thisSurgical===9)
+      if (thisSurgical === 9)
         strSurgicalsToAdd += "'" + this.otherSurgical.value + "',";
       else
         strSurgicalsToAdd += "null" + ",";
@@ -253,53 +252,54 @@ export class ClinicalHistoryComponent implements OnInit {
     });
 
     console.log(strSurgicalsToAdd);
-    this.apiService.saveSurgical( this.curBen.curEncId , this.utilities.getCurEncNodeId() , strSurgicalsToAdd )
+    this.apiService.saveSurgical(this.curBen.curEncId, this.utilities.getCurEncNodeId(), strSurgicalsToAdd)
       .subscribe((data) => {
         if (this.utilities.isInvalidApiResponseData(data)) {
           swal({ title: "Error", text: "Something went wrong while saving the data", type: 'error' });
           console.log(data);
         }
         else {
-          swal({ title: "Success", text: "Saved Data Successfully", type: 'success' });
-         this.getSurgicalHistory();
+          this.utilities.openSnackBar("Data Saved Successfully", "Success");
+          // swal({ title: "Success", text: "Saved Data Successfully", type: 'success' });
+          this.getSurgicalHistory();
         }
       });
   }
 
-  getSurgicalHistory(){
+  getSurgicalHistory() {
     console.log("get")
-    this.apiService.getSurgical(this.curBen.curEncId , this.utilities.getCurEncNodeId())
-    .subscribe((data) => {
-      if (this.utilities.isInvalidApiResponseData(data)) {
-        swal({ title: "Error", text: "Something went wrong while loading the data", type: 'error' });
-        console.log(data);
-      }
-      else {
-        console.log(data);
-        this.setSurgicalData(data[0])
-      }
-    });
-}
-
-
-setSurgicalData(data){
-var surgicalIds=[];
-data.forEach(data=>{
-   surgicalIds.push(data["surgical_id"]);
-
-});
-
-this.surgical.setValue(surgicalIds);
-if(this.surgical.value.join().indexOf(9)>-1){
-  this.surgicalChanged ();
-
-  data.forEach(data=>{
-    this.otherSurgical.setValue(data["other_surgical"]);
- });
-
-}
-if(this.surgical.value.length >0 || this.otherSurgical.value.length >0 ){
-  this.hasData.emit();
-}
-}
+    this.apiService.getSurgical(this.curBen.curEncId, this.utilities.getCurEncNodeId())
+      .subscribe((data) => {
+        if (this.utilities.isInvalidApiResponseData(data)) {
+          swal({ title: "Error", text: "Something went wrong while loading the data", type: 'error' });
+          console.log(data);
+        }
+        else {
+          console.log(data);
+          this.setSurgicalData(data[0])
+        }
+      });
   }
+
+
+  setSurgicalData(data) {
+    var surgicalIds = [];
+    data.forEach(data => {
+      surgicalIds.push(data["surgical_id"]);
+
+    });
+
+    this.surgical.setValue(surgicalIds);
+    if (this.surgical.value.join().indexOf(9) > -1) {
+      this.surgicalChanged();
+
+      data.forEach(data => {
+        this.otherSurgical.setValue(data["other_surgical"]);
+      });
+
+    }
+    if (this.surgical.value.length > 0 || this.otherSurgical.value.length > 0) {
+      this.hasData.emit();
+    }
+  }
+}

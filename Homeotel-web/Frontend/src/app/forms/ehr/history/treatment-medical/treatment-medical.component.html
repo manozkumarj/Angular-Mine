@@ -1,11 +1,12 @@
-<form [formGroup]="personalHistoryForm" fxLayout="row wrap" fxLayoutAlign="center start" [fxLayoutGap]="curStaff.gapBetweenControls" autocomplete="off">
+<form [formGroup]="personalHistoryForm" fxLayout="row wrap" fxLayoutAlign="center start"
+  [fxLayoutGap]="curStaff.gapBetweenControls" autocomplete="off">
   <div fxFlex="100%" fxLayout="row wrap" [fxLayoutGap]="curStaff.gapBetweenControls">
 
 
 
     <mat-form-field [fxFlex]="curStaff.compactness">
       <mat-select placeholder="{{ 'Medical History' | translate }}" name="medical" [formControl]="medical"
-        (change)="medicalChanged()" >
+        (change)="medicalChanged()">
         <mat-option *ngFor="let medical of medicals" [value]="medical">
           {{medical.name}}
         </mat-option>
@@ -14,17 +15,19 @@
     </mat-form-field>
 
     <mat-form-field *ngIf="isOtherMedical" style="line-height: 20px;" [fxFlex]="curStaff.compactness">
-      <input matInput placeholder="{{'Other Medical History' | translate }}" name="otherMedical" [formControl]="otherMedical">
+      <input matInput placeholder="{{'Other Medical History' | translate }}" name="otherMedical"
+        [formControl]="otherMedical">
       <mat-error *ngIf="otherMedical.invalid">{{ utilities.getErrorMessage(otherMedical) | translate }}
       </mat-error>
     </mat-form-field>
 
     <mat-form-field [fxFlex]="curStaff.compactness">
-      <input matInput placeholder="{{'Medicines Used' | translate }}" name="medicinesUsed" [formControl]="medicinesUsed">
+      <input matInput placeholder="{{'Medicines Used' | translate }}" name="medicinesUsed"
+        [formControl]="medicinesUsed">
     </mat-form-field>
 
     <mat-form-field [fxFlex]="curStaff.compactness">
-      <input matInput placeholder="{{'Outcome' | translate }}" name="outcome"  [formControl]="outcome">
+      <input matInput placeholder="{{'Outcome' | translate }}" name="outcome" [formControl]="outcome">
     </mat-form-field>
 
   </div>
@@ -33,7 +36,8 @@
 
 
 
-    <button [fxFlex]="curStaff.compactness" id="add-btn" mat-button (click)="addPersonalHistory()">{{ 'Add' | translate }}</button>
+  <button [fxFlex]="curStaff.compactness" id="add-btn" mat-button
+    (click)="addPersonalHistory()">{{ 'Save' | translate }}</button>
 
 </form>
 
@@ -65,11 +69,11 @@
       </ng-container>
 
       <ng-container matColumnDef="deleteOption">
-        <mat-header-cell mat-header-cell *matHeaderCellDef>  </mat-header-cell>
+        <mat-header-cell mat-header-cell *matHeaderCellDef> </mat-header-cell>
         <mat-cell mat-cell *matCellDef="let element; let i= index" class="delete-btn">
           <mat-icon *ngIf="curStaff.allowDataSave()"
-          [swal]="{ title: 'Are you sure?' | translate, type: 'question', showConfirmButton: true, confirmButtonText: 'Yes, delete it!' | translate, confirmButtonColor :'#d33' ,showCancelButton: true, cancelButtonText: 'cancel' | translate }"
-           (confirm)="deleteCurrentMedication(i)">delete</mat-icon>
+            [swal]="{ title: 'Are you sure?' | translate, type: 'question', showConfirmButton: true, confirmButtonText: 'Yes, delete it!' | translate, confirmButtonColor :'#d33' ,showCancelButton: true, cancelButtonText: 'cancel' | translate }"
+            (confirm)="deleteCurrentPersonalHistory(i)">delete</mat-icon>
         </mat-cell>
       </ng-container>
 
@@ -84,6 +88,6 @@
 
   </mat-card-content>
   <mat-card-actions align="center">
-    <button id="save-btn" mat-button (click)="saveCurrentMedication()">{{ 'save' | translate }}</button>
+    <!-- <button id="save-btn" mat-button (click)="saveCurrentMedication()">{{ 'save' | translate }}</button> -->
   </mat-card-actions>
 </mat-card>

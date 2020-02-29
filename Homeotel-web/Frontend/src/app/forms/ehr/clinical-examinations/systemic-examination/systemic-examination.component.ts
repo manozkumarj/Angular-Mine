@@ -73,7 +73,8 @@ export class SystemicExaminationComponent implements OnInit {
           console.log(data);
         }
         else {
-          swal({ title: "Success", text: "Saved Data Successfully", type: 'success' });
+          this.utilities.openSnackBar("Data Saved Successfully", "Success");
+          // swal({ title: "Success", text: "Saved Data Successfully", type: 'success' });
           this.initialiseForm();
         }
       });

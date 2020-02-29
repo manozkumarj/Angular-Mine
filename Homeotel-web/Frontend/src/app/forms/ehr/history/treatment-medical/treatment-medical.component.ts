@@ -17,7 +17,7 @@ import { MatTableDataSource } from '@angular/material';
 })
 export class TreatmentMedicalComponent implements OnInit {
 
-  personalHistoryForm : FormGroup;
+  personalHistoryForm: FormGroup;
 
   medical; otherMedical;
 
@@ -25,12 +25,12 @@ export class TreatmentMedicalComponent implements OnInit {
   medicals = [];
   medicinesUsed;
   outcome;
-  addedPersonalHistory=[];
+  addedPersonalHistory = [];
 
   isOtherMedical = false;
 
   dataSource: MatTableDataSource<any>;
-  displayedColumns: string[] = ['medicalHistory', 'otherMedicalHistory','medicinesUsed', 'outcome',  'deleteOption'];
+  displayedColumns: string[] = ['medicalHistory', 'otherMedicalHistory', 'medicinesUsed', 'outcome', 'deleteOption'];
 
   @Output() hasData = new EventEmitter<any>();
 
@@ -96,11 +96,9 @@ export class TreatmentMedicalComponent implements OnInit {
 
   medicalChanged() {
 
-    if (this.medical.value.name.toLowerCase().indexOf('other') > -1)
-    {
+    if (this.medical.value.name.toLowerCase().indexOf('other') > -1) {
       this.isOtherMedical = true;
-    }else
-    {
+    } else {
       this.isOtherMedical = false;
     }
 
@@ -108,19 +106,19 @@ export class TreatmentMedicalComponent implements OnInit {
 
   // added
 
-  addPersonalHistory(){
+  addPersonalHistory() {
     console.log(this.medical.value)
 
-    if (this.medical.value===null) {
+    if (this.medical.value === null) {
       swal({ title: "Error", text: "Please select atleast one medical history.", type: 'error' });
       return;
     }
 
-    var isDuplicateMedicalId= false;
+    var isDuplicateMedicalId = false;
 
     this.addedPersonalHistory.forEach(thisMedication => {
       if (thisMedication.medicalsIds == this.medical.value.id)
-      isDuplicateMedicalId = true;
+        isDuplicateMedicalId = true;
     });
 
     if (isDuplicateMedicalId) {
@@ -129,30 +127,39 @@ export class TreatmentMedicalComponent implements OnInit {
       return;
     }
 
-     var addedPersonalHistory ={
-      medicalsIds : this.medical.value.id,
-      medicalNames : this.medical.value.name,
-      otherMedical : this.otherMedical.value,
-      medicinesUsed : this.medicinesUsed.value,
-      outcome : this.outcome.value
+    var addedPersonalHistory = {
+      medicalsIds: this.medical.value.id,
+      medicalNames: this.medical.value.name,
+      otherMedical: this.otherMedical.value,
+      medicinesUsed: this.medicinesUsed.value,
+      outcome: this.outcome.value
     };
 
     this.addedPersonalHistory.push(addedPersonalHistory);
     console.log(this.addedPersonalHistory);
     this.dataSource = new MatTableDataSource(this.addedPersonalHistory);
-    this.isOtherMedical =false;
+    this.isOtherMedical = false;
     this.personalHistoryForm.reset();
+    this.savePersonalHistory();
 
   }
 
-  deleteCurrentMedication(i){
+  deleteCurrentPersonalHistory(i) {
 
-    
-    this.addedPersonalHistory.splice(i ,1);
+
+    this.addedPersonalHistory.splice(i, 1);
     this.dataSource = new MatTableDataSource(this.addedPersonalHistory);
+    if (this.addedPersonalHistory.length != 0) {
+      this.savePersonalHistory();
+    }
+
   }
 
-  saveCurrentMedication(){
+  savePersonalHistory() {
+
+    console.log(this.medical.value)
+
+
 
     var curEncId = this.curBen.curEncId;
     var encNodeId = this.utilities.getCurEncNodeId();
@@ -165,69 +172,71 @@ export class TreatmentMedicalComponent implements OnInit {
       strMedicalsHistoryToAdd += encNodeId + ",";
       strMedicalsHistoryToAdd += thisMedical.medicalsIds + ",";
       if (thisMedical.medicalNames.toLowerCase().indexOf('other') > -1)
-      strMedicalsHistoryToAdd += "'" + thisMedical.otherMedical + "',";
+        strMedicalsHistoryToAdd += "'" + thisMedical.otherMedical + "',";
       else
-      strMedicalsHistoryToAdd += "null" + ",";
+        strMedicalsHistoryToAdd += "null" + ",";
       strMedicalsHistoryToAdd += "'" + thisMedical.medicinesUsed + "',";
       strMedicalsHistoryToAdd += "'" + thisMedical.outcome + "',";
       strMedicalsHistoryToAdd += this.curStaff.staffId + ",";
       strMedicalsHistoryToAdd += "'" + createdAt + "'"
       strMedicalsHistoryToAdd += ")";
       if (index != this.addedPersonalHistory.length - 1)
-      strMedicalsHistoryToAdd += ',';
+        strMedicalsHistoryToAdd += ',';
     });
 
     console.log(strMedicalsHistoryToAdd);
 
-    this.apiService.saveTreatmentHistory( this.curBen.curEncId , this.utilities.getCurEncNodeId() , strMedicalsHistoryToAdd )
-    .subscribe((data) => {
-      if (this.utilities.isInvalidApiResponseData(data)) {
-        swal({ title: "Error", text: "Something went wrong while saving the data", type: 'error'  });
-        console.log(data);
-      }
-      else {
-        swal({ title: "Success", text: "Saved Data Successfully", type: 'success' });
-        this.loadTreatmentHistory();
-      }
-    });
-}
+    this.apiService.saveTreatmentHistory(this.curBen.curEncId, this.utilities.getCurEncNodeId(), strMedicalsHistoryToAdd)
+      .subscribe((data) => {
+        if (this.utilities.isInvalidApiResponseData(data)) {
+          swal({ title: "Error", text: "Something went wrong while saving the data", type: 'error' });
+          console.log(data);
+        }
+        else {
+          this.utilities.openSnackBar("Data Saved Successfully", "Success");
+          // swal({ title: "Success", text: "Saved Data Successfully", type: 'success' });
+          this.loadTreatmentHistory();
+        }
+      });
+  }
 
 
-loadTreatmentHistory(){
+  loadTreatmentHistory() {
 
     console.log("get")
-    this.apiService.getTreatmentHistory(this.curBen.curEncId , this.utilities.getCurEncNodeId())
-    .subscribe((data) => {
-      if (this.utilities.isInvalidApiResponseData(data)) {
-        swal({ title: "Error", text: "Something went wrong while loading the data", type: 'error' });
-        console.log(data);
-      }
-      else
-      {
-        console.log(data[0]);
-        this.addedPersonalHistory=[];
-        data[0].forEach(data=>{
+    this.apiService.getTreatmentHistory(this.curBen.curEncId, this.utilities.getCurEncNodeId())
+      .subscribe((data) => {
+        if (this.utilities.isInvalidApiResponseData(data)) {
+          swal({ title: "Error", text: "Something went wrong while loading the data", type: 'error' });
+          console.log(data);
+        }
+        else {
+          console.log(data[0]);
+          this.addedPersonalHistory = [];
+          data[0].forEach(data => {
 
-          var getMedicalIdIndex = this.medicals.findIndex(medical => medical.id == data.medical_id);
-          let medicalName = this.medicals[getMedicalIdIndex]['name'];
-          this.addedPersonalHistory.push({medicalsIds : data.medical_id,
-            medicalNames : medicalName,
-            otherMedical : data.other_medical,
-            medicinesUsed : data.medicines_used,
-            outcome : data.outcome});
-        });
+            var getMedicalIdIndex = this.medicals.findIndex(medical => medical.id == data.medical_id);
+            let medicalName = this.medicals[getMedicalIdIndex]['name'];
+            this.addedPersonalHistory.push({
+              medicalsIds: data.medical_id,
+              medicalNames: medicalName,
+              otherMedical: data.other_medical,
+              medicinesUsed: data.medicines_used,
+              outcome: data.outcome
+            });
+          });
 
-        this.dataSource = new MatTableDataSource(this.addedPersonalHistory);
-        if(this.addedPersonalHistory.length>0 ){
-          this.hasData.emit();
+          this.dataSource = new MatTableDataSource(this.addedPersonalHistory);
+          if (this.addedPersonalHistory.length > 0) {
+            this.hasData.emit();
+          }
+
         }
 
-      }
-
-    });
+      });
 
 
-
-}
 
   }
+
+}

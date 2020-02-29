@@ -261,12 +261,12 @@ export class RegistrationComponent implements OnInit, AfterViewInit {
 
     this.consultationFor = new FormControl('');
     this.relationWithConsultant = new FormControl('')
-    this.firstName = new FormControl('', [Validators.pattern('^[a-zA-Z ]+'), Validators.minLength(3)]);
-    this.lastName = new FormControl('', Validators.pattern('^[a-zA-Z ]+'));
-    this.gender = new FormControl('');
+    this.firstName = new FormControl('', [Validators.required, Validators.pattern('^[a-zA-Z ]+'), Validators.minLength(3)]);
+    this.lastName = new FormControl('', [Validators.required, Validators.pattern('^[a-zA-Z ]+')]);
+    this.gender = new FormControl('', [Validators.required]);
     this.age = new FormControl('', [Validators.min(1), Validators.pattern('^[0-9]+')]);
     this.ageUnit = new FormControl('');
-    this.dob = new FormControl();
+    this.dob = new FormControl('', [Validators.required]);
     this.maritalStatus = new FormControl();
     this.occupation = new FormControl();
     this.fatherName = new FormControl('', [Validators.pattern('^[a-zA-Z ]+')]);
@@ -600,7 +600,8 @@ export class RegistrationComponent implements OnInit, AfterViewInit {
           this.loadBenPhoto();
           this.loadBenDetails();
 
-          swal({ title: "Success", text: "Registered beneficiary successfully!", type: 'success' });
+          this.utilities.openSnackBar("Registered beneficiary successfully!", "Success");
+          // swal({ title: "Success", text: "Registered beneficiary successfully!", type: 'success' });
         }
       })
   }
@@ -620,7 +621,8 @@ export class RegistrationComponent implements OnInit, AfterViewInit {
             this.loadBenPhoto();
 
           this.loadBenDetails();
-          swal({ title: "Success", text: "Revisit created successfully!", type: 'success' });
+          this.utilities.openSnackBar("Revisit created successfully!", "Success");
+          // swal({ title: "Success", text: "Revisit created successfully!", type: 'success' });
         }
       })
   }
@@ -643,7 +645,8 @@ export class RegistrationComponent implements OnInit, AfterViewInit {
             this.loadBenPhoto();
 
           this.loadBenDetails();
-          swal({ title: "Success", text: "Updated beneficiary details successfully!", type: 'success' });
+          this.utilities.openSnackBar("Updated beneficiary details successfully!", "Success");
+          // swal({ title: "Success", text: "Updated beneficiary details successfully!", type: 'success' });
         }
       })
   }

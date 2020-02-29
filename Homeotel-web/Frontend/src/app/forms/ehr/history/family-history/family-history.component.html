@@ -1,4 +1,4 @@
-<form fxLayout="row wrap" fxLayoutAlign="center start"  [formGroup]="familyHistoryForm" autocomplete="off">
+<form fxLayout="row wrap" fxLayoutAlign="center start" [formGroup]="familyHistoryForm" autocomplete="off">
 
   <div fxFlex="100%" fxLayout="row wrap" [fxLayoutGap]="curStaff.gapBetweenControls">
 
@@ -11,22 +11,23 @@
     </mat-form-field>
 
     <mat-form-field [fxFlex]="curStaff.compactness">
-      <mat-select placeholder="{{ 'Medical History' | translate }}" name="medicalHistory" (change)="medicalHistoryChanged()" [formControl]="medicalHistory"
-        multiple>
+      <mat-select placeholder="{{ 'Medical History' | translate }}" name="medicalHistory"
+        (change)="medicalHistoryChanged()" [formControl]="medicalHistory" multiple>
         <mat-option *ngFor="let medicalHistory of medicals" [value]="medicalHistory">
           {{medicalHistory.name}}
         </mat-option>
       </mat-select>
     </mat-form-field>
 
-    <mat-form-field style="line-height: 20px;"[fxFlex]="curStaff.compactness" *ngIf="isOtherMedical">
-      <input matInput placeholder="{{'Other Medical History' | translate }}" name="otherMedicalHistory" [formControl]="otherMedicalHistory">
+    <mat-form-field style="line-height: 20px;" [fxFlex]="curStaff.compactness" *ngIf="isOtherMedical">
+      <input matInput placeholder="{{'Other Medical History' | translate }}" name="otherMedicalHistory"
+        [formControl]="otherMedicalHistory">
     </mat-form-field>
 
 
   </div>
 
-  <button id="save-btn"  mat-button  (click)="addFamilyHistory()">{{ 'Add' | translate }}</button>
+  <button id="save-btn" mat-button (click)="addFamilyHistory()">{{ 'Save' | translate }}</button>
 
 </form>
 
@@ -42,7 +43,7 @@
       </ng-container>
 
       <ng-container matColumnDef="medicalHistoryNames">
-        <mat-header-cell mat-header-cell *matHeaderCellDef>  Medical History </mat-header-cell>
+        <mat-header-cell mat-header-cell *matHeaderCellDef> Medical History </mat-header-cell>
         <mat-cell mat-cell *matCellDef="let element"> {{element.medicalHistoryNames}} </mat-cell>
       </ng-container>
 
@@ -53,10 +54,11 @@
 
 
       <ng-container matColumnDef="deleteOption">
-        <mat-header-cell mat-header-cell *matHeaderCellDef>  </mat-header-cell>
+        <mat-header-cell mat-header-cell *matHeaderCellDef> </mat-header-cell>
         <mat-cell mat-cell *matCellDef="let element; let i= index" class="delete-btn">
-          <mat-icon [swal]="{ title: 'Are you sure?' | translate, type: 'question', showConfirmButton: true, confirmButtonText: 'Yes, delete it!' | translate, confirmButtonColor :'#d33' ,showCancelButton: true, cancelButtonText: 'cancel' | translate }"
-           (confirm)="deleteCurrentFamilyHistory(i)">delete</mat-icon>
+          <mat-icon
+            [swal]="{ title: 'Are you sure?' | translate, type: 'question', showConfirmButton: true, confirmButtonText: 'Yes, delete it!' | translate, confirmButtonColor :'#d33' ,showCancelButton: true, cancelButtonText: 'cancel' | translate }"
+            (confirm)="deleteCurrentFamilyHistory(i)">delete</mat-icon>
         </mat-cell>
       </ng-container>
 
@@ -67,6 +69,6 @@
 
   </mat-card-content>
   <mat-card-actions align="center">
-    <button id="save-btn" mat-button (click)="saveFamilyHistory()">{{ 'save' | translate }}</button>
+    <!-- <button id="save-btn" mat-button (click)="saveFamilyHistory()">{{ 'save' | translate }}</button> -->
   </mat-card-actions>
 </mat-card>

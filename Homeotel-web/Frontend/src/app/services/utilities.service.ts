@@ -3,6 +3,7 @@ import { CurBenService } from './cur-ben.service';
 import { CurStaffService } from './cur-staff.service';
 import { Subject } from 'rxjs';
 import { Validators } from '@angular/forms';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Injectable()
 export class UtilitiesService {
@@ -12,7 +13,7 @@ export class UtilitiesService {
 
   docMode = false;
 
-  constructor(private curBen: CurBenService, private curStaff: CurStaffService) { }
+  constructor(private curBen: CurBenService, private curStaff: CurStaffService, private _snackBar: MatSnackBar) { }
 
   /* a useful function to have in the repo but currently, seems directly converting to date is giving the date as expected...
   convertUTCDateToLocalDate(date) {
@@ -155,5 +156,11 @@ export class UtilitiesService {
             formControl.hasError('minlength') ? 'invalid_error_msg' :
               formControl.hasError('maxlength') ? 'invalid_error_msg' :
                 '';
+  }
+
+  openSnackBar(message: string, action: string) {
+    this._snackBar.open(message, action, {
+      duration: 2000,
+    });
   }
 }

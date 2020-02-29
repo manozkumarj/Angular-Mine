@@ -108,7 +108,7 @@ export class CurrentMedicationComponent implements OnInit {
       if (medication.medicine.indexOf("'") > -1 || medication.medicine.indexOf('"') > -1)
         medicineNameHasQuotes = true;
 
-      strCurrentMedicationToAdd += "(";      
+      strCurrentMedicationToAdd += "(";
       strCurrentMedicationToAdd += thisEncId + ",";
       strCurrentMedicationToAdd += thisEncNodeId + ",";
       strCurrentMedicationToAdd += "'" + medication.medicine + "',";
@@ -135,7 +135,8 @@ export class CurrentMedicationComponent implements OnInit {
           console.log(data);
         }
         else {
-          swal({ title: "Success", text: "Saved Data Successfully", type: 'success' });
+          this.utilities.openSnackBar("Data Saved Successfully", "Success");
+          // swal({ title: "Success", text: "Saved Data Successfully", type: 'success' });
           this.initialiseForm();
         }
       });
