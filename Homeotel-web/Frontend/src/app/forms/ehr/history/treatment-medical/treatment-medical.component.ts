@@ -8,8 +8,6 @@ import { CurBenService } from '../../../../services/cur-ben.service';
 import { DatePipe } from '@angular/common';
 import { MatTableDataSource } from '@angular/material';
 
-
-
 @Component({
   selector: 'app-treatment-medical',
   templateUrl: './treatment-medical.component.html',
@@ -93,6 +91,22 @@ export class TreatmentMedicalComponent implements OnInit {
     });
   }
 
+  deleteLastRow() {
+    var tableName = "dbe_his_treatment_history";
+
+    this.apiService.deleteLastRow(this.curBen.curEncId, this.utilities.getCurEncNodeId(), tableName)
+      .subscribe((data) => {
+        if (this.utilities.isInvalidApiResponseData(data)) {
+          swal({ title: "Error", text: "Something went wrong while saving the data", type: 'error' });
+          console.log(data);
+        }
+        else {
+          this.utilities.openSnackBar("Data Saved Successfully", "Success");
+          // swal({ title: "Success", text: "Saved Data Successfully", type: 'success' });
+          this.loadTreatmentHistory();
+        }
+      });
+  }
 
   medicalChanged() {
 
@@ -145,22 +159,17 @@ export class TreatmentMedicalComponent implements OnInit {
   }
 
   deleteCurrentPersonalHistory(i) {
-
-
     this.addedPersonalHistory.splice(i, 1);
     this.dataSource = new MatTableDataSource(this.addedPersonalHistory);
-    if (this.addedPersonalHistory.length != 0) {
+    if (this.addedPersonalHistory.length == 0) {
+      this.deleteLastRow();
+    } else {
       this.savePersonalHistory();
     }
-
   }
 
   savePersonalHistory() {
-
-    console.log(this.medical.value)
-
-
-
+    console.log(this.medical.value);
     var curEncId = this.curBen.curEncId;
     var encNodeId = this.utilities.getCurEncNodeId();
     var createdAt = this.datePipe.transform(Date.now(), 'yyyy-MM-dd HH:mm:ss');

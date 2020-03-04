@@ -1,15 +1,15 @@
 <div fxLayout="column" fxLayoutAlign="center center">
 
-<!--
+  <!--
   <span layout="row"> -->
-    <!-- <h2 fxFlex id="heading">{{ 'digwal_telemedicine_application' | translate }}</h2> -->
-    <!-- <h2 fxFlex id="heading">Piramal Arogya Seva Kendra</h2> -->
-    <!-- <h2 fxFlex id="heading">HOMEOTEL</h2> -->
+  <!-- <h2 fxFlex id="heading">{{ 'digwal_telemedicine_application' | translate }}</h2> -->
+  <!-- <h2 fxFlex id="heading">Piramal Arogya Seva Kendra</h2> -->
+  <!-- <h2 fxFlex id="heading">HOMEOTEL</h2> -->
   <!-- </span> -->
 
   <!-- <span layout="row"> -->
-    <!-- <h3 fxFlex="100%" id="welcome-text">{{ 'welcome' | translate }}</h3> -->
-    <!-- <h3 fxFlex="100%" id="welcome-text">Digwal</h3> -->
+  <!-- <h3 fxFlex="100%" id="welcome-text">{{ 'welcome' | translate }}</h3> -->
+  <!-- <h3 fxFlex="100%" id="welcome-text">Digwal</h3> -->
   <!-- </span> -->
   <br>
 
@@ -22,14 +22,16 @@
       <div class="signin-form">
         <br>
         <mat-form-field class="full-width">
-          <input #usernameElement matInput placeholder="{{'username' | translate }}" name="username" [(ngModel)]="username" (keyup.enter)="login()">
+          <input #usernameElement matInput placeholder="{{'username' | translate }}" name="username"
+            [(ngModel)]="username" (keyup.enter)="login()">
         </mat-form-field>
         <mat-form-field class="full-width">
-          <input matInput placeholder="{{ 'password' | translate }}" type="password" name="password" [(ngModel)]="password" (keyup.enter)="login()">
+          <input matInput placeholder="{{ 'password' | translate }}" type="password" name="password"
+            [(ngModel)]="password" (keyup.enter)="login()">
         </mat-form-field>
         <div fxLayout="row">
-          <button fxFlex style="margin-top:30px; background-color: rgb(57, 100, 8); color: white; height: 45px; font-size: 18px;" mat-raised-button
-            (click)="login()">{{ 'login' | translate }}</button>
+          <button fxFlex class="save-btn" style="margin-top:30px; color: white; height: 45px; font-size: 18px;"
+            mat-raised-button (click)="login()">{{ 'login' | translate }}</button>
         </div>
       </div>
     </mat-card-content>
@@ -38,7 +40,8 @@
     <p>
       <span *ngIf="curStaff.language == 'english'">{{ 'powered_by' | translate }}</span>
       <span>
-        <a style="text-decoration: none; cursor: pointer;" href="https://www.zoltglobal.com/" target="_blank">{{ 'zolt_info_solutions' | translate }}</a>
+        <a style="text-decoration: none; cursor: pointer;" href="https://www.zoltglobal.com/"
+          target="_blank">{{ 'zolt_info_solutions' | translate }}</a>
       </span>
       <span *ngIf="curStaff.language != 'english'">{{ 'powered_by' | translate }}</span>
     </p>

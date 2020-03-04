@@ -86,6 +86,7 @@ export class CurrentMedicationComponent implements OnInit {
     this.currentMedicationForm.reset();
     this.medicationsAdded.push(thisMedication);
     this.dataSource = new MatTableDataSource(this.medicationsAdded);
+    this.saveCurrentMedication()
   }
 
   deleteCurrentMedication(strMedicineName) {
@@ -94,6 +95,28 @@ export class CurrentMedicationComponent implements OnInit {
         this.medicationsAdded.splice(index, 1);
     });
     this.dataSource = new MatTableDataSource(this.medicationsAdded);
+    if (this.medicationsAdded.length == 0) {
+      this.deleteLastRow();
+    } else {
+      this.saveCurrentMedication();
+    }
+  }
+
+  deleteLastRow() {
+    var tableName = "dbe_his_cur_medication";
+
+    this.apiService.deleteLastRow(this.curBen.curEncId, this.utilities.getCurEncNodeId(), tableName)
+      .subscribe((data) => {
+        if (this.utilities.isInvalidApiResponseData(data)) {
+          swal({ title: "Error", text: "Something went wrong while saving the data", type: 'error' });
+          console.log(data);
+        }
+        else {
+          this.utilities.openSnackBar("Data Saved Successfully", "Success");
+          // swal({ title: "Success", text: "Saved Data Successfully", type: 'success' });
+          this.loadCurrentMedication();
+        }
+      });
   }
 
   saveCurrentMedication() {

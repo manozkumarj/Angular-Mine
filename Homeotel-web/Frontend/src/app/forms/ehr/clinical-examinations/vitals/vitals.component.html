@@ -1,7 +1,7 @@
 <form *ngIf="!viewMode" fxLayout="row wrap" [formGroup]="vitalsForm" autocomplete="off">
 
   <div fxFlex="100%" fxLayout="row wrap" [fxLayoutGap]="curStaff.gapBetweenControls">
-    <mat-form-field [fxFlex]="curStaff.compactness" hintLabel="{{strTempHint}}">
+    <mat-form-field style="line-height: 20px;" [fxFlex]="curStaff.compactness" hintLabel="{{strTempHint}}">
       <input matInput placeholder="{{'temperature' | translate }}" type="number" name="temperature"
         [formControl]="temperature">
       <mat-error *ngIf="temperature.hasError('required')">{{ utilities.getErrorMessage(temperature) | translate }}
@@ -9,7 +9,7 @@
       <mat-error *ngIf="!temperature.hasError('required') && temperature.invalid">{{strTempHint}}</mat-error>
     </mat-form-field>
 
-    <mat-form-field [fxFlex]="curStaff.compactness" hintLabel="{{strPulseHint}}">
+    <mat-form-field style="line-height: 20px;" [fxFlex]="curStaff.compactness" hintLabel="{{strPulseHint}}">
       <input matInput placeholder="{{'pulse_rate' | translate }}" type="number" name="pulseRate"
         [formControl]="pulseRate">
       <mat-error *ngIf="pulseRate.hasError('required')">{{ utilities.getErrorMessage(pulseRate) | translate }}
@@ -17,11 +17,11 @@
       <mat-error *ngIf="!pulseRate.hasError('required') && pulseRate.invalid">{{strPulseHint}}</mat-error>
     </mat-form-field>
 
-    <mat-form-field [fxFlex]="curStaff.compactness" hintLabel="{{strPulseHint}}">
-      <input matInput placeholder="{{'Heart Rate' | translate }}" type="number" name="heartRate">      
+    <mat-form-field style="line-height: 20px;" [fxFlex]="curStaff.compactness" hintLabel="{{strPulseHint}}">
+      <input matInput placeholder="{{'Heart Rate' | translate }}" type="number" name="heartRate">
     </mat-form-field>
 
-    <mat-form-field [fxFlex]="curStaff.compactness" hintLabel="{{strRespHint}}">
+    <mat-form-field style="line-height: 20px;" [fxFlex]="curStaff.compactness" hintLabel="{{strRespHint}}">
       <input matInput placeholder="{{'respiratory_rate' | translate }}" type="number" name="respRate"
         [formControl]="respRate">
       <mat-error *ngIf="respRate.hasError('required')">{{ utilities.getErrorMessage(respRate) | translate }}
@@ -29,7 +29,7 @@
       <mat-error *ngIf="!respRate.hasError('required') && respRate.invalid">{{strRespHint}}</mat-error>
     </mat-form-field>
 
-    <mat-form-field [fxFlex]="curStaff.compactness" hintLabel="{{strSysHint}}">
+    <mat-form-field style="line-height: 20px;" [fxFlex]="curStaff.compactness" hintLabel="{{strSysHint}}">
       <input matInput placeholder="{{'systolic_bp' | translate }}" type="number" name="systolicBp"
         [formControl]="systolicBp">
       <mat-error *ngIf="systolicBp.hasError('required')">{{ utilities.getErrorMessage(systolicBp) | translate }}
@@ -37,18 +37,22 @@
       <mat-error *ngIf="!systolicBp.hasError('required') && systolicBp.invalid">{{strSysHint}}</mat-error>
     </mat-form-field>
 
-    <mat-form-field [fxFlex]="curStaff.compactness" hintLabel="{{strDiaHint}}">
+    <mat-form-field style="line-height: 20px;" [fxFlex]="curStaff.compactness" hintLabel="{{strDiaHint}}">
       <input matInput placeholder="{{'diastolic_bp' | translate }}" type="number" name="diastolicBp"
         [formControl]="diastolicBp">
       <mat-error *ngIf="diastolicBp.hasError('required')">{{ utilities.getErrorMessage(diastolicBp) | translate }}
       </mat-error>
       <mat-error *ngIf="!diastolicBp.hasError('required') && diastolicBp.invalid">{{strDiaHint}}</mat-error>
     </mat-form-field>
+
+
   </div>
 
   <button class="save-btn" *ngIf="curStaff.allowDataSave()" mat-button [disabled]="vitalsForm.invalid"
     (click)="saveVitals()">{{
     'save' | translate }}</button>
+
+
 </form>
 
 <div *ngIf="viewMode">

@@ -204,21 +204,18 @@ export class FamilyHistoryComponent implements OnInit {
     this.saveFamilyHistory();
   }
 
-
-
   deleteCurrentFamilyHistory(i) {
     this.addedFamilyHistory.splice(i, 1);
     this.dataSource = new MatTableDataSource(this.addedFamilyHistory);
-    if (this.addedFamilyHistory.length != 0) {
+    if (this.addedFamilyHistory.length == 0) {
+      this.deleteLastRow();
+    }
+    else {
       this.saveFamilyHistory();
     }
   }
 
-
   saveFamilyHistory() {
-
-
-
     console.log(this.addedFamilyHistory);
     var curEncId = this.curBen.curEncId;
     var encNodeId = this.utilities.getCurEncNodeId();
@@ -261,7 +258,6 @@ export class FamilyHistoryComponent implements OnInit {
 
   loadFamilyHistory() {
 
-
     console.log("get")
     this.apiService.getFamilyHistory(this.curBen.curEncId, this.utilities.getCurEncNodeId())
       .subscribe((data) => {
@@ -278,7 +274,23 @@ export class FamilyHistoryComponent implements OnInit {
       });
   }
 
+  deleteLastRow() {
+    var tableName = "dbe_his_fh";
 
+    this.apiService.deleteLastRow(this.curBen.curEncId, this.utilities.getCurEncNodeId(), tableName)
+      .subscribe((data) => {
+        if (this.utilities.isInvalidApiResponseData(data)) {
+          swal({ title: "Error", text: "Something went wrong while saving the data", type: 'error' });
+          console.log(data);
+        }
+        else {
+          this.utilities.openSnackBar("Data Saved Successfully", "Success");
+          // swal({ title: "Success", text: "Saved Data Successfully", type: 'success' });
+          this.loadFamilyHistory();
+        }
+      });
+
+  }
 
   setFamilyHistory(data) {
 

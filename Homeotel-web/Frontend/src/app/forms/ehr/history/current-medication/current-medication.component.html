@@ -1,6 +1,7 @@
-<form  *ngIf="curStaff.allowDataSave()" fxLayout="row wrap" fxLayoutAlign="center start" [fxLayoutGap]="curStaff.gapBetweenControls" [formGroup]="currentMedicationForm" autocomplete="off">
+<form *ngIf="curStaff.allowDataSave()" fxLayout="row wrap" fxLayoutAlign="center start"
+  [fxLayoutGap]="curStaff.gapBetweenControls" [formGroup]="currentMedicationForm" autocomplete="off">
 
-  <div fxFlex="100%" fxLayout="row wrap" [fxLayoutGap]="curStaff.gapBetweenControls">    
+  <div fxFlex="100%" fxLayout="row wrap" [fxLayoutGap]="curStaff.gapBetweenControls">
     <mat-form-field [fxFlex]="curStaff.compactness">
       <input matInput placeholder="{{'medicine' | translate }}" name="medicine" [formControl]="medicine">
       <mat-error *ngIf="medicine.invalid">{{ utilities.getErrorMessage(medicine) | translate }}</mat-error>
@@ -22,7 +23,8 @@
     </mat-form-field>
   </div>
 
-  <button [fxFlex]="curStaff.compactness" id="add-btn" mat-button (click)="addMedication()">{{ 'Add' | translate }}</button>
+  <button [fxFlex]="curStaff.compactness" id="add-btn" mat-button
+    (click)="addMedication()">{{ 'Save' | translate }}</button>
 </form>
 
 <mat-card class="mat-table-container" *ngIf="medicationsAdded.length > 0">
@@ -50,9 +52,10 @@
       </ng-container>
 
       <ng-container matColumnDef="deleteOption">
-        <mat-header-cell mat-header-cell *matHeaderCellDef>  </mat-header-cell>
+        <mat-header-cell mat-header-cell *matHeaderCellDef> </mat-header-cell>
         <mat-cell mat-cell *matCellDef="let element" class="delete-btn">
-          <mat-icon *ngIf="curStaff.allowDataSave()" (click)="deleteCurrentMedication(element.medicine)">delete</mat-icon>
+          <mat-icon *ngIf="curStaff.allowDataSave()" (click)="deleteCurrentMedication(element.medicine)">delete
+          </mat-icon>
         </mat-cell>
       </ng-container>
 
@@ -63,6 +66,6 @@
 
   </mat-card-content>
   <mat-card-actions align="center">
-    <button id="save-btn" *ngIf="curStaff.allowDataSave()" mat-button (click)="saveCurrentMedication()">{{ 'save' | translate }}</button>
+    <!-- <button id="save-btn" *ngIf="curStaff.allowDataSave()" mat-button (click)="saveCurrentMedication()">{{ 'save' | translate }}</button> -->
   </mat-card-actions>
 </mat-card>

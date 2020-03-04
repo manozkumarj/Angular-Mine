@@ -1,3 +1,4 @@
+import { SidenavService } from './sidenav.service';
 import { Injectable, NgZone } from '@angular/core';
 import { Router } from '@angular/router';
 import 'rxjs/add/operator/map';
@@ -6,6 +7,7 @@ import { UtilitiesService } from './utilities.service';
 import { CurStaffService } from './cur-staff.service';
 import swal from 'sweetalert2';
 import { DatePipe } from '@angular/common';
+import { CaseSheetService } from './case-sheet.service';
 
 @Injectable()
 export class AuthService {
@@ -14,12 +16,12 @@ export class AuthService {
 
   constructor(private router: Router, private _ngZone: NgZone,
     private apiService: ApiService, private utils: UtilitiesService, private curStaff: CurStaffService,
-    public utilities: UtilitiesService, private datePipe: DatePipe) {    
+    public utilities: UtilitiesService, private datePipe: DatePipe, private caseSheetService: CaseSheetService) {
   }
 
   login(username, password) {
     this.apiService.getStaffDetails(username, password).subscribe((data) => {
-console.log(data);
+      console.log(data);
 
       if (typeof data != 'undefined' && typeof data[0] != 'undefined' && typeof data[0][0] != 'undefined') {
         if (data[0][0].hasOwnProperty('error')) {
@@ -29,6 +31,7 @@ console.log(data);
         else {
           var userData = data[0][0];
           this.isLoggedIn = true;
+          this.caseSheetService.isCaseSheet = false;
           this.curStaff.setUserData(userData['staff_id'], userData['role_id'], userData['role_name'], userData['spl_id'], userData['name'], userData['surname'])
 
           if (userData['role_id'] == 1)
@@ -52,6 +55,6 @@ console.log(data);
 
   logout() {
     this.isLoggedIn = false;
-    this.router.navigate(['/signin']);
+    this.router.navigate(['/homeo']);
   }
 }

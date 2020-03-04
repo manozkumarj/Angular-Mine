@@ -328,10 +328,28 @@ export class ComplaintHistoryComponent implements OnInit {
         this.complaintsAdded.splice(index, 1);
     });
     this.dataSource = new MatTableDataSource(this.complaintsAdded);
-    if (this.complaintsAdded.length != 0) {
-      this.saveComplaints();
+    if (this.complaintsAdded.length == 0) {
+      this.deleteLastRow()
+    } else {
+      this.saveComplaints()
     }
+  }
 
+
+  deleteLastRow() {
+    var tableName = "dbec_history";
+    this.apiService.deleteLastRow(this.curBen.curEncId, this.utilities.getCurEncNodeId(), tableName)
+      .subscribe((data) => {
+        if (this.utilities.isInvalidApiResponseData(data)) {
+          swal({ title: "Error", text: "Something went wrong while saving the data", type: 'error' });
+          console.log(data);
+        }
+        else {
+          this.utilities.openSnackBar("Data Saved Successfully", "Success");
+          // swal({ title: "Success", text: "Saved Data Successfully", type: 'success' });
+          this.loadBeneficiaryComplaints();
+        }
+      });
 
   }
 

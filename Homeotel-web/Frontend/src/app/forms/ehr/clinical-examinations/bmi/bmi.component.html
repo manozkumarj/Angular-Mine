@@ -1,7 +1,7 @@
 <form *ngIf="!viewMode" fxLayout="row wrap" [formGroup]="bmiForm" autocomplete="off">
 
   <div fxFlex="100%" fxLayout="row wrap" [fxLayoutGap]="curStaff.gapBetweenControls">
-    <mat-form-field [fxFlex]="curStaff.compactness" hintLabel="{{strWeightHint}}">
+    <mat-form-field style="line-height: 20px;" [fxFlex]="curStaff.compactness" hintLabel="{{strWeightHint}}">
       <input matInput placeholder="{{'weight_in_kg' | translate }}" (blur)="weightChanged()" type="number" name="weight"
         [formControl]="weight">
       <mat-error *ngIf="weight.hasError('required')">{{ utilities.getErrorMessage(weight) | translate }}
@@ -9,7 +9,7 @@
       <mat-error *ngIf="!weight.hasError('required') && weight.invalid">{{strWeightHint}}</mat-error>
     </mat-form-field>
 
-    <mat-form-field [fxFlex]="curStaff.compactness" hintLabel="{{strHeightHint}}">
+    <mat-form-field style="line-height: 20px;" [fxFlex]="curStaff.compactness" hintLabel="{{strHeightHint}}">
       <input matInput placeholder="{{'height_in_cm' | translate }}" (blur)="heightChanged()" type="number" name="height"
         [formControl]="height">
       <mat-error *ngIf="height.hasError('required')">{{ utilities.getErrorMessage(height) | translate }}
@@ -17,12 +17,12 @@
       <mat-error *ngIf="!height.hasError('required') && height.invalid">{{strHeightHint}}</mat-error>
     </mat-form-field>
 
-    <mat-form-field [fxFlex]="curStaff.compactness" hintLabel="{{strWaistHint}}">
+    <mat-form-field style="line-height: 20px;" [fxFlex]="curStaff.compactness" hintLabel="{{strWaistHint}}">
       <input matInput placeholder="{{'bmi_in_kg_by_m2' | translate }}" type="number" name="bmi" [formControl]="bmi">
       <mat-error *ngIf="bmi.invalid">{{ utilities.getErrorMessage(bmi) | translate }}</mat-error>
     </mat-form-field>
 
-    <mat-form-field [fxFlex]="curStaff.compactness">
+    <mat-form-field style="line-height: 20px;" [fxFlex]="curStaff.compactness">
       <input matInput placeholder="{{'waist_circumference_cm' | translate }}" type="number" name="waist"
         [formControl]="waist">
       <mat-error *ngIf="waist.hasError('required')">{{ utilities.getErrorMessage(waist) | translate }}

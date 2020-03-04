@@ -1,12 +1,28 @@
-.marginTop6 { 
+.marginTop6 {
     margin-top: 6px;
 }
 
-.marginTop2 { 
+.marginTop2 {
     margin-top: 1px;
 }
 
 .active-list-item {
-    background-color: rgb(48,133,214) !important;
+    background-color: #004b1c !important;
     color: white !important;
 }
+
+mat-nav-list
+{
+    background-color: #217346 !important;
+    overflow: hidden;
+}
+
+span{
+    color: white !important;
+}
+
+mat-icon
+{
+    color: white !important;
+}
+

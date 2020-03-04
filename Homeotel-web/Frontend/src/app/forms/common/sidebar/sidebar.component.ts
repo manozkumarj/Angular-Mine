@@ -3,6 +3,7 @@ import { SidenavService } from '../../../services/sidenav.service';
 import { Router } from '@angular/router';
 import { CurBenService } from '../../../services/cur-ben.service';
 import { UtilitiesService } from '../../../services/utilities.service';
+import { CaseSheetService } from '../../../services/case-sheet.service';
 
 @Component({
   selector: 'app-sidebar',
@@ -13,7 +14,8 @@ export class SidebarComponent implements OnInit {
 
   /* currentMenu = []; */
 
-  constructor(public sidenavService: SidenavService, public router: Router, public curBen: CurBenService, public utilities: UtilitiesService) { }
+  constructor(public sidenavService: SidenavService, public router: Router,
+    public curBen: CurBenService, public utilities: UtilitiesService , public caseSheetService: CaseSheetService) { }
 
   ngOnInit() {
     /*  this.currentMenu = this.sidenavService.currentMenu;
@@ -22,7 +24,11 @@ export class SidebarComponent implements OnInit {
 
   hideMenuItem(menuName) {
     if (menuName == 'immunization' && this.curBen.hasAgeAbove(15)) //don't show immunization in beneficiary is above 15
-      return true;   
+      return true;
     else return false;
+  }
+
+  test(){
+    console.log("test");
   }
 }

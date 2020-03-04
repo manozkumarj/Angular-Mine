@@ -854,5 +854,17 @@ export class ApiService {
     return this.http.get(this.apiUrl + path);
   }
 
+  deleteLastRow(encId, encNodeId, tableName) {
+    console.log(encId, encNodeId, tableName);
+    var path = "enc/delete-last-row";
+    var body = {
+      encId: encId,
+      encNodeId: encNodeId,
+      tableName: tableName,
+
+    };
+    return this.http.post(this.apiUrl + path, body);
+  }
+
 }
 

@@ -31,13 +31,14 @@ import { ProfileComponent } from '../forms/doctor/profile/profile.component';
 
 
 
-     
+
 const appRoutes: Routes = [
-    { path: 'config', component: ConfigComponent},
+    { path: 'config', component: ConfigComponent },
     { path: 'home', component: HomeComponent }, // , canActivate: [AuthGuard] },
     { path: 'queue', component: QueueComponent, canActivate: [AuthGuard] },
     { path: 'registration', component: RegistrationComponent, canActivate: [AuthGuard] },
     { path: 'casesheet', component: CaseSheetComponent, canActivate: [AuthGuard] },
+    { path: 'casesheet/:endId', component: CaseSheetComponent, canActivate: [AuthGuard] },
     { path: 'search-results', component: SearchComponent, canActivate: [AuthGuard] },
     { path: 'complaints', component: ComplaintsComponent, canActivate: [AuthGuard] },
     { path: 'complaints-history', component: ComplaintHistoryComponent, canActivate: [AuthGuard] },
@@ -48,23 +49,23 @@ const appRoutes: Routes = [
     { path: 'immunization', component: ImmunizationComponent, canActivate: [AuthGuard] },
     { path: 'lab-tests', component: LabTestsComponent, canActivate: [AuthGuard] },
     { path: 'prescription', component: PrescriptionComponent, canActivate: [AuthGuard] },
-    { path: 'doctoranalysis',component:DoctorAnalysisComponent,canActivate:[AuthGuard]},
-    { path: 'doctornotes',component:DoctorNotesComponent,canActivate:[AuthGuard]},
+    { path: 'doctoranalysis', component: DoctorAnalysisComponent, canActivate: [AuthGuard] },
+    { path: 'doctornotes', component: DoctorNotesComponent, canActivate: [AuthGuard] },
     { path: 'drug-issue', component: DrugIssueComponent, canActivate: [AuthGuard] },
     { path: 'inventory', component: InventoryComponent, canActivate: [AuthGuard] },
-    
-    { path: 'doctor-profile', component: ProfileComponent, canActivate: [AuthGuard]},
+
+    { path: 'doctor-profile', component: ProfileComponent, canActivate: [AuthGuard] },
 
     { path: 'settings', component: SettingsComponent, canActivate: [AuthGuard] },
-    { path: 'signin', component: SigninComponent },
+    { path: 'homeo', component: SigninComponent },
     { path: 'page-not-found', component: PageNotFoundComponent },
-    { path: '**', redirectTo: '/signin' }
+    { path: '**', redirectTo: '/page-not-found' }
     /* { path: '**', redirectTo: '/page-not-found' }    */
 ];
 
 @NgModule({
     imports: [
-        RouterModule.forRoot(appRoutes)
+        RouterModule.forRoot(appRoutes, { useHash: true })
     ],
     exports: [RouterModule]
 })

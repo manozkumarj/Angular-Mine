@@ -79,14 +79,15 @@ import { TreatmentHistoryComponent } from './forms/ehr/treatment-history/treatme
 import { ProfileComponent } from './forms/doctor/profile/profile.component';
 import { TreatmentVaccinationComponent } from './forms/ehr/history/treatment-vaccination/treatment-vaccination.component';
 import { TreatmentMedicalComponent } from './forms/ehr/history/treatment-medical/treatment-medical.component';
+import { CaseSheetService } from './services/case-sheet.service';
 
 
 export function HttpLoaderFactory(http: HttpClient) {
   var apiUrlIp = localStorage.getItem('api_url_ip');
   var apiUrlPort = localStorage.getItem('api_url_port');
 
-  apiUrlIp = '175.101.1.227';
-  apiUrlPort = '8123';
+  // apiUrlIp = '175.101.1.227';
+  // apiUrlPort = '8123';
 
   if (apiUrlIp && apiUrlPort) {
     var apiUrl = "http://" + apiUrlIp + ":" + apiUrlPort + "/";
@@ -175,7 +176,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     CurStaffService,
     CurBenService,
     UtilitiesService,
-    DatePipe
+    DatePipe,
+    CaseSheetService
   ],
   bootstrap: [AppComponent]
 })

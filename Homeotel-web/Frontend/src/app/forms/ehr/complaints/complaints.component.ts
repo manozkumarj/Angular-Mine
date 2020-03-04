@@ -344,11 +344,13 @@ export class ComplaintsComponent implements OnInit {
         this.complaintsAdded.splice(index, 1);
     });
     this.dataSource = new MatTableDataSource(this.complaintsAdded);
-    if (this.complaintsAdded.length != 0) {
+    if (this.complaintsAdded.length == 0) {
+      this.deleteLastRow()
+    } else {
       this.saveComplaints();
     }
 
-    console.log("after delete")
+
 
 
 
@@ -409,6 +411,26 @@ export class ComplaintsComponent implements OnInit {
           this.setComplaintsData(data);
         }
       });
+  }
+
+  deleteLastRow() {
+
+
+    var tableName = "dbe_complaint";
+
+    this.apiService.deleteLastRow(this.curBen.curEncId, this.utilities.getCurEncNodeId(), tableName)
+      .subscribe((data) => {
+        if (this.utilities.isInvalidApiResponseData(data)) {
+          swal({ title: "Error", text: "Something went wrong while saving the data", type: 'error' });
+          console.log(data);
+        }
+        else {
+          this.utilities.openSnackBar("Data Saved Successfully", "Success");
+          // swal({ title: "Success", text: "Saved Data Successfully", type: 'success' });
+          this.loadBeneficiaryComplaints();
+        }
+      });
+
   }
 
   setComplaintsData(data) {

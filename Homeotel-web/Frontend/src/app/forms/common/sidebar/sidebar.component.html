@@ -1,9 +1,11 @@
-<mat-nav-list fxFlexFill fxLayout="column" fxLayoutAlign="start start" style="padding-top:0px; background-color: rgb(0,0,0,0.04)">
-  <a fxFlex="50px" mat-list-item *ngFor="let menu of sidenavService.currentMenu; let i = index" [ngStyle]="{ 'width.em': sidenavService.getSidenavWidth() }"
-    [routerLink]="menu.routerLink" routerLinkActive="active-list-item" [hidden]="hideMenuItem(menu.name)">    
+<mat-nav-list *ngIf="!caseSheetService.isCaseSheet" fxFlexFill fxLayout="column" fxLayoutAlign="start start"
+  style="padding-top:0px; background-color: rgb(0,0,0,0.04)">
+  <a fxFlex="50px" mat-list-item *ngFor="let menu of sidenavService.currentMenu; let i = index"
+    [ngStyle]="{ 'width.em': sidenavService.getSidenavWidth() }" [routerLink]="menu.routerLink"
+    routerLinkActive="active-list-item" [hidden]="hideMenuItem(menu.name)">
     <mat-icon class='icon'> {{ menu.icon }} </mat-icon>
     <span *ngIf="sidenavService.showMenuText()" style="margin-left:5px;">
-      {{ menu.name | translate }}      
+      {{ menu.name | translate }}
     </span>
   </a>
   <span fxFlex></span>
@@ -11,9 +13,24 @@
     (click)="sidenavService.iconsToggleSidenav()" fxHide.lt-md="true">
     <span fxFlexFill fxLayout="row" fxLayoutAlign="start start">
       <span fxFlex></span>
-      <mat-icon fxFlex="30px" style="padding-top:15px; float:right">
+      <mat-icon fxFlex="30px" style="padding-top:15px; float:right" color="white">
         {{ sidenavService.toggleLeftRightIcon }}
       </mat-icon>
+    </span>
+  </a>
+
+
+</mat-nav-list>
+
+<mat-nav-list *ngIf="caseSheetService.isCaseSheet" fxFlexFill fxLayout="column" fxLayoutAlign="start start"
+  style="padding-top:0px; background-color: rgb(0,0,0,0.04)">
+
+  <a fxFlex="50px" mat-list-item
+    *ngFor="let menu of caseSheetService.benEncounters; let i = index"
+    [ngStyle]="{ 'width.em': sidenavService.getSidenavWidth() }"(click)="test()" routerLinkActive="active-list-item" [routerLink]="menu.routerLink" >
+    <mat-icon class='icon'> date_range </mat-icon>
+    <span *ngIf="sidenavService.showMenuText()" style="margin-left:5px;">
+      {{ menu.encAt | date: 'dd-MM-yyyy' }}
     </span>
   </a>
 </mat-nav-list>

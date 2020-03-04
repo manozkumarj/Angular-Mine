@@ -22,7 +22,7 @@ body {
 }
 
 #save-btn, #add-btn, #register-btn, #revisit-btn, .save-btn {
-  background-color:rgb(57, 100, 8);
+  background-color: #217346;
   color: white !important;
 }
 
